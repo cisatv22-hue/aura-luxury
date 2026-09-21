@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AURA LUXURY // Essentials Streetwear & Plata Ley .925</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            bg: '#08080a',
+                            surface: '#111115',
+                            card: '#16161c',
+                            border: '#272730',
+                            silver: '#e2e8f0',
+                            accent: '#ffffff',
+                            gold: '#f59e0b',
+                            cream: '#ded8ce'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Cinzel', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #08080a;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+
+        .font-display { font-family: 'Cinzel', serif; }
+
+        /* Custom Ultra Luxury Effects */
+        .silver-gradient-text {
+            background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 40%, #94a3b8 70%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #fef3c7 0%, #f59e0b 50%, #d97706 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .metallic-border {
+            border: 1px solid rgba(226, 232, 240, 0.15);
+        }
+
+        .metallic-border:hover {
+            border-color: rgba(255, 255, 255, 0.4);
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.12);
+        }
+
+        .glass-header {
+            background: rgba(8, 8, 10, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .badge-cream {
+            background: #ded8ce;
+            color: #08080a;
+        }
+
+        .badge-apex {
+            background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+            color: #ffffff;
+        }
+
+        .badge-silver {
+            background: linear-gradient(135deg, #ffffff 0%, #94a3b8 100%);
+            color: #08080a;
+        }
+
+        /* Image Zooming hover */
+        .img-container {
+            overflow: hidden;
+            position: relative;
+        }
+
+        .img-container img {
+            transition: transform 0.7s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .img-container:hover img {
+            transform: scale(1.08);
+        }
+
+        /* Featured Section */
+        .featured-card {
+            position: relative;
+            overflow: hidden;
+            border-radius: 12px;
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .featured-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 25px 50px rgba(255, 255, 255, 0.1);
+        }
+
+        .featured-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .featured-card:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #08080a; }
+        ::-webkit-scrollbar-thumb { background: #272730; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+</head>
+<body class="antialiased selection:bg-white selection:text-black flex flex-col min-h-screen">
+
+    <div class="bg-gradient-to-r from-neutral-950 via-zinc-900 to-neutral-950 border-b border-zinc-800/80 text-[11px] py-2.5 text-center tracking-widest uppercase font-extrabold text-zinc-300 px-4 flex items-center justify-center gap-3">
+        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+        <span>ENVÍO EXPRESS GRATIS A TODO MÉXICO EN COMPRAS DESDE $1,200 MXN</span>
+        <span class="hidden md:inline text-zinc-600">//</span>
+        <span class="hidden md:inline text-amber-200"><i class="fa-solid fa-certificate mr-1"></i> PLATAFORMA OFICIAL CON CERTIFICADO DE PLATA .925</span>
+    </div>
+
+    <header class="sticky top-0 z-40 glass-header border-b border-zinc-800/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                <!-- Mobile Menu Button -->
+                <button id="mobile-menu-btn" class="md:hidden text-zinc-300 hover:text-white p-2 focus:outline-none">
+                    <i class="fa-solid fa-bars-staggered text-xl"></i>
+                </button>
+
+                <!-- Brand Logo -->
+                <a href="#" class="flex flex-col items-center md:items-start group">
+                    <span class="font-display text-2xl sm:text-3xl font-black tracking-widest silver-gradient-text group-hover:scale-105 transition-transform">A U R A</span>
+                    <span class="text-[9px] font-black tracking-[0.35em] uppercase text-zinc-400 -mt-1">High Streetwear & Silver .925</span>
+                </a>
+
+                <!-- Navigation Links -->
+                <nav class="hidden md:flex space-x-8 text-xs font-black tracking-[0.2em] uppercase text-zinc-300">
+                    <a href="#featured" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Colecciones</a>
+                    <a href="#catalogo" onclick="filterCategory('all')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Catálogo</a>
+                    <a href="#catalogo" onclick="filterCategory('hoodies')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Sudaderas</a>
+                    <a href="#catalogo" onclick="filterCategory('chains')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Plata .925</a>
+                    <a href="#lookbook" class="text-amber-200 hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-amber-200">
+                        <i class="fa-solid fa-sparkles text-amber-300 mr-1"></i> Combos
+                    </a>
+                </nav>
+
+                <!-- Header Action Buttons -->
+                <div class="flex items-center space-x-4">
+                    <button id="search-toggle" class="text-zinc-300 hover:text-white transition-colors p-2" title="Buscar productos">
+                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                    </button>
+                    
+                    <button id="cart-btn" class="relative bg-zinc-900 border border-zinc-800 hover:border-zinc-500 p-2.5 rounded-full transition-all flex items-center justify-center">
+                        <i class="fa-solid fa-bag-shopping text-slate-200 text-base"></i>
+                        <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-black text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg">0</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Drawer Menu -->
+        <div id="mobile-menu" class="hidden md:hidden bg-neutral-950 border-b border-zinc-800 px-6 py-6 space-y-4">
+            <a href="#featured" onclick="toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Colecciones Destacadas</a>
+            <a href="#catalogo" onclick="filterCategory('all'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Todo el Catálogo</a>
+            <a href="#catalogo" onclick="filterCategory('hoodies'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Sudaderas</a>
+            <a href="#catalogo" onclick="filterCategory('chains'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Joyería Plata .925</a>
+            <a href="#lookbook" onclick="toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-amber-200">Combos Exclusivos</a>
+        </div>
+
+        <!-- Search Overlay -->
+        <div id="search-bar" class="hidden bg-neutral-900/95 border-b border-zinc-800 py-4 px-4 sm:px-8">
+            <div class="max-w-3xl mx-auto flex items-center gap-3">
+                <i class="fa-solid fa-magnifying-glass text-zinc-500"></i>
+                <input type="text" id="search-input" placeholder="Buscar Sudadera Essentials, Apex Racers $480, Cadena Cubana Plata..." 
+                    class="w-full bg-transparent text-white placeholder-zinc-500 text-xs sm:text-sm focus:outline-none uppercase tracking-wider font-semibold">
+                <button id="close-search" class="text-zinc-400 hover:text-white text-xs uppercase tracking-wider font-bold px-3 py-1 bg-zinc-800 rounded">Cerrar</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative h-[85vh] min-h-[580px] flex items-center justify-center overflow-hidden border-b border-zinc-800">
+        <!-- Editorial Hero Image from Uploads -->
+        <div class="absolute inset-0 bg-cover bg-center scale-105 transition-transform duration-1000" 
+             style="background-image: url('https://images.unsplash.com/photo-1558618666-fcd25c85cd64?q=80&w=1400&auto=format&fit=crop'); filter: brightness(0.4) contrast(1.15);">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/50 to-transparent"></div>
+        <div class="absolute inset-0 bg-radial-at-c from-transparent via-black/40 to-black/90"></div>
+        
+        <div class="relative z-10 max-w-5xl mx-auto text-center px-4 sm:px-6">
+            <div class="inline-flex items-center gap-2 text-[10px] sm:text-xs uppercase tracking-[0.3em] text-white font-extrabold mb-6 border border-zinc-700/80 rounded-full px-5 py-2.5 bg-neutral-900/80 backdrop-blur-md shadow-2xl">
+                <i class="fa-solid fa-sparkles text-amber-300"></i> COLECCIÓN STREETWEAR & JOYERÍA 2026
+            </div>
+            
+            <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white mb-6 uppercase leading-tight">
+                ESSENTIALS <span class="silver-gradient-text">& STERLING SILVER</span>
+            </h1>
+            
+            <p class="text-zinc-300 text-sm sm:text-base max-w-2xl mx-auto font-normal mb-10 leading-relaxed tracking-wide">
+                La intersección perfecta entre la alta moda urbana, los cortes oversized de algodón pesado y el brillo eterno de la Plata Ley .925.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a href="#featured" class="w-full sm:w-auto px-8 py-4 bg-white text-black font-black text-xs tracking-[0.2em] uppercase hover:bg-zinc-200 transition-all rounded shadow-2xl">
+                    Ver Colecciones
+                </a>
+                <a href="#catalogo" onclick="filterCategory('chains')" class="w-full sm:w-auto px-8 py-4 bg-zinc-900/80 border border-zinc-600 text-white font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all rounded backdrop-blur-md">
+                    Ver Cadenas de Plata
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FEATURED COLLECTIONS SECTION ===== -->
+    <section id="featured" class="relative py-20 bg-neutral-950 border-b border-zinc-800 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Section Header -->
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-xs uppercase tracking-[0.3em] text-amber-300 font-extrabold">Colecciones Exclusivas</span>
+                <h2 class="font-display text-4xl sm:text-5xl font-black text-white uppercase tracking-tight mt-2 mb-4">
+                    Líneas de Marca
+                </h2>
+                <p class="text-zinc-400 text-sm leading-relaxed">
+                    Descubre nuestras colecciones principales de sudaderas heavyweight y accesorios de lujo.
+                </p>
+            </div>
+
+            <!-- Featured Cards Grid -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+                <!-- Essentials Collection Card -->
+                <div class="featured-card h-96 relative group border border-zinc-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Sudadera Essentials Collection" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                    <div class="absolute inset-0 flex flex-col justify-end p-8">
+                        <div class="transform transition-transform group-hover:translate-y-0 translate-y-4">
+                            <span class="inline-block text-xs font-extrabold uppercase tracking-widest text-amber-300 mb-2">
+                                <i class="fa-solid fa-star mr-1"></i> Essentials Line
+                            </span>
+                            <h3 class="font-display text-3xl font-black text-white uppercase mb-2">
+                                Heavyweight Cream
+                            </h3>
+                            <p class="text-zinc-300 text-sm mb-4 max-w-sm">
+                                Sudaderas confeccionadas en algodón premium 480g con cortes oversized y terminados de lujo absoluto.
+                            </p>
+                            <a href="#catalogo" onclick="filterCategory('hoodies')" class="inline-block px-6 py-2.5 bg-white text-black font-black text-xs uppercase tracking-wider hover:bg-zinc-200 transition-all rounded">
+                                Ver Colección
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Apex Racers Collection Card -->
+                <div class="featured-card h-96 relative group border border-zinc-800 rounded-lg overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1556821552-7f41c5d440db?q=80&w=1000&auto=format&fit=crop" 
+                         alt="Apex Racers Collection" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                    <div class="absolute inset-0 flex flex-col justify-end p-8">
+                        <div class="transform transition-transform group-hover:translate-y-0 translate-y-4">
+                            <span class="inline-block text-xs font-extrabold uppercase tracking-widest text-red-400 mb-2">
+                                <i class="fa-solid fa-rocket mr-1"></i> Apex Racers
+                            </span>
+                            <h3 class="font-display text-3xl font-black text-white uppercase mb-2">
+                                Half-Zip Edition
+                            </h3>
+                            <p class="text-zinc-300 text-sm mb-4 max-w-sm">
+                                Diseño deportivo con tecnología de cierre frontal y estampados gráficos profesionales. $480 MXN.
+                            </p>
+                            <a href="#catalogo" onclick="filterCategory('hoodies')" class="inline-block px-6 py-2.5 bg-red-600 text-white font-black text-xs uppercase tracking-wider hover:bg-red-700 transition-all rounded">
+                                Ver Apex
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Silver Collections Row -->
+            <div class="mb-12">
+                <div class="flex items-center justify-between mb-6 pb-4 border-b border-zinc-800">
+                    <div>
+                        <span class="text-xs uppercase tracking-[0.2em] text-amber-300 font-extrabold">Joyería Fina</span>
+                        <h3 class="font-display text-2xl font-black text-white uppercase">Plata Ley .925</h3>
+                    </div>
+                    <a href="#catalogo" onclick="filterCategory('chains')" class="text-xs font-black uppercase tracking-wider text-white hover:text-amber-300 transition-colors">
+                        Ver Todo <i class="fa-solid fa-arrow-right ml-1"></i>
+                    </a>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Cuban Chain -->
+                    <div class="featured-card h-72 relative group border border-zinc-800 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?q=80&w=870&auto=format&fit=crop" 
+                             alt="Cadena Cubana Plata" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-6">
+                            <h4 class="font-display text-xl font-black text-white uppercase mb-1">Cadena Cubana 8mm</h4>
+                            <p class="text-amber-200 font-black text-sm mb-3">$1,500 MXN</p>
+                            <button onclick="quickAddToCart(3)" class="w-full py-2 bg-white text-black font-black text-xs uppercase rounded hover:bg-zinc-200 transition-all">
+                                + Agregar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Figaro Chain -->
+                    <div class="featured-card h-72 relative group border border-zinc-800 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1544923408-75c5764f8659?q=80&w=870&auto=format&fit=crop" 
+                             alt="Cadena Fígaro Plata" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-6">
+                            <h4 class="font-display text-xl font-black text-white uppercase mb-1">Cadena Fígaro 5mm</h4>
+                            <p class="text-amber-200 font-black text-sm mb-3">$1,150 MXN</p>
+                            <button onclick="quickAddToCart(4)" class="w-full py-2 bg-white text-black font-black text-xs uppercase rounded hover:bg-zinc-200 transition-all">
+                                + Agregar
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Cross Pendant -->
+                    <div class="featured-card h-72 relative group border border-zinc-800 rounded-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=870&auto=format&fit=crop" 
+                             alt="Dije Cruz Plata" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 to-transparent"></div>
+                        <div class="absolute inset-0 flex flex-col justify-end p-6">
+                            <h4 class="font-display text-xl font-black text-white uppercase mb-1">Dije Cruz Minimalista</h4>
+                            <p class="text-amber-200 font-black text-sm mb-3">$1,290 MXN</p>
+                            <button onclick="quickAddToCart(5)" class="w-full py-2 bg-white text-black font-black text-xs uppercase rounded hover:bg-zinc-200 transition-all">
+                                + Agregar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <main id="catalogo" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow w-full">
+        
+        <!-- Header & Category Filters -->
+        <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 pb-6 border-b border-zinc-800 gap-6">
+            <div>
+                <span class="text-xs font-black uppercase tracking-[0.25em] text-zinc-500">Colección Disponible</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight text-white mt-1">Catálogo Completo</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm mt-1">Prendas textiles de alta densidad y joyería con certificado de pureza .925.</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="filterCategory('all')" class="cat-filter-btn active-cat px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider border border-white bg-white text-black transition-all rounded-sm">
+                    Todos
+                </button>
+                <button onclick="filterCategory('hoodies')" class="cat-filter-btn px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-sm">
+                    Sudaderas
+                </button>
+                <button onclick="filterCategory('chains')" class="cat-filter-btn px-5 py-2.5 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-sm">
+                    Cadenas Plata .925
+                </button>
+            </div>
+        </div>
+
+        <!-- Sorting and Count Bar -->
+        <div class="flex justify-between items-center mb-8 text-xs text-zinc-400">
+            <div>Mostrando <span id="product-count" class="text-white font-black">0</span> artículos exclusivos</div>
+            <div class="flex items-center gap-2">
+                <label for="sort-select" class="uppercase tracking-wider font-bold text-[11px] text-zinc-500">Ordenar:</label>
+                <select id="sort-select" onchange="sortProducts()" class="bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs rounded px-3 py-1.5 focus:outline-none uppercase font-semibold">
+                    <option value="featured">Destacados</option>
+                    <option value="price-low">Precio: Menor a Mayor</option>
+                    <option value="price-high">Precio: Mayor a Menor</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Product Cards Container -->
+        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+            <!-- Rendered via Javascript -->
+        </div>
+
+    </main>
+
+    <section id="lookbook" class="bg-neutral-950 border-y border-zinc-800 py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-14">
+                <span class="text-xs uppercase tracking-[0.3em] text-amber-300 font-extrabold">El Outfit Definitivo</span>
+                <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">Combos & Lookbooks</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm mt-3 leading-relaxed">
+                    Sudaderas Essentials combinadas con cadenas de Plata Ley .925 para el look perfecto.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+                <!-- Lookbook Editorial Photo Banner -->
+                <div class="lg:col-span-7 relative h-[560px] bg-zinc-900 overflow-hidden rounded border border-zinc-800 group shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1552062407-291eccc2b5f1?q=80&w=1200&auto=format&fit=crop" 
+                         alt="Essentials + Silver Combo Editorial" 
+                         class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/30 to-transparent"></div>
+                    <div class="absolute bottom-8 left-8 right-8">
+                        <span class="text-[10px] tracking-[0.2em] font-black uppercase text-black bg-amber-300 px-3 py-1 rounded-sm">Combo Oficial #1</span>
+                        <h3 class="font-display text-2xl sm:text-3xl font-black text-white uppercase mt-2">Sudadera Crema + Cadena Cubana</h3>
+                        <p class="text-xs text-zinc-300 mt-1">El combo de lujo: Sudadera Heavyweight Cream ($890) + Cadena Cubana Plata ($1,500)</p>
+                    </div>
+                </div>
+
+                <!-- Bundle Card & Quick Order -->
+                <div class="lg:col-span-5 bg-zinc-900/90 border border-zinc-800 p-8 rounded-lg flex flex-col justify-between space-y-6">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-zinc-800 pb-5 mb-6">
+                            <div>
+                                <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Ahorro en Set</span>
+                                <h4 class="font-display text-xl font-black text-white uppercase">Kit Essentials & Plata</h4>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-2xl font-black text-white">$2,190 MXN</span>
+                                <span class="block text-xs text-zinc-500 line-through">$2,390 MXN</span>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4">
+                            <!-- Included Item 1 -->
+                            <div class="flex items-center gap-4 bg-neutral-950 p-3.5 border border-zinc-800 rounded">
+                                <img src="input_file_2.png" class="w-16 h-16 object-cover rounded border border-zinc-800" alt="Sudadera Essentials Cream">
+                                <div class="text-xs">
+                                    <h5 class="text-white font-bold uppercase">Sudadera Essentials Cream</h5>
+                                    <p class="text-zinc-400 mt-0.5">Algodón Heavyweight 480g | Talla Chica-XL</p>
+                                    <p class="text-amber-200 font-bold mt-1">$890.00 MXN</p>
+                                </div>
+                            </div>
+
+                            <!-- Included Item 2 -->
+                            <div class="flex items-center gap-4 bg-neutral-950 p-3.5 border border-zinc-800 rounded">
+                                <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=300&auto=format&fit=crop" class="w-16 h-16 object-cover rounded border border-zinc-800" alt="Cadena Cubana Plata">
+                                <div class="text-xs">
+                                    <h5 class="text-white font-bold uppercase">Cadena Cubana 8mm Plata Ley .925</h5>
+                                    <p class="text-zinc-400 mt-0.5">Largo 55 cm | Plata Fina Maciza</p>
+                                    <p class="text-amber-200 font-bold mt-1">$1,500.00 MXN</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button onclick="addBundleToCart(1, 3)" class="w-full py-4 bg-white text-black font-black text-xs uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all rounded shadow-xl flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-bag-shopping"></i> Comprar Combo (Ahorra $200)
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="border-b border-zinc-800 py-12 bg-neutral-950 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+            <div class="p-6 bg-zinc-900/40 border border-zinc-800 rounded flex flex-col items-center">
+                <i class="fa-solid fa-certificate text-2xl text-slate-200 mb-3"></i>
+                <h4 class="text-white font-black uppercase tracking-wider mb-1">Garantía Plata Ley .925</h4>
+                <p class="text-zinc-400">Joyería 100% auténtica elaborada con plata fina maciza. Incluye certificado.</p>
+            </div>
+
+            <div class="p-6 bg-zinc-900/40 border border-zinc-800 rounded flex flex-col items-center">
+                <i class="fa-solid fa-truck-fast text-2xl text-slate-200 mb-3"></i>
+                <h4 class="text-white font-black uppercase tracking-wider mb-1">Envíos Seguros a Todo México</h4>
+                <p class="text-zinc-400">Entregas con guía de rastreo inmediata a través de paqueterías autorizadas.</p>
+            </div>
+
+            <div class="p-6 bg-zinc-900/40 border border-zinc-800 rounded flex flex-col items-center">
+                <i class="fa-brands fa-whatsapp text-2xl text-emerald-400 mb-3"></i>
+                <h4 class="text-white font-black uppercase tracking-wider mb-1">Atención & Pedidos por WhatsApp</h4>
+                <p class="text-zinc-400">Resolvemos tus dudas sobre tallas, existencias o transferencias al instante.</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none hidden">
+        <div id="cart-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
+
+        <div id="cart-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-neutral-950 border-l border-zinc-800 shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col">
+            <!-- Header Cart -->
+            <div class="p-6 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/50">
+                <div>
+                    <h3 class="font-display text-lg font-black uppercase tracking-wider text-white">Tu Carrito</h3>
+                    <p class="text-[11px] text-zinc-400"><span id="cart-drawer-count">0</span> productos listos</p>
+                </div>
+                <button id="close-cart" class="text-zinc-400 hover:text-white text-xl p-2 focus:outline-none">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- Items Container -->
+            <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-6">
+                <!-- Javascript insertion -->
+            </div>
+
+            <!-- Cart Footer -->
+            <div class="p-6 border-t border-zinc-800 bg-zinc-900/80 space-y-4">
+                <div class="flex justify-between text-sm">
+                    <span class="text-zinc-400 uppercase tracking-wider text-xs font-bold">Subtotal:</span>
+                    <span id="cart-subtotal" class="font-black text-white text-lg">$0.00 MXN</span>
+                </div>
+                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Detalles de envío y pago coordinados directamente vía WhatsApp.</p>
+                
+                <button onclick="checkoutWhatsApp()" class="w-full py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-emerald-500 transition-all rounded shadow-xl flex items-center justify-center gap-3">
+                    <i class="fa-brands fa-whatsapp text-lg"></i> Finalizar Pedido
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-container" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+        <div id="modal-backdrop" class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+
+        <div class="relative bg-neutral-950 border border-zinc-800 max-w-3xl w-full max-h-[90vh] overflow-y-auto z-10 p-6 sm:p-8 rounded-lg flex flex-col md:flex-row gap-8 shadow-2xl">
+            <button id="close-modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white p-2 text-xl focus:outline-none">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <!-- Image preview -->
+            <div class="md:w-1/2 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded p-4">
+                <img id="modal-img" src="" alt="Producto Preview" class="w-full h-80 object-contain">
+            </div>
+
+            <!-- Product detail info -->
+            <div class="md:w-1/2 flex flex-col justify-between">
+                <div class="space-y-4">
+                    <span id="modal-tag" class="inline-block text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-sm"></span>
+                    <h3 id="modal-title" class="font-display text-2xl font-black uppercase text-white mt-1"></h3>
+                    <p id="modal-price" class="text-xl font-black text-amber-200"></p>
+                    <p id="modal-desc" class="text-xs text-zinc-400 leading-relaxed"></p>
+
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-zinc-300 font-extrabold mb-2.5">Seleccionar Talla / Medida:</label>
+                        <div id="modal-options" class="flex flex-wrap gap-2">
+                            <!-- Populated JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-8 pt-4 border-t border-zinc-800">
+                    <button id="modal-add-btn" class="w-full py-4 bg-white text-black font-black text-xs uppercase tracking-[0.2em] hover:bg-zinc-200 transition-all rounded shadow-lg">
+                        Añadir al Carrito
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-neutral-950 border-t border-zinc-800 text-zinc-400 text-xs">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
+            <div class="space-y-4">
+                <span class="font-display text-2xl font-black tracking-widest silver-gradient-text block">A U R A</span>
+                <p class="leading-relaxed text-zinc-400">
+                    Tienda de moda urbana de alta gama. Diseños oversized pesados en algodón premium y accesorios macizos de Plata Ley .925.
+                </p>
+                <div class="flex space-x-4 text-base text-zinc-300 pt-2">
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
+                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="text-white font-black uppercase tracking-wider text-xs">Colecciones</h4>
+                <ul class="space-y-2">
+                    <li><a href="#featured" class="hover:text-white transition-colors">Colecciones Destacadas</a></li>
+                    <li><a href="#catalogo" onclick="filterCategory('hoodies')" class="hover:text-white transition-colors">Sudadera Essentials Cream</a></li>
+                    <li><a href="#catalogo" onclick="filterCategory('hoodies')" class="hover:text-white transition-colors">Apex Racers Half-Zip ($480)</a></li>
+                    <li><a href="#catalogo" onclick="filterCategory('chains')" class="hover:text-white transition-colors">Cadenas Plata Ley .925</a></li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="text-white font-black uppercase tracking-wider text-xs">Garantías y Calidad</h4>
+                <ul class="space-y-2 text-zinc-400">
+                    <li><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Plata Ley .925 Auténtica</li>
+                    <li><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Sudaderas Heavyweight 480g</li>
+                    <li><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Envíos Express Rastreados</li>
+                </ul>
+            </div>
+
+            <div class="space-y-3">
+                <h4 class="text-white font-black uppercase tracking-wider text-xs">Drops Exclusivos</h4>
+                <p class="text-zinc-400 text-xs">Recibe notificaciones de nuevos lanzamientos.</p>
+                <form onsubmit="subscribeNewsletter(event)" class="space-y-2">
+                    <input type="email" placeholder="Tu correo electrónico" required class="w-full bg-zinc-900 border border-zinc-800 text-white px-3.5 py-2.5 text-xs focus:outline-none focus:border-zinc-500 rounded">
+                    <button type="submit" class="w-full bg-white text-black font-black uppercase py-2.5 text-xs hover:bg-zinc-200 transition-all rounded">Suscribirme</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="border-t border-zinc-900 py-6 text-center text-zinc-600 text-[11px]">
+            &copy; 2026 AURA LUXURY STREETWEAR. Todos los derechos reservados.
+        </div>
+    </footer>
+
+    <!-- Toast Popup Notification -->
+    <div id="toast" class="fixed bottom-6 right-6 z-50 bg-white text-black px-6 py-3.5 text-xs font-black uppercase tracking-wider shadow-2xl transform translate-y-20 opacity-0 transition-all duration-300 rounded border border-zinc-300">
+        Producto añadido al carrito
+    </div>
+
+    <script>
+        // Array de productos utilizando las imágenes especificadas
+        const products = [
+            {
+                id: 1,
+                name: "Sudadera Essentials Cream Oversized",
+                category: "hoodies",
+                price: 890,
+                tag: "Fear of God Essentials",
+                tagClass: "badge-cream",
+                image1: "input_file_2.png",
+                desc: "Sudadera confeccionada en algodón pesado de 480g con ajuste oversized relajado. Estampado frontal en tono oscuro Essentials, capucha de doble capa y estampa gráfica en manga izquierda.",
+                options: ["Chica (S)", "Mediana (M)", "Grande (L)", "Extra Grande (XL)"]
+            },
+            {
+                id: 2,
+                name: "Sudadera Apex Racers Half-Zip",
+                category: "hoodies",
+                price: 480,
+                tag: "Apex Racers $480 MXN",
+                tagClass: "badge-apex",
+                image1: "input_file_1.png",
+                desc: "Sudadera deportiva de cuello alto con cierre metálico frontal en color negro profundo. Gráficos frontales estilo Apex Racers y parches urbanos.",
+                options: ["Chica (S)", "Mediana (M)", "Grande (L)", "Extra Grande (XL)"]
+            },
+            {
+                id: 3,
+                name: "Cadena Cubana 8mm Plata Ley .925",
+                category: "chains",
+                price: 1500,
+                tag: "Plata Ley .925",
+                tagClass: "badge-silver",
+                image1: "https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?q=80&w=600&auto=format&fit=crop",
+                desc: "Cadena estilo Cuban Link maciza en Plata Ley .925. Acabado pulido tipo espejo con broche de seguridad reforzado.",
+                options: ["50 cm", "55 cm", "60 cm"]
+            },
+            {
+                id: 4,
+                name: "Cadena Fígaro 5mm Plata Ley .925",
+                category: "chains",
+                price: 1150,
+                tag: "Plata Fina .925",
+                tagClass: "badge-silver",
+                image1: "https://images.unsplash.com/photo-1611591475155-42e05423f663?q=80&w=600&auto=format&fit=crop",
+                desc: "Cadena de diseño italiano de 3 eslabones cortos por 1 largo. Plata fina .925 inalterable con el agua.",
+                options: ["50 cm", "55 cm"]
+            },
+            {
+                id: 5,
+                name: "Dije Cruz Minimalista + Cadena Plata .925",
+                category: "chains",
+                price: 1290,
+                tag: "Plata Ley .925",
+                tagClass: "badge-silver",
+                image1: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?q=80&w=600&auto=format&fit=crop",
+                desc: "Dije de Cruz lisa de plata maciza Ley .925 con cadena eslabonada de 50cm de largo.",
+                options: ["50 cm Única"]
+            },
+            {
+                id: 6,
+                name: "Pulsera Eslabón Macizo Plata .925",
+                category: "chains",
+                price: 890,
+                tag: "Plata Ley .925",
+                tagClass: "badge-silver",
+                image1: "https://images.unsplash.com/photo-1611591475155-42e05423f663?q=80&w=600&auto=format&fit=crop",
+                desc: "Pulsera masculina de eslabón espeso en Plata Ley .925 auténtica.",
+                options: ["18 cm", "20 cm"]
+            }
+        ];
+
+        let activeCategory = 'all';
+        let searchQuery = '';
+        let cart = [];
+        let selectedProductForModal = null;
+        let selectedOption = '';
+
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            setupEventListeners();
+        });
+
+        function renderProducts() {
+            const container = document.getElementById('product-grid');
+            container.innerHTML = '';
+
+            let filtered = products.filter(p => {
+                const matchesCat = activeCategory === 'all' || p.category === activeCategory;
+                const matchesSearch = p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
+                                      p.desc.toLowerCase().includes(searchQuery.toLowerCase());
+                return matchesCat && matchesSearch;
+            });
+
+            document.getElementById('product-count').textContent = filtered.length;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-20 text-zinc-500">
+                        <i class="fa-solid fa-magnifying-glass text-4xl mb-4 text-zinc-700"></i>
+                        <p class="text-xs uppercase tracking-widest font-bold">No se encontraron productos para esta búsqueda.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(product => {
+                const card = document.createElement('div');
+                card.className = "group bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden metallic-border transition-all duration-300 flex flex-col justify-between";
+                
+                card.innerHTML = `
+                    <div class="img-container relative w-full h-80 bg-zinc-900/60 cursor-pointer flex items-center justify-center p-4" onclick="openModal(${product.id})">
+                        <span class="absolute top-3 left-3 z-10 text-[9px] font-black uppercase tracking-widest ${product.tagClass} px-2.5 py-1 rounded-sm shadow-md">
+                            ${product.tag}
+                        </span>
+                        
+                        <img src="${product.image1}" alt="${product.name}" class="w-full h-full object-contain">
+                        
+                        <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-neutral-950 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center">
+                            <span class="text-[9px] font-black uppercase tracking-widest text-white bg-black/90 border border-zinc-700 px-4 py-2 rounded-sm hover:bg-white hover:text-black transition-all">
+                                Vista Rápida
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="p-5 flex-grow flex flex-col justify-between bg-zinc-900/40">
+                        <div>
+                            <h3 class="text-xs font-black uppercase tracking-tight text-white group-hover:text-zinc-300 transition-colors cursor-pointer" onclick="openModal(${product.id})">
+                                ${product.name}
+                            </h3>
+                            <p class="text-base font-black text-amber-200 mt-2">$${product.price.toLocaleString('es-MX')}.00 MXN</p>
+                        </div>
+
+                        <button onclick="quickAddToCart(${product.id})" class="mt-5 w-full py-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-zinc-200 hover:text-white text-[11px] uppercase font-black tracking-wider transition-all rounded">
+                            + Agregar al Carrito
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function filterCategory(cat) {
+            activeCategory = cat;
+            renderProducts();
+        }
+
+        function sortProducts() {
+            const val = document.getElementById('sort-select').value;
+            if (val === 'price-low') {
+                products.sort((a, b) => a.price - b.price);
+            } else if (val === 'price-high') {
+                products.sort((a, b) => b.price - a.price);
+            } else {
+                products.sort((a, b) => a.id - b.id);
+            }
+            renderProducts();
+        }
+
+        function openModal(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+
+            selectedProductForModal = product;
+            selectedOption = product.options[0];
+
+            document.getElementById('modal-img').src = product.image1;
+            document.getElementById('modal-tag').textContent = product.tag;
+            document.getElementById('modal-tag').className = `inline-block text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-sm ${product.tagClass}`;
+            document.getElementById('modal-title').textContent = product.name;
+            document.getElementById('modal-price').textContent = `$${product.price.toLocaleString('es-MX')}.00 MXN`;
+            document.getElementById('modal-desc').textContent = product.desc;
+
+            const optionsContainer = document.getElementById('modal-options');
+            optionsContainer.innerHTML = '';
+            product.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `px-3.5 py-2 text-xs font-bold uppercase border rounded transition-all ${idx === 0 ? 'border-white text-white bg-zinc-800' : 'border-zinc-800 text-zinc-400 hover:border-zinc-600'}`;
+                btn.textContent = opt;
+                btn.onclick = () => {
+                    selectedOption = opt;
+                    Array.from(optionsContainer.children).forEach(b => {
+                        b.className = 'px-3.5 py-2 text-xs font-bold uppercase border border-zinc-800 text-zinc-400 hover:border-zinc-600 rounded';
+                    });
+                    btn.className = 'px-3.5 py-2 text-xs font-bold uppercase border border-white text-white bg-zinc-800 rounded';
+                };
+                optionsContainer.appendChild(btn);
+            });
+
+            document.getElementById('modal-add-btn').onclick = () => {
+                addToCart(product.id, selectedOption);
+                closeModal();
+            };
+
+            document.getElementById('modal-container').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('modal-container').classList.add('hidden');
+        }
+
+        function quickAddToCart(id) {
+            const product = products.find(p => p.id === id);
+            addToCart(id, product.options[0]);
+        }
+
+        function addToCart(id, option) {
+            const product = products.find(p => p.id === id);
+            const existingIndex = cart.findIndex(item => item.id === id && item.option === option);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    price: product.price,
+                    image: product.image1,
+                    option: option,
+                    qty: 1
+                });
+            }
+
+            updateCartUI();
+            showToast(`Añadido: ${product.name} (${option})`);
+        }
+
+        function addBundleToCart(id1, id2) {
+            quickAddToCart(id1);
+            quickAddToCart(id2);
+            toggleCartDrawer(true);
+        }
+
+        function updateCartUI() {
+            const countEl = document.getElementById('cart-count');
+            const drawerCountEl = document.getElementById('cart-drawer-count');
+            const container = document.getElementById('cart-items-container');
+            const subtotalEl = document.getElementById('cart-subtotal');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.qty, 0);
+            countEl.textContent = totalItems;
+            drawerCountEl.textContent = totalItems;
+
+            if (cart.length === 0) {
+                container.innerHTML = `
+                    <div class="text-center py-20 text-zinc-500 text-xs uppercase tracking-widest font-bold">
+                        Tu carrito está vacío.
+                    </div>
+                `;
+                subtotalEl.textContent = "$0.00 MXN";
+                return;
+            }
+
+            container.innerHTML = '';
+            let subtotal = 0;
+
+            cart.forEach((item, index) => {
+                subtotal += item.price * item.qty;
+                const itemEl = document.createElement('div');
+                itemEl.className = "flex gap-4 border-b border-zinc-800 pb-4 items-center justify-between";
+                itemEl.innerHTML = `
+                    <img src="${item.image}" class="w-16 h-16 object-contain bg-zinc-900 border border-zinc-800 p-1.5 rounded" alt="${item.name}">
+                    <div class="flex-grow">
+                        <h4 class="text-xs font-bold text-white uppercase">${item.name}</h4>
+                        <p class="text-[10px] text-zinc-400">Medida: ${item.option}</p>
+                        <p class="text-xs font-black text-amber-200 mt-1">$${item.price.toLocaleString('es-MX')} MXN</p>
+                        <div class="flex items-center gap-2 mt-2">
+                            <button onclick="changeQty(${index}, -1)" class="w-5 h-5 bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center text-xs font-bold rounded">-</button>
+                            <span class="text-xs text-zinc-300 font-bold">${item.qty}</span>
+                            <button onclick="changeQty(${index}, 1)" class="w-5 h-5 bg-zinc-900 border border-zinc-800 text-white flex items-center justify-center text-xs font-bold rounded">+</button>
+                        </div>
+                    </div>
+                    <button onclick="removeItem(${index})" class="text-zinc-500 hover:text-red-400 p-2">
+                        <i class="fa-solid fa-trash-can text-sm"></i>
+                    </button>
+                `;
+                container.appendChild(itemEl);
+            });
+
+            subtotalEl.textContent = `$${subtotal.toLocaleString('es-MX')}.00 MXN`;
+        }
+
+        function changeQty(index, delta) {
+            cart[index].qty += delta;
+            if (cart[index].qty <= 0) {
+                cart.splice(index, 1);
+            }
+            updateCartUI();
+        }
+
+        function removeItem(index) {
+            cart.splice(index, 1);
+            updateCartUI();
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cart-drawer');
+            const backdrop = document.getElementById('cart-backdrop');
+            const panel = document.getElementById('cart-panel');
+
+            if (open) {
+                drawer.classList.remove('hidden');
+                setTimeout(() => {
+                    backdrop.classList.remove('opacity-0');
+                    panel.classList.remove('translate-x-full');
+                }, 10);
+            } else {
+                backdrop.classList.add('opacity-0');
+                panel.classList.add('translate-x-full');
+                setTimeout(() => {
+                    drawer.classList.add('hidden');
+                }, 300);
+            }
+        }
+
+        function setupEventListeners() {
+            document.getElementById('cart-btn').addEventListener('click', () => toggleCartDrawer(true));
+            document.getElementById('close-cart').addEventListener('click', () => toggleCartDrawer(false));
+            document.getElementById('cart-backdrop').addEventListener('click', () => toggleCartDrawer(false));
+
+            const searchBar = document.getElementById('search-bar');
+            document.getElementById('search-toggle').addEventListener('click', () => {
+                searchBar.classList.toggle('hidden');
+                if (!searchBar.classList.contains('hidden')) {
+                    document.getElementById('search-input').focus();
+                }
+            });
+            document.getElementById('close-search').addEventListener('click', () => {
+                searchBar.classList.add('hidden');
+            });
+
+            document.getElementById('search-input').addEventListener('input', (e) => {
+                searchQuery = e.target.value;
+                renderProducts();
+            });
+
+            document.getElementById('mobile-menu-btn').addEventListener('click', toggleMobileMenu);
+            document.getElementById('close-modal').addEventListener('click', closeModal);
+            document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('hidden');
+        }
+
+        function showToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.textContent = msg;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+
+        function subscribeNewsletter(e) {
+            e.preventDefault();
+            showToast("¡Te has suscrito con éxito!");
+            e.target.reset();
+        }
+
+        function checkoutWhatsApp() {
+            if (cart.length === 0) {
+                showToast("Tu carrito está vacío");
+                return;
+            }
+            let text = "Hola AURA STUDIO, me interesa realizar el pedido de los siguientes productos:\n\n";
+            let total = 0;
+            cart.forEach(item => {
+                text += `• ${item.name} (${item.option}) x${item.qty} - $${item.price * item.qty} MXN\n`;
+                total += item.price * item.qty;
+            });
+            text += `\nSubtotal: $${total} MXN\n¿Me podrías proporcionar los datos para transferencia o pago?`;
+            
+            const encoded = encodeURIComponent(text);
+            window.open(`https://wa.me/?text=${encoded}`, '_blank');
+        }
+    </script>
+</body>
+</html>

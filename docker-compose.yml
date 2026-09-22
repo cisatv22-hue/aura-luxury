@@ -1,0 +1,32 @@
+
+services:
+  db:
+    image: mariadb:10.6
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: aura-luxury  
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/db/aura-luxury.sql:/docker-entrypoint-initdb.d/aura-luxury.sql
+
+  dolibarr:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    depends_on:
+      - db
+    ports:
+      - "8080:80"
+      
+    environment:
+      DOLI_DB_HOST: db
+      DOLI_DB_NAME: aura-luxury
+      DOLI_DB_USER: user
+      DOLI_DB_PASSWORD: pass
+
+volumes:
+  db_data:

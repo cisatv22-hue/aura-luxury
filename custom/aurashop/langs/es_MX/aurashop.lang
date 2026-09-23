@@ -1,6 +1,20 @@
 # Translation file
 
 ModuleAuraShopName = AuraShop
-ModuleAuraShopDesc = Tienda en linea AURA LUXURY
+ModuleAuraShopDesc = Tienda en linea AURA LUXURY integrada con Dolibarr
 AuraShopArea = Inicio AuraShop
 AuraShopPortal = Portal de tienda
+AuraShopSetup = Configuracion de AuraShop
+AuraShopSetupPage = Parametros de la tienda en linea
+Settings = Configuracion
+About = Acerca de
+AuraShopAbout = Acerca de AuraShop
+AuraShopAboutPage = Acerca de AuraShop
+
+AuraShopSectionCatalog = Catalogo e inventario
+AURASHOP_SALES_WAREHOUSE = Almacen de venta en linea
+AURASHOP_SALES_WAREHOUSETooltip = Almacen del que se toma la disponibilidad que ve el cliente. Vacio = suma de todos los almacenes.
+AuraShopAllWarehouses = Todos los almacenes
+AuraShopSectionContact = Contacto
+AURASHOP_WHATSAPP = Numero de WhatsApp
+AURASHOP_WHATSAPPTooltip = Con codigo de pais, sin espacios ni signos. Ejemplo: 5215512345678

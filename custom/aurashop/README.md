@@ -1,96 +1,83 @@
-# AURASHOP FOR [DOLIBARR ERP & CRM](https://www.dolibarr.org)
+# AuraShop
 
-## Features
+Tienda en línea de AURA LUXURY como extensión de Dolibarr. Dolibarr es la única fuente de verdad:
+productos, stock, clientes, pedidos y facturas viven en sus tablas nativas y se escriben con sus clases.
 
-Description of the module...
+Estado actual: **fases 0 y 1** (fundaciones + catálogo). Siguiente: fase 2 (carrito y clientes).
 
-<!--
-![Screenshot aurashop](img/screenshot_aurashop.png?raw=true "AuraShop"){imgmd}
--->
+## Arquitectura
 
-Other external modules are available on [Dolistore.com](https://www.dolistore.com).
+Hexagonal en backend y frontend. El dominio y los casos de uso no dependen de Dolibarr, Vue ni HTTP.
 
-## Translations
+```
+custom/aurashop/
+├── api/                 API REST pública (sin login): index.php + bootstrap.php
+├── src/                 PHP, namespace AuraShop\ (autoloader propio, sin Composer en runtime)
+│   ├── Domain/          Catalog (producto, variantes, disponibilidad, categorías), Shared (Money, Page)
+│   ├── Application/     Port/ (interfaces) y UseCase/
+│   ├── Infrastructure/  Dolibarr/ (adaptadores), Http/ (router, controladores), Image/
+│   └── Bootstrap/       Container.php: único lugar que une puertos con adaptadores
+├── frontend/            Vue 3 + Vite + TypeScript + Tailwind
+│   └── src/             domain/ · application/ · infrastructure/ · di/ · stores/ · router/ · ui/
+├── scripts/demo_data.php
+└── tests/               PHPUnit
 
-Translations can be completed manually by editing files in the module directories under `langs`.
-
-<!--
-This module contains also a sample configuration for Transifex, under the hidden directory [.tx](.tx), so it is possible to manage translation using this service.
-
-For more information, see the [translator's documentation](https://wiki.dolibarr.org/index.php/Translator_documentation).
-
-There is a [Transifex project](https://transifex.com/projects/p/dolibarr-module-template) for this module.
--->
-
-
-## Installation
-
-Prerequisites: You must have Dolibarr ERP & CRM software installed. You can download it from [Dolistore.org](https://www.dolibarr.org).
-You can also get a ready-to-use instance in the cloud from https://saas.dolibarr.org
-
-
-### From the ZIP file and GUI interface
-
-If the module is a ready-to-deploy zip file, so with a name `module_xxx-version.zip` (e.g., when downloading it from a marketplace like [Dolistore](https://www.dolistore.com)),
-go to menu `Home> Setup> Modules> Deploy external module` and upload the zip file.
-
-<!--
-
-Note: If this screen tells you that there is no "custom" directory, check that your setup is correct:
-
-- In your Dolibarr installation directory, edit the `htdocs/conf/conf.php` file and check that following lines are not commented:
-
-    ```php
-    //$dolibarr_main_url_root_alt ...
-    //$dolibarr_main_document_root_alt ...
-    ```
-
-- Uncomment them if necessary (delete the leading `//`) and assign the proper value according to your Dolibarr installation
-
-    For example :
-
-    - UNIX:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = '/var/www/Dolibarr/htdocs/custom';
-        ```
-
-    - Windows:
-        ```php
-        $dolibarr_main_url_root_alt = '/custom';
-        $dolibarr_main_document_root_alt = 'C:/My Web Sites/Dolibarr/htdocs/custom';
-        ```
--->
-
-<!--
-
-### From a GIT repository
-
-Clone the repository in `$dolibarr_main_document_root_alt/aurashop`
-
-```shell
-cd ....../custom
-git clone git@github.com:gitlogin/aurashop.git aurashop
+public/AuraShop/
+├── index.php            Shell de la SPA: SEO por ruta (title, Open Graph, JSON-LD) + config inyectada
+└── assets/              Build de Vite (generado)
 ```
 
--->
+Apache corre con `AllowOverride None`, así que las rutas usan PATH_INFO:
 
-### Final steps
+- Tienda: `/public/AuraShop/index.php/catalogo`, `/public/AuraShop/index.php/producto/{REF}`
+- API: `/custom/aurashop/api/index.php/v1/...`
 
-Using your browser:
+## API v1
 
-  - Log into Dolibarr as a super-administrator
-  - Go to "Setup"> "Modules"
-  - You should now be able to find and enable the module
+| Método | Ruta | Descripción |
+|---|---|---|
+| GET | `/v1/config` | Nombre de la tienda, moneda, WhatsApp |
+| GET | `/v1/catalog/categories` | Categorías de producto visibles |
+| GET | `/v1/catalog/products?category=&q=&sort=&page=&perPage=` | Listado. `sort`: `newest`, `price_asc`, `price_desc`, `name`. Filtrar por una categoría incluye sus subcategorías |
+| GET | `/v1/catalog/products/{ref}` | Ficha con variantes (tallas) y disponibilidad por variante |
+| GET | `/v1/images/{ref}/{archivo}?size=mini\|card\|full` | Fotos del producto. `card` (720×900) se genera en `documents/aurashop/cache/images` |
 
+Precios en centavos (`{"amount": 145000, "currency": "MXN"}`) con IVA incluido. La API nunca expone
+cantidades exactas de stock, solo `in_stock`, `low_stock` (≤ 3) u `out_of_stock`. Solo se publican
+productos con estado "En venta"; las variantes se muestran dentro de su producto padre.
 
+## Configuración
 
-## Licenses
+Inicio → Configuración → Módulos → AuraShop (engrane):
 
-### Main code
+- **Almacén de venta en línea**: de dónde sale la disponibilidad. Vacío = suma de todos los almacenes.
+- **Número de WhatsApp**: con código de país (ej. `5215512345678`). Activa el botón "Pedir por WhatsApp".
 
-GPLv3 or (at your option) any later version. See file COPYING for more information.
+## Comandos
 
-### Documentation
+Todo corre en Docker; no hace falta Node ni PHP en tu máquina.
 
-All texts and readme's are licensed under [GFDL](https://www.gnu.org/licenses/fdl-1.3.en.html).
+```bash
+# Compilar la tienda (verifica tipos y genera public/AuraShop/assets)
+docker compose --profile front run --rm aurashop-front npm run build
+
+# Desarrollo con recarga en caliente: http://localhost:5173 (proxy a la API de Dolibarr)
+docker compose --profile front up aurashop-front
+
+# Pruebas del frontend
+docker compose --profile front run --rm aurashop-front npm test
+
+# Pruebas del backend (requiere `composer install` en custom/aurashop una vez)
+docker compose exec -w /var/www/html/custom/aurashop dolibarr php vendor/bin/phpunit
+
+# Datos de demostración (productos DEMO-*) y su limpieza
+docker compose exec -u www-data dolibarr php /var/www/html/custom/aurashop/scripts/demo_data.php seed
+docker compose exec -u www-data dolibarr php /var/www/html/custom/aurashop/scripts/demo_data.php purge
+```
+
+## Despliegue
+
+- Publica `custom/aurashop` **sin** `vendor/`, `frontend/node_modules/` ni `tests/`: están dentro de la
+  raíz web de Dolibarr y en producción no se necesitan (el runtime no usa Composer).
+- Publica `public/AuraShop/index.php` y `public/AuraShop/assets/` ya compilado.
+- Tras cambiar menús o permisos del descriptor, desactiva y reactiva el módulo.

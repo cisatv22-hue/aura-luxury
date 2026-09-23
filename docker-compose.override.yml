@@ -21,3 +21,21 @@ services:
 
       - ./opensurvey:/var/www/html/opensurvey
       - ./takepos:/var/www/html/takepos
+
+  # AuraShop frontend (Vue + Vite). Only starts with: docker compose --profile front ...
+  aurashop-front:
+    image: node:22-alpine
+    profiles: ["front"]
+    user: "1000:1000"
+    working_dir: /app
+    command: sh -c "npm install --no-audit --no-fund && npm run dev"
+    environment:
+      npm_config_cache: /tmp/.npm
+      DOLIBARR_URL: http://dolibarr
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./custom/aurashop/frontend:/app
+      - ./public/AuraShop:/public/AuraShop
+    depends_on:
+      - dolibarr

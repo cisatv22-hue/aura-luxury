@@ -1,0 +1,43 @@
+{
+  "src/main.ts": {
+    "file": "main-DVTE9SXz.js",
+    "name": "main",
+    "src": "src/main.ts",
+    "isEntry": true,
+    "dynamicImports": [
+      "src/ui/features/catalog/CatalogPage.vue",
+      "src/ui/features/product/ProductPage.vue",
+      "src/ui/pages/NotFoundPage.vue"
+    ],
+    "css": [
+      "main-CgmKZk1b.css"
+    ]
+  },
+  "src/ui/features/catalog/CatalogPage.vue": {
+    "file": "CatalogPage-CrzIQpyw.js",
+    "name": "CatalogPage",
+    "src": "src/ui/features/catalog/CatalogPage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.ts"
+    ]
+  },
+  "src/ui/features/product/ProductPage.vue": {
+    "file": "ProductPage-C7YFNVZP.js",
+    "name": "ProductPage",
+    "src": "src/ui/features/product/ProductPage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.ts"
+    ]
+  },
+  "src/ui/pages/NotFoundPage.vue": {
+    "file": "NotFoundPage-UbicelZE.js",
+    "name": "NotFoundPage",
+    "src": "src/ui/pages/NotFoundPage.vue",
+    "isDynamicEntry": true,
+    "imports": [
+      "src/main.ts"
+    ]
+  }
+}

@@ -110,82 +110,25 @@ if (!$user->admin) {
 
 // Enter here all parameters in your setup page
 
-// Setup conf for selection of an URL
-$item = $formSetup->newItem('AURASHOP_MYPARAM1');
-$item->fieldParams['isMandatory'] = 1;
-$item->fieldAttr['placeholder'] = (empty($_SERVER['HTTPS']) ? 'http://' : 'https://') . $_SERVER['HTTP_HOST'];
-$item->cssClass = 'minwidth500';
+$warehouses = array();
+$sqlw = "SELECT rowid, ref, lieu FROM ".MAIN_DB_PREFIX."entrepot WHERE entity IN (".getEntity('stock').") AND statut = 1 ORDER BY ref";
+$resw = $db->query($sqlw);
+if ($resw) {
+	while ($objw = $db->fetch_object($resw)) {
+		$warehouses[$objw->rowid] = $objw->ref.($objw->lieu ? ' - '.$objw->lieu : '');
+	}
+}
 
-// Setup conf for selection of a simple string input
-$item = $formSetup->newItem('AURASHOP_MYPARAM2');
-$item->defaultFieldValue = 'default value';
-$item->fieldAttr['placeholder'] = 'A placeholder here';
-$item->helpText = 'Tooltip text';
+$formSetup->newItem('AuraShopSectionCatalog')->setAsTitle();
 
-// Setup conf for selection of a simple textarea input but we replace the text of field title
-$item = $formSetup->newItem('AURASHOP_MYPARAM3');
-$item->nameText = $item->getNameText().' more html text ';
+$item = $formSetup->newItem('AURASHOP_SALES_WAREHOUSE')->setAsSelect(array('' => $langs->trans('AuraShopAllWarehouses')) + $warehouses);
+$item->helpText = $langs->transnoentities('AURASHOP_SALES_WAREHOUSETooltip');
 
-// Setup conf for a selection of a Thirdparty
-$item = $formSetup->newItem('AURASHOP_MYPARAM4');
-$item->setAsThirdpartyType();
+$formSetup->newItem('AuraShopSectionContact')->setAsTitle();
 
-// Setup conf for a selection of a boolean
-$formSetup->newItem('AURASHOP_MYPARAM5')->setAsYesNo();	 // ->fieldParams['alertifoff'] = 1 or ->fieldParams['alertifon'] = 1;
-
-// Setup conf for a selection of an Email template of type thirdparty
-$formSetup->newItem('AURASHOP_MYPARAM6')->setAsEmailTemplate('thirdparty');
-
-// Setup conf for a selection of a secured key
-//$formSetup->newItem('AURASHOP_MYPARAM7')->setAsSecureKey();
-
-// Setup conf for a selection of a Product
-$formSetup->newItem('AURASHOP_MYPARAM8')->setAsProduct();
-
-// Add a title for a new section
-$formSetup->newItem('NewSection')->setAsTitle();
-
-$TField = array(
-	'test01' => $langs->trans('test01'),
-	'test02' => $langs->trans('test02'),
-	'test03' => $langs->trans('test03'),
-	'test04' => $langs->trans('test04'),
-	'test05' => $langs->trans('test05'),
-	'test06' => $langs->trans('test06'),
-);
-
-// Setup conf for a simple combo list
-$formSetup->newItem('AURASHOP_MYPARAM9')->setAsSelect($TField);
-
-// Setup conf for a multiselect combo list
-$item = $formSetup->newItem('AURASHOP_MYPARAM10');
-$item->setAsMultiSelect($TField);
-$item->helpText = $langs->transnoentities('AURASHOP_MYPARAM10');
-
-// Setup conf for a category selection
-$formSetup->newItem('AURASHOP_CATEGORY_ID_XXX')->setAsCategory('product');
-
-// Setup conf AURASHOP_MYPARAM10
-$item = $formSetup->newItem('AURASHOP_MYPARAM10');
-$item->setAsColor();
-$item->defaultFieldValue = '#FF0000';
-//$item->fieldValue = '';
-//$item->fieldAttr = array() ; // fields attribute only for compatible fields like input text
-//$item->fieldOverride = false; // set this var to override field output will override $fieldInputOverride and $fieldOutputOverride too
-//$item->fieldInputOverride = false; // set this var to override field input
-//$item->fieldOutputOverride = false; // set this var to override field output
-
-$item = $formSetup->newItem('AURASHOP_MYPARAM11')->setAsHtml();
-$item->nameText = $item->getNameText().' more html text ';
-$item->fieldInputOverride = '';
-$item->helpText = $langs->transnoentities('HelpMessage');
-$item->cssClass = 'minwidth500';
-
-$item = $formSetup->newItem('AURASHOP_MYPARAM12');
-$item->fieldOverride = "Value forced, can't be modified";
-$item->cssClass = 'minwidth500';
-
-//$item = $formSetup->newItem('AURASHOP_MYPARAM13')->setAsDate();	// Not yet implemented
+$item = $formSetup->newItem('AURASHOP_WHATSAPP');
+$item->fieldAttr['placeholder'] = '5215512345678';
+$item->helpText = $langs->transnoentities('AURASHOP_WHATSAPPTooltip');
 
 // End of definition of parameters
 

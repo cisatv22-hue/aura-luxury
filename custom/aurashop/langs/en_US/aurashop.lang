@@ -34,6 +34,13 @@ AuraShopAboutPage = AuraShop about page
 #
 AuraShopArea = Home AuraShop
 AuraShopPortal = Store portal
+AuraShopSectionCatalog = Catalog and inventory
+AURASHOP_SALES_WAREHOUSE = Online sales warehouse
+AURASHOP_SALES_WAREHOUSETooltip = Warehouse used for the availability shown to customers. Empty = sum of all warehouses.
+AuraShopAllWarehouses = All warehouses
+AuraShopSectionContact = Contact
+AURASHOP_WHATSAPP = WhatsApp number
+AURASHOP_WHATSAPPTooltip = With country code, no spaces or symbols. Example: 5215512345678
 MyPageName = My page name
 
 #

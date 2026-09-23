@@ -1,14 +1,8 @@
 {
-  "redirects": [
+  "rewrites": [
     {
       "source": "/",
-      "destination": "/index.html",
-      "permanent": false
-    },
-    {
-      "source": "/index.php",
-      "destination": "/index.html",
-      "permanent": false
+      "destination": "/index.html"
     }
   ]
 }

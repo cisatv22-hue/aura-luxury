@@ -1,0 +1,26 @@
+# Configuracion con credenciales
+conf/
+
+# Dolibarr documents (datos generados)
+documents/
+
+# Archivos generados
+*.docx
+*.pdf
+
+# IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node
+node_modules/
+
+# Logs
+*.log

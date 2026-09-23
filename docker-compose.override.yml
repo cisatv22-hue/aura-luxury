@@ -1,0 +1,23 @@
+
+services:
+  dolibarr:
+    volumes:
+      # Only Modules Editas
+      - ./custom:/var/www/html/custom
+
+      # System configuration
+      - ./conf/conf.php:/var/www/html/conf/conf.php
+
+      # Generated files/documents
+      - ./documents:/var/www/documents
+
+      # Optional: If you edit vendor
+      - ./vendor:/var/www/html/vendor
+
+      # Optional: If you get to play public (Assets, etc.)
+      - ./public:/var/www/html/public
+
+      - ./admin:/var/www/html/admin
+
+      - ./opensurvey:/var/www/html/opensurvey
+      - ./takepos:/var/www/html/takepos

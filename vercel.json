@@ -1,6 +1,14 @@
 {
-  "rewrites": [
-    { "source": "/", "destination": "/index.html" }
-  ],
-  "cleanUrls": true
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/index.html",
+      "permanent": false
+    },
+    {
+      "source": "/index.php",
+      "destination": "/index.html",
+      "permanent": false
+    }
+  ]
 }

@@ -36,9 +36,10 @@ final class Router
 			if ($route['method'] !== $method) {
 				continue;
 			}
+			// PATH_INFO arrives already URL-decoded by the web server: decoding again would corrupt refs containing '%'.
 			$params = array();
 			foreach ($route['params'] as $i => $name) {
-				$params[$name] = rawurldecode($values[$i + 1]);
+				$params[$name] = $values[$i + 1];
 			}
 
 			return ($route['handler'])($request, $params);

@@ -32,6 +32,7 @@ final class DolibarrCatalogReader implements CatalogReader
 	public function __construct(
 		private readonly \DoliDB $db,
 		private readonly ProductImages $images,
+		private readonly DolibarrHtmlSanitizer $sanitizer,
 		private readonly string $currency,
 		private readonly ?int $salesWarehouseId
 	) {
@@ -75,7 +76,8 @@ final class DolibarrCatalogReader implements CatalogReader
 		$minVariantPrice = "(SELECT MIN(ch.price_ttc) FROM ".$combination." as pac JOIN ".MAIN_DB_PREFIX."product as ch ON ch.rowid = pac.fk_product_child"
 			." WHERE pac.fk_product_parent = p.rowid AND ch.tosell = 1)";
 		$sql = "SELECT p.rowid, p.ref, p.label, p.description, p.price_ttc, p.fk_product_type,";
-		$sql .= " (SELECT COUNT(*) FROM ".$combination." as pac WHERE pac.fk_product_parent = p.rowid) as nb_variants,";
+		$sql .= " (SELECT COUNT(*) FROM ".$combination." as pac JOIN ".MAIN_DB_PREFIX."product as ch ON ch.rowid = pac.fk_product_child";
+		$sql .= "   WHERE pac.fk_product_parent = p.rowid AND ch.tosell = 1) as nb_variants,";
 		$sql .= " ".$minVariantPrice." as min_variant_price,";
 		$sql .= " COALESCE(".$minVariantPrice.", p.price_ttc) as sort_price,";
 		$sql .= " ".$this->stockExpr('p')." as own_qty,";
@@ -145,7 +147,7 @@ final class DolibarrCatalogReader implements CatalogReader
 			(string) $row->ref,
 			(string) $row->label,
 			$this->summary($description),
-			$this->safeHtml($description),
+			$this->sanitizer->sanitize($description),
 			Money::fromDecimal((string) $row->price_ttc, $this->currency),
 			$this->images->list((string) $row->ref),
 			$this->categoriesOf(array($productId))[$productId] ?? array(),
@@ -284,18 +286,6 @@ final class DolibarrCatalogReader implements CatalogReader
 	private function summary(string $description): string
 	{
 		return dol_trunc(trim(dol_string_nohtmltag($description)), self::SUMMARY_LENGTH);
-	}
-
-	private function safeHtml(string $description): string
-	{
-		if (trim($description) === '') {
-			return '';
-		}
-		if (dol_textishtml($description)) {
-			return dol_string_onlythesehtmltags($description, 1, 1, 1);
-		}
-
-		return dol_nl2br(dol_escape_htmltag($description));
 	}
 
 	/**

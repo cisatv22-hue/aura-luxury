@@ -10,6 +10,12 @@ final class GdThumbnailer
 {
 	private const JPEG_QUALITY = 82;
 
+	/**
+	 * GD decodes the whole bitmap at ~4 bytes per pixel: 25 MP is ~100 MB, the edge of a 128M memory_limit.
+	 * Bigger photos (48-50 MP phone modes) are not resized; the caller serves the original, streamed from disk.
+	 */
+	public const MAX_SOURCE_PIXELS = 25_000_000;
+
 	public function __construct(private readonly string $cacheDir)
 	{
 	}
@@ -31,6 +37,9 @@ final class GdThumbnailer
 		[$width, $height] = $info;
 		if ($width <= $maxWidth && $height <= $maxHeight) {
 			return $source;
+		}
+		if ($width * $height > self::MAX_SOURCE_PIXELS) {
+			return null;
 		}
 
 		$image = match ($info[2]) {

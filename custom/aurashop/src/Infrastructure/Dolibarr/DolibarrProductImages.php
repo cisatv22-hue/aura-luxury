@@ -64,15 +64,24 @@ final class DolibarrProductImages implements ProductImages
 			case ImageSize::Full:
 				return $full;
 			case ImageSize::Card:
-				$key = dol_sanitizeFileName($productRef).'/'.pathinfo($fileName, PATHINFO_FILENAME);
+				// Full file name (with extension) so foto.jpg and foto.webp never share a cache entry.
+				$key = dol_sanitizeFileName($productRef).'/'.$fileName;
 
-				return $this->thumbnailer->fit($full, $key, self::CARD_WIDTH, self::CARD_HEIGHT) ?? $full;
+				// Too big to resize safely: Dolibarr's small thumb beats sending a multi-MB original to a card.
+				return $this->thumbnailer->fit($full, $key, self::CARD_WIDTH, self::CARD_HEIGHT)
+					?? $this->dolibarrThumb($productRef, $fileName, ImageSize::Small)
+					?? $full;
 			default:
-				$info = pathinfo($fileName);
-				$thumb = $this->dirFor($productRef).'thumbs/'.$info['filename'].'_'.$size->value.'.'.$info['extension'];
-
-				return is_readable($thumb) ? $thumb : $full;
+				return $this->dolibarrThumb($productRef, $fileName, $size) ?? $full;
 		}
+	}
+
+	private function dolibarrThumb(string $productRef, string $fileName, ImageSize $size): ?string
+	{
+		$info = pathinfo($fileName);
+		$thumb = $this->dirFor($productRef).'thumbs/'.$info['filename'].'_'.$size->value.'.'.$info['extension'];
+
+		return is_readable($thumb) ? $thumb : null;
 	}
 
 	private function dirFor(string $productRef): string

@@ -12,6 +12,18 @@ $container = require __DIR__.'/../../custom/aurashop/api/bootstrap.php';
 
 use AuraShop\Domain\Shared\NotFound;
 
+if (!$container->storeEnabled()) {
+	http_response_code(503);
+	header('Content-Type: text/html; charset=utf-8');
+	header('Retry-After: 3600');
+	echo '<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">'
+		.'<meta name="robots" content="noindex"><title>Volvemos pronto</title></head>'
+		.'<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#08080a;color:#e2e8f0;font-family:system-ui,sans-serif;text-align:center">'
+		.'<div><p style="letter-spacing:.4em;font-size:28px;margin:0 0 12px">A U R A</p><p style="color:#a1a1aa;margin:0">La tienda está en mantenimiento. Volvemos pronto.</p></div>'
+		.'</body></html>';
+	exit;
+}
+
 $scriptName = (string) $_SERVER['SCRIPT_NAME'];
 $requestPath = (string) parse_url((string) ($_SERVER['REQUEST_URI'] ?? ''), PHP_URL_PATH);
 
@@ -38,7 +50,7 @@ $status = 200;
 
 if (preg_match('#^/producto/([^/]+)$#', $path, $m)) {
 	try {
-		$product = $container->getProduct()(rawurldecode($m[1]));
+		$product = $container->getProduct()($m[1]);
 		$data = $container->catalogPresenter()->detail($product);
 		$priceFrom = $product->priceFrom();
 		$meta['title'] = $product->label.' | '.$storeName;
@@ -92,7 +104,7 @@ $runtime = array(
 		'whatsapp' => $store->whatsappNumber(),
 	),
 );
-$jsonFlags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES;
+$jsonFlags = JSON_HEX_TAG | JSON_HEX_AMP | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_INVALID_UTF8_SUBSTITUTE;
 
 http_response_code($status);
 header('Content-Type: text/html; charset=utf-8');

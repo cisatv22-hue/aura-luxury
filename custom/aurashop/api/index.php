@@ -11,7 +11,10 @@
 /** @var \AuraShop\Bootstrap\Container $container */
 $container = require __DIR__.'/bootstrap.php';
 
-$response = $container->kernel()->handle(\AuraShop\Infrastructure\Http\Request::fromGlobals());
-$response->send();
+if (!$container->storeEnabled()) {
+	\AuraShop\Infrastructure\Http\Response::error(503, 'store_disabled', 'La tienda no está disponible.')->send();
+} else {
+	$container->kernel()->handle(\AuraShop\Infrastructure\Http\Request::fromGlobals())->send();
+}
 
 $db->close();

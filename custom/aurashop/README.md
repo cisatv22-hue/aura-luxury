@@ -70,6 +70,9 @@ docker compose --profile front run --rm aurashop-front npm test
 # Pruebas del backend (requiere `composer install` en custom/aurashop una vez)
 docker compose exec -w /var/www/html/custom/aurashop dolibarr php vendor/bin/phpunit
 
+# Incluyendo las de integración contra Dolibarr real (saneamiento de HTML, etc.)
+docker compose exec -u www-data -e AURASHOP_DOLIBARR=1 -w /var/www/html/custom/aurashop dolibarr php vendor/bin/phpunit
+
 # Datos de demostración (productos DEMO-*) y su limpieza
 docker compose exec -u www-data dolibarr php /var/www/html/custom/aurashop/scripts/demo_data.php seed
 docker compose exec -u www-data dolibarr php /var/www/html/custom/aurashop/scripts/demo_data.php purge

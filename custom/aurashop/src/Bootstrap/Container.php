@@ -10,6 +10,7 @@ use AuraShop\Application\UseCase\Catalog\ListCategories;
 use AuraShop\Application\UseCase\Catalog\ListProducts;
 use AuraShop\Application\UseCase\Store\GetStoreConfig;
 use AuraShop\Infrastructure\Dolibarr\DolibarrCatalogReader;
+use AuraShop\Infrastructure\Dolibarr\DolibarrHtmlSanitizer;
 use AuraShop\Infrastructure\Dolibarr\DolibarrProductImages;
 use AuraShop\Infrastructure\Dolibarr\DolibarrStoreSettings;
 use AuraShop\Infrastructure\Image\GdThumbnailer;
@@ -32,6 +33,11 @@ final class Container
 		private readonly \DoliDB $db,
 		private readonly \Conf $conf
 	) {
+	}
+
+	public function storeEnabled(): bool
+	{
+		return isModEnabled('aurashop');
 	}
 
 	public function apiBaseUrl(): string
@@ -97,6 +103,7 @@ final class Container
 			return new DolibarrCatalogReader(
 				$this->db,
 				$this->productImages(),
+				new DolibarrHtmlSanitizer(),
 				$this->conf->currency,
 				$warehouse > 0 ? $warehouse : null
 			);

@@ -1,8 +1,8 @@
 <?php
 /* Copyright (C) 2026 AURA LUXURY
  *
- * Storefront shell. Serves the Vue SPA built into ./assets and renders SEO meta for the current route
- * on the server, so product pages are indexable even though the UI is client-side.
+ * Storefront shell. Loads the Vue SPA straight from custom/aurashop/frontend (Vue, Vue Router and Tailwind from CDN,
+ * no build step) and renders SEO meta for the current route on the server, so product pages are indexable.
  *
  * Routes use PATH_INFO (index.php/producto/REF) because Apache runs with AllowOverride None.
  */
@@ -85,15 +85,31 @@ if (preg_match('#^/producto/([^/]+)$#', $path, $m)) {
 	$meta['title'] = 'Página no encontrada | '.$storeName;
 }
 
-$manifestFile = __DIR__.'/assets/.vite/manifest.json';
-$entry = is_readable($manifestFile) ? (json_decode((string) file_get_contents($manifestFile), true)['src/main.ts'] ?? null) : null;
-if ($entry === null) {
-	http_response_code(503);
-	header('Content-Type: text/plain; charset=utf-8');
-	echo "La tienda aún no está compilada. Ejecuta el build del frontend (ver custom/aurashop/README.md).\n";
-	exit;
+$frontendDir = __DIR__.'/../../custom/aurashop/frontend';
+$frontendUrl = dol_buildpath('/aurashop/frontend', 1);
+
+// Pinned CDN builds. The integrity hashes make the browser refuse a tampered file (where import map integrity is supported).
+$cdn = array(
+	'vue' => array('https://cdn.jsdelivr.net/npm/vue@3.5.13/dist/vue.esm-browser.prod.js', 'sha384-UD4WWwnzOnT68QK9Dgf/jMrAGH2xuXyfIF9zzlFbWOL8MSrADyQ5BTgs9Kct5Izy'),
+	'vue-router' => array('https://cdn.jsdelivr.net/npm/vue-router@4.5.0/dist/vue-router.esm-browser.prod.js', 'sha384-FY4SNqYLpiue9ESFQjZPWhax68RA68YRmnELcTlJ/ztlySvioNhRWGSVwwmjVe0y'),
+);
+$importMap = array('imports' => array(), 'integrity' => array());
+foreach ($cdn as $name => [$url, $hash]) {
+	$importMap['imports'][$name] = $url;
+	$importMap['integrity'][$url] = $hash;
 }
-$assetBase = rtrim(dirname($scriptName), '/').'/assets/';
+// Cache busting without a build: every module URL is remapped to URL?v=<mtime>, so relative imports inside
+// the modules pick up new versions too.
+$sources = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($frontendDir.'/src', FilesystemIterator::SKIP_DOTS));
+foreach ($sources as $file) {
+	if ($file->getExtension() === 'js') {
+		$url = $frontendUrl.'/src/'.str_replace('\\', '/', substr($file->getPathname(), strlen($frontendDir.'/src/')));
+		$importMap['imports'][$url] = $url.'?v='.$file->getMTime();
+	}
+}
+$entryUrl = $importMap['imports'][$frontendUrl.'/src/main.js'];
+$tailwindConfigUrl = $frontendUrl.'/tailwind.config.js?v='.filemtime($frontendDir.'/tailwind.config.js');
+$tailwindCss = (string) file_get_contents($frontendDir.'/tailwind.css');
 
 $runtime = array(
 	'apiBase' => $container->apiBaseUrl(),
@@ -138,16 +154,17 @@ $e = static fn (?string $v): string => htmlspecialchars((string) $v, ENT_QUOTES 
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<?php foreach ($entry['css'] ?? array() as $css) { ?>
-	<link rel="stylesheet" href="<?php echo $e($assetBase.$css); ?>">
-<?php } ?>
+	<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+	<script src="<?php echo $e($tailwindConfigUrl); ?>"></script>
+	<style type="text/tailwindcss"><?php echo $tailwindCss; ?></style>
+	<script type="importmap"><?php echo json_encode($importMap, $jsonFlags); ?></script>
 	<script>window.__AURASHOP__ = <?php echo json_encode($runtime, $jsonFlags); ?>;</script>
 <?php if ($meta['jsonld']) { ?>
 	<script type="application/ld+json"><?php echo json_encode($meta['jsonld'], $jsonFlags); ?></script>
 <?php } ?>
-	<script type="module" src="<?php echo $e($assetBase.$entry['file']); ?>"></script>
+	<script type="module" src="<?php echo $e($entryUrl); ?>"></script>
 </head>
-<body class="bg-brand-bg">
+<body class="bg-brand-bg" style="background:#08080a">
 	<div id="app"></div>
 	<noscript><p style="color:#e2e8f0;padding:2rem;font-family:sans-serif">Activa JavaScript para ver la tienda.</p></noscript>
 </body>

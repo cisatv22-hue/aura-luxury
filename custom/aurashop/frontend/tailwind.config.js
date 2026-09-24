@@ -1,6 +1,5 @@
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ['./index.html', './src/**/*.{vue,ts}'],
+// Loaded as a classic script right after the Tailwind Play CDN (see public/AuraShop/index.php).
+tailwind.config = {
   theme: {
     extend: {
       colors: {
@@ -25,5 +24,4 @@ export default {
       },
     },
   },
-  plugins: [],
 }

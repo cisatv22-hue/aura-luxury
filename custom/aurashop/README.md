@@ -17,15 +17,21 @@ custom/aurashop/
 │   ├── Application/     Port/ (interfaces) y UseCase/
 │   ├── Infrastructure/  Dolibarr/ (adaptadores), Http/ (router, controladores), Image/
 │   └── Bootstrap/       Container.php: único lugar que une puertos con adaptadores
-├── frontend/            Vue 3 + Vite + TypeScript + Tailwind
-│   └── src/             domain/ · application/ · infrastructure/ · di/ · stores/ · router/ · ui/
+├── frontend/            Vue 3 + Vue Router + Tailwind por CDN, sin build ni Node
+│   ├── src/             Módulos ES: domain/ · application/ · infrastructure/ · di/ · stores/ · router/ · ui/
+│   ├── tailwind.config.js   Tema AURA para el CDN de Tailwind
+│   └── tailwind.css     Design system (@layer components), se inyecta en la página
 ├── scripts/demo_data.php
 └── tests/               PHPUnit
 
 public/AuraShop/
-├── index.php            Shell de la SPA: SEO por ruta (title, Open Graph, JSON-LD) + config inyectada
-└── assets/              Build de Vite (generado)
+└── index.php            Shell de la SPA: SEO por ruta (title, Open Graph, JSON-LD), config inyectada e import map
 ```
+
+El navegador carga los módulos de `frontend/src` tal cual: no hay paso de compilación. `index.php` genera un
+*import map* que resuelve `vue` y `vue-router` al CDN (versiones fijas, con hash de integridad) y agrega
+`?v=<fecha de modificación>` a cada módulo propio, así un cambio se refleja sin limpiar la caché del navegador.
+Los componentes son objetos JS con `template` que Vue compila en el navegador.
 
 Apache corre con `AllowOverride None`, así que las rutas usan PATH_INFO:
 
@@ -55,18 +61,9 @@ Inicio → Configuración → Módulos → AuraShop (engrane):
 
 ## Comandos
 
-Todo corre en Docker; no hace falta Node ni PHP en tu máquina.
+Para el frontend no hay comandos: edita un archivo de `frontend/src` y recarga el navegador.
 
 ```bash
-# Compilar la tienda (verifica tipos y genera public/AuraShop/assets)
-docker compose --profile front run --rm aurashop-front npm run build
-
-# Desarrollo con recarga en caliente: http://localhost:5173 (proxy a la API de Dolibarr)
-docker compose --profile front up aurashop-front
-
-# Pruebas del frontend
-docker compose --profile front run --rm aurashop-front npm test
-
 # Pruebas del backend (requiere `composer install` en custom/aurashop una vez)
 docker compose exec -w /var/www/html/custom/aurashop dolibarr php vendor/bin/phpunit
 
@@ -80,7 +77,10 @@ docker compose exec -u www-data dolibarr php /var/www/html/custom/aurashop/scrip
 
 ## Despliegue
 
-- Publica `custom/aurashop` **sin** `vendor/`, `frontend/node_modules/` ni `tests/`: están dentro de la
-  raíz web de Dolibarr y en producción no se necesitan (el runtime no usa Composer).
-- Publica `public/AuraShop/index.php` y `public/AuraShop/assets/` ya compilado.
+- Publica `custom/aurashop` **sin** `vendor/` ni `tests/`: están dentro de la raíz web de Dolibarr y en
+  producción no se necesitan (el runtime no usa Composer).
+- Publica `public/AuraShop/index.php`. No hay nada que compilar.
+- La tienda necesita salida a internet hacia `cdn.jsdelivr.net`, `cdn.tailwindcss.com`, `cdnjs.cloudflare.com`
+  y Google Fonts. Tailwind por CDN muestra en consola un aviso de "no usar en producción": genera los estilos
+  en el navegador al cargar la página.
 - Tras cambiar menús o permisos del descriptor, desactiva y reactiva el módulo.

@@ -1,0 +1,50 @@
+# Translation file
+
+#
+# Generic
+#
+
+# Module label 'ModuleAuraShopName'
+ModuleAuraShopName = AuraShop
+# Module description 'ModuleAuraShopDesc'
+ModuleAuraShopDesc = AuraShop description
+
+#
+# Admin page
+#
+AuraShopSetup = AuraShop setup
+Settings = Settings
+AuraShopSetupPage = AuraShop setup page
+NewSection=New section
+AURASHOP_MYPARAM1 = My param 1
+AURASHOP_MYPARAM1Tooltip = My param 1 tooltip
+AURASHOP_MYPARAM2=My param 2
+AURASHOP_MYPARAM2Tooltip=My param 2 tooltip
+
+
+#
+# About page
+#
+About = About
+AuraShopAbout = About AuraShop
+AuraShopAboutPage = AuraShop about page
+
+#
+# Sample page
+#
+AuraShopArea = Home AuraShop
+AuraShopPortal = Store portal
+AuraShopSectionCatalog = Catalog and inventory
+AURASHOP_SALES_WAREHOUSE = Online sales warehouse
+AURASHOP_SALES_WAREHOUSETooltip = Warehouse used for the availability shown to customers. Empty = sum of all warehouses.
+AuraShopAllWarehouses = All warehouses
+AuraShopSectionContact = Contact
+AURASHOP_WHATSAPP = WhatsApp number
+AURASHOP_WHATSAPPTooltip = With country code, no spaces or symbols. Example: 5215512345678
+MyPageName = My page name
+
+#
+# Sample widget
+#
+MyWidget = My widget
+MyWidgetDescription = My widget description

@@ -1,87 +1,68 @@
 import os
 import base64
 import json
+import re
 
-img1_path = os.path.expanduser('~/.gemini/antigravity/brain/767ae79e-6ba4-4c9a-a798-24c65356bc8c/.user_uploaded/media_1790290617675.jpg')
-img2_path = os.path.expanduser('~/.gemini/antigravity/brain/767ae79e-6ba4-4c9a-a798-24c65356bc8c/.user_uploaded/media_1790290632084.jpg')
-img3_path = os.path.expanduser('~/.gemini/antigravity/brain/767ae79e-6ba4-4c9a-a798-24c65356bc8c/.user_uploaded/media_1790290660938.jpg')
-img4_path = os.path.expanduser('~/.gemini/antigravity/brain/767ae79e-6ba4-4c9a-a798-24c65356bc8c/.user_uploaded/media_1790290667517.png')
-img5_path = os.path.expanduser('~/.gemini/antigravity/brain/767ae79e-6ba4-4c9a-a798-24c65356bc8c/.user_uploaded/media_1790290676193.png')
+dir_path = os.path.expanduser('~/.gemini/antigravity/brain/960f2a69-e48c-4fd2-8fa7-a4ec5c34635b/.user_uploaded/')
+images = [
+    ('media_1790636865505.png', 'Gorra Negra M Wings', 'Gorra negra con dise\u00f1o de alas y letra M.'),
+    ('media_1790636893503.png', 'Gorra H Dinosaur', 'Gorra negra con dise\u00f1o de dinosaurio y letra H.'),
+    ('media_1790636921372.png', 'Gorra Pink LA LA LA', 'Gorra rosa con blanco, dise\u00f1o LA LA LA.'),
+    ('media_1790637018763.png', 'Gorra Scream Ghostface', 'Gorra negra con dise\u00f1o de Scream Ghostface.'),
+    ('media_1790637052710.png', 'Gorra Undisputed Canelo', 'Gorra negra Undisputed Canelo con banderas.')
+]
 
-def get_b64(path, ext):
+new_products = []
+for i, (filename, name, desc) in enumerate(images):
+    path = os.path.join(dir_path, filename)
     with open(path, 'rb') as f:
-        return f"data:image/{ext};base64," + base64.b64encode(f.read()).decode('utf-8')
+        img_b64 = "data:image/png;base64," + base64.b64encode(f.read()).decode('utf-8')
+    
+    new_products.append({
+        "id": 201 + i,
+        "name": name,
+        "category": "caps",
+        "price": 400,
+        "tag": "Nuevo",
+        "tagClass": "badge-cream",
+        "image1": img_b64,
+        "desc": desc,
+        "options": ["Unitalla"]
+    })
 
-p1 = {
-    "id": 103,
-    "name": "Gorra Scream Flamas Negras",
-    "category": "caps",
-    "price": 400,
-    "tag": "Exclusivo",
-    "tagClass": "badge-cream",
-    "image1": get_b64(img1_path, 'jpeg'),
-    "desc": "Gorra con dise\u00f1o de Scream y flamas bordadas. Estilo \u00fanico y atrevido.",
-    "options": ["Unitalla"]
-}
-
-p2 = {
-    "id": 104,
-    "name": "Gorra LALALA Rosa",
-    "category": "caps",
-    "price": 400,
-    "tag": "Nuevo",
-    "tagClass": "badge-cream",
-    "image1": get_b64(img2_path, 'jpeg'),
-    "desc": "Gorra estilo trucker color rosa con dise\u00f1o LALALA y detalles bordados en la malla.",
-    "options": ["Unitalla"]
-}
-
-p3 = {
-    "id": 105,
-    "name": "Gorra Canelo Undisputed",
-    "category": "caps",
-    "price": 400,
-    "tag": "Premium",
-    "tagClass": "badge-cream",
-    "image1": get_b64(img3_path, 'jpeg'),
-    "desc": "Gorra edici\u00f3n especial Undisputed CA, color negro con detalles de banderas.",
-    "options": ["Unitalla"]
-}
-
-p4 = {
-    "id": 106,
-    "name": "Gorra Houston Dandy Nubes",
-    "category": "caps",
-    "price": 400,
-    "tag": "Trending",
-    "tagClass": "badge-cream",
-    "image1": get_b64(img4_path, 'png'),
-    "desc": "Gorra color negro con dise\u00f1o de nubes, letra H frontal y detalle lateral.",
-    "options": ["Unitalla"]
-}
-
-p5 = {
-    "id": 107,
-    "name": "Gorra LA Azul Flamas",
-    "category": "caps",
-    "price": 400,
-    "tag": "Streetwear",
-    "tagClass": "badge-cream",
-    "image1": get_b64(img5_path, 'png'),
-    "desc": "Gorra negra con detalles y logo LA en color azul estilo flamas y rhinestones.",
-    "options": ["Unitalla"]
-}
-
-with open('js/main.js', 'r') as f:
-    main_js = f.read()
-
-new_items = ",\n" + json.dumps(p1, indent=4) + ",\n" + json.dumps(p2, indent=4) + ",\n" + json.dumps(p3, indent=4) + ",\n" + json.dumps(p4, indent=4) + ",\n" + json.dumps(p5, indent=4)
-
-products_end_idx = main_js.find('];\n\n        let activeCategory')
-if products_end_idx != -1:
-    new_main_js = main_js[:products_end_idx] + new_items + "\n    " + main_js[products_end_idx:]
-    with open('js/main.js', 'w') as f:
-        f.write(new_main_js)
-    print("Added 5 caps to main.js")
-else:
-    print("Could not find insertion point")
+for filepath in ['js/main.js', 'deploy_site/js/main.js']:
+    try:
+        with open(filepath, 'r', encoding='utf-8') as f:
+            content = f.read()
+            
+        match = re.search(r'const products = (\[.*?\]);', content, re.DOTALL)
+        if match:
+            products = json.loads(match.group(1))
+            
+            # Avoid duplicates
+            existing_ids = {p['id'] for p in products}
+            to_add = [p for p in new_products if p['id'] not in existing_ids]
+            
+            if to_add:
+                products.extend(to_add)
+                
+                cat_order = {
+                    'essentials_hoodies': 1,
+                    'hoodies': 2,
+                    'streetwear': 3,
+                    'chains': 4,
+                    'caps': 5,
+                    'combos': 6
+                }
+                products.sort(key=lambda p: cat_order.get(p.get('category', ''), 99))
+                
+                new_json = json.dumps(products, indent=4)
+                new_content = content[:match.start(1)] + new_json + content[match.end(1):]
+                
+                with open(filepath, 'w', encoding='utf-8') as f:
+                    f.write(new_content)
+                print(f"Added {len(to_add)} caps to {filepath}")
+            else:
+                print(f"Caps already exist in {filepath}")
+    except Exception as e:
+        print(f"Error processing {filepath}: {e}")

@@ -230,7 +230,7 @@
             }
 
             const categoryNames = {
-                'hoodies': 'Solo Sudaderas',
+                'hoodies': 'Sudaderas Essentials',
                 'chains': 'Solo Plata .925',
                 'caps': 'Solo Gorras',
                 'combos': 'Combos Especiales',

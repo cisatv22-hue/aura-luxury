@@ -261,7 +261,6 @@
         function renderProducts() {
             const container = document.getElementById('product-grid');
             container.innerHTML = '';
-            const template = document.getElementById('product-card-template');
 
             let filtered = products.filter(p => {
                 const matchesCat = activeCategory === 'all' || p.category === activeCategory;
@@ -283,76 +282,47 @@
             }
 
             filtered.forEach((product, index) => {
-                const clone = template.content.cloneNode(true);
-                const card = clone.querySelector('.product-card');
+                const card = document.createElement('div');
+                card.className = "group bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden metallic-border transition-all duration-300 flex flex-col justify-between reveal-up";
+                card.style.transitionDelay = `${index * 100}ms`;
+                
+                card.innerHTML = `
+                    <div class="img-container relative w-full h-80 bg-zinc-900/60 cursor-pointer flex items-center justify-center p-4" onclick="openModal(${product.id})">
+                        <span class="absolute top-3 left-3 z-10 text-[9px] font-black uppercase tracking-widest ${product.tagClass} px-2.5 py-1 rounded-sm shadow-md">
+                            ${product.tag}
+                        </span>
+                        
+                        <img src="${product.image1}" alt="${product.name}" class="w-full h-full object-contain">
+                        
+                        <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-neutral-950 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center">
+                            <span class="text-[9px] font-black uppercase tracking-widest text-white bg-black/90 border border-zinc-700 px-4 py-2 rounded-sm hover:bg-white hover:text-black transition-all">
+                                Vista Rápida
+                            </span>
+                        </div>
+                    </div>
 
-                const imgTrigger = clone.querySelector('.product-img-trigger');
-                imgTrigger.onclick = () => openModal(product.id);
+                    <div class="p-5 flex-grow flex flex-col justify-between bg-zinc-900/40">
+                        <div>
+                            <h3 class="text-xs font-black uppercase tracking-tight text-white group-hover:text-zinc-300 transition-colors cursor-pointer" onclick="openModal(${product.id})">
+                                ${product.name}
+                            </h3>
+                            <p class="text-base font-black text-amber-200 mt-2">$${product.price.toLocaleString('es-MX')}.00 MXN</p>
+                        </div>
 
-                const tag = clone.querySelector('.product-tag');
-                tag.textContent = product.tag;
-                if (product.tagClass) {
-                    tag.classList.add(product.tagClass);
+                        <button onclick="quickAddToCart(${product.id})" class="mt-5 w-full py-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-zinc-200 hover:text-white text-[11px] uppercase font-black tracking-wider transition-all rounded">
+                            + Agregar al Carrito
+                        </button>
+                    </div>
+                `;
+                container.appendChild(card);
+                if (window.scrollObserver) {
+                    window.scrollObserver.observe(card);
                 }
-
-                const img = clone.querySelector('.product-image');
-                img.src = product.image1;
-                img.alt = product.name;
-
-                const name = clone.querySelector('.product-name');
-                name.textContent = product.name;
-                name.onclick = () => openModal(product.id);
-
-                const price = clone.querySelector('.product-price');
-                price.textContent = `$${product.price.toLocaleString('es-MX')}.00 MXN`;
-
-                const cartBtn = clone.querySelector('.add-to-cart-btn');
-                cartBtn.onclick = () => quickAddToCart(product.id);
-
-                const buyBtn = clone.querySelector('.buy-direct-btn');
-                buyBtn.onclick = () => checkoutDirectWhatsApp(product.id);
-
-                container.appendChild(clone);
             });
-        }
-
-        function checkoutDirectWhatsApp(id) {
-            const product = products.find(p => p.id === id);
-            if (!product) return;
-            
-            let text = `Hola AURA LUXURY, me interesa realizar la compra directa del siguiente producto:\n\n`;
-            text += `• ${product.name} - $${product.price} MXN\n\n`;
-            text += `¿Me podrías proporcionar los datos para transferencia o pago?`;
-            
-            const encoded = encodeURIComponent(text);
-            window.open(`https://wa.me/525636196042?text=${encoded}`, '_blank');
         }
 
         function filterCategory(cat) {
             activeCategory = cat;
-            
-            const titleMap = {
-                'all': 'Catálogo Completo',
-                'hoodies': 'Sudaderas',
-                'chains': 'Cadenas Plata .925',
-                'caps': 'Gorras',
-                'combos': 'Combos Especiales'
-            };
-            const titleEl = document.getElementById('catalogo-title');
-            if (titleEl) {
-                titleEl.textContent = titleMap[cat] || 'Catálogo';
-            }
-            
-            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
-                if (btn.getAttribute('onclick') === `filterCategory('${cat}')`) {
-                    btn.classList.remove('border-zinc-800', 'text-zinc-400');
-                    btn.classList.add('active-cat', 'bg-white', 'text-black', 'border-white');
-                } else {
-                    btn.classList.remove('active-cat', 'bg-white', 'text-black', 'border-white');
-                    btn.classList.add('border-zinc-800', 'text-zinc-400');
-                }
-            });
-
             renderProducts();
         }
 
@@ -400,14 +370,6 @@
 
             document.getElementById('modal-add-btn').onclick = () => {
                 addToCart(product.id, selectedOption);
-                closeModal();
-            };
-
-            document.getElementById('modal-buy-wa-btn').onclick = () => {
-                const waNumber = '525636196042';
-                const message = `Hola Aura Luxury, me interesa comprar el producto: *${product.name}* en talla/medida *${selectedOption}*. Precio: $${product.price} MXN.`;
-                const waUrl = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
-                window.open(waUrl, '_blank');
                 closeModal();
             };
 
@@ -557,6 +519,18 @@
             document.getElementById('close-modal').addEventListener('click', closeModal);
             document.getElementById('modal-backdrop').addEventListener('click', closeModal);
 
+            // threshold 0: reveal as soon as the element enters the screen. A percentage threshold never fires for
+            // sections taller than the viewport (the catalog is ~9000px tall on phones), leaving them at opacity 0.
+            window.scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                        window.scrollObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
+
+            document.querySelectorAll('.reveal-up').forEach(el => window.scrollObserver.observe(el));
         }
 
         function toggleMobileMenu() {
@@ -594,7 +568,3 @@
             const encoded = encodeURIComponent(text);
             window.open(`https://wa.me/525636196042?text=${encoded}`, '_blank');
         }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            renderProducts();
-        });

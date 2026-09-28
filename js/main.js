@@ -246,6 +246,21 @@
 
         function filterCategory(cat) {
             activeCategory = cat;
+            
+            // Update button styles
+            const buttons = document.querySelectorAll('.cat-filter-btn');
+            buttons.forEach(btn => {
+                if (btn.getAttribute('onclick') === `filterCategory('${cat}')`) {
+                    // Make it active
+                    btn.classList.add('active-cat', 'border-white', 'bg-white', 'text-black');
+                    btn.classList.remove('border-zinc-800', 'text-zinc-400', 'hover:text-white', 'hover:border-zinc-600');
+                } else {
+                    // Make it inactive
+                    btn.classList.remove('active-cat', 'border-white', 'bg-white', 'text-black');
+                    btn.classList.add('border-zinc-800', 'text-zinc-400', 'hover:text-white', 'hover:border-zinc-600');
+                }
+            });
+            
             renderProducts();
         }
 

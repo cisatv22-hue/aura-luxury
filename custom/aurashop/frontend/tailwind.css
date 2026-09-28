@@ -1,0 +1,84 @@
+/* AURA design system. Inlined by public/AuraShop/index.php as <style type="text/tailwindcss"> for the Tailwind Play CDN. */
+
+@layer base {
+  html {
+    background-color: theme('colors.brand.bg');
+  }
+  body {
+    @apply bg-brand-bg font-sans text-slate-50 antialiased;
+    overflow-x: hidden;
+  }
+  ::selection {
+    @apply bg-white text-black;
+  }
+  :focus-visible {
+    outline: 2px solid theme('colors.brand.silver');
+    outline-offset: 3px;
+  }
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: theme('colors.brand.bg');
+  }
+  ::-webkit-scrollbar-thumb {
+    background: theme('colors.brand.border');
+    border-radius: 3px;
+  }
+}
+
+@layer components {
+  .silver-text {
+    background: linear-gradient(135deg, #ffffff 0%, #e2e8f0 40%, #94a3b8 70%, #ffffff 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .glass {
+    background: rgba(8, 8, 10, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+  .metallic-border {
+    border: 1px solid rgba(226, 232, 240, 0.15);
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  .metallic-border:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 25px rgba(255, 255, 255, 0.12);
+  }
+  .eyebrow {
+    @apply text-[11px] font-extrabold uppercase tracking-[0.25em] text-zinc-500;
+  }
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded px-6 py-3.5 text-xs font-black uppercase tracking-luxe transition-all disabled:cursor-not-allowed disabled:opacity-40;
+  }
+  .btn-primary {
+    @apply btn bg-white text-black hover:bg-zinc-200;
+  }
+  .btn-outline {
+    @apply btn border border-zinc-800 bg-zinc-900 text-zinc-200 hover:border-zinc-500 hover:text-white;
+  }
+  .btn-whatsapp {
+    @apply btn bg-emerald-600 text-white hover:bg-emerald-500;
+  }
+  .chip {
+    @apply rounded-sm border px-4 py-2 text-[11px] font-extrabold uppercase tracking-wider transition-all;
+  }
+  .chip-on {
+    @apply chip border-white bg-white text-black;
+  }
+  .chip-off {
+    @apply chip border-zinc-800 text-zinc-400 hover:border-zinc-600 hover:text-white;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

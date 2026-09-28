@@ -271,7 +271,7 @@
             setupEventListeners();
         });
 
-        function renderProducts() {
+                function renderProducts() {
             const container = document.getElementById('product-grid');
             container.innerHTML = '';
 
@@ -294,10 +294,29 @@
                 return;
             }
 
+            const categoryNames = {
+                'hoodies': 'Solo Sudaderas',
+                'chains': 'Solo Plata .925',
+                'caps': 'Solo Gorras',
+                'combos': 'Combos Especiales',
+                'streetwear': 'Streetwear Exclusivo'
+            };
+
+            let currentCategory = null;
+
             filtered.forEach((product, index) => {
+                // If showing all products (or searching), group by category
+                if (activeCategory === 'all' && product.category !== currentCategory) {
+                    currentCategory = product.category;
+                    const catTitle = document.createElement('div');
+                    catTitle.className = 'col-span-full mt-10 mb-2 border-b border-zinc-800 pb-2 reveal-up';
+                    catTitle.innerHTML = `<h3 class="text-xl font-black uppercase tracking-widest text-amber-50">${categoryNames[currentCategory] || currentCategory}</h3>`;
+                    container.appendChild(catTitle);
+                }
+
                 const card = document.createElement('div');
                 card.className = "group bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden metallic-border transition-all duration-300 flex flex-col justify-between reveal-up";
-                card.style.transitionDelay = `${index * 100}ms`;
+                card.style.transitionDelay = `${(index % 4) * 100}ms`;
                 
                 card.innerHTML = `
                     <div class="img-container relative w-full h-80 bg-zinc-900/60 cursor-pointer flex items-center justify-center p-4" onclick="openModal(${product.id})">

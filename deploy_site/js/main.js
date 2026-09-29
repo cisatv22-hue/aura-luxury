@@ -436,7 +436,15 @@
 
         function filterCategory(cat) {
             const grid = document.getElementById('product-grid');
-            if (grid) grid.style.display = 'grid';
+            const specialView = document.getElementById('essentials-special-view');
+            
+            if (cat === 'essentials_hoodies') {
+                if(grid) grid.style.display = 'none';
+                if(specialView) specialView.style.display = 'block';
+            } else {
+                if(grid) grid.style.display = 'grid';
+                if(specialView) specialView.style.display = 'none';
+            }
 
             activeCategory = cat;
             

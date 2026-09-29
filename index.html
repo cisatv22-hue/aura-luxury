@@ -616,6 +616,18 @@
             'total_black': 'model_total_black.png'
         };
 
+        // Preload model images so color change is instant
+        Object.values(unifiedModelImages).forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
+        // Preload model images so color change is instant
+        Object.values(unifiedModelImages).forEach(src => {
+            const img = new Image();
+            img.src = src;
+        });
+
         const unifiedColorNames = {
             'cream': 'CREMA',
             'white': 'BLANCO',

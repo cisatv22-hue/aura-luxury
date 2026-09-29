@@ -279,7 +279,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                 <!-- Lookbook Editorial Photo Banner -->
                 <div class="lg:col-span-7 relative h-[560px] bg-zinc-900 overflow-hidden rounded border border-zinc-800 group shadow-2xl">
-                    <img src="combo_3pieces.png" 
+                    <img id="combo-image" src="combo_3pieces.png" 
                          alt="Essentials + Silver Combo Editorial" 
                          class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700">
                     <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/30 to-transparent"></div>
@@ -287,6 +287,13 @@
                         <span class="text-[10px] tracking-[0.2em] font-black uppercase text-black bg-amber-300 px-3 py-1 rounded-sm">Combo Oficial #1</span>
                         <h3 class="font-display text-2xl sm:text-3xl font-black text-white uppercase mt-2">Sudadera Crema + Cadena Cubana</h3>
                         <p class="text-xs text-zinc-300 mt-1">El combo de lujo: Sudadera Heavyweight Cream ($890) + Cadena Cubana Plata ($1,500)</p>
+                        <div class="flex items-center gap-3 mt-4">
+                            <button onclick="changeComboColor('combo_grey.png')" class="w-6 h-6 rounded-full bg-zinc-400 border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-zinc-400 focus:ring-offset-2 focus:ring-offset-zinc-900"></button>
+                            <button onclick="changeComboColor('combo_white.jpg')" class="w-6 h-6 rounded-full bg-white border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-zinc-900"></button>
+                            <button onclick="changeComboColor('combo_black.jpg')" class="w-6 h-6 rounded-full bg-black border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2 focus:ring-offset-zinc-900"></button>
+                            <button onclick="changeComboColor('combo_green.jpg')" class="w-6 h-6 rounded-full bg-green-900 border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-green-900 focus:ring-offset-2 focus:ring-offset-zinc-900"></button>
+                            <button onclick="changeComboColor('combo_beige.png')" class="w-6 h-6 rounded-full bg-[#E5E0D8] border border-zinc-600 focus:outline-none focus:ring-2 focus:ring-[#E5E0D8] focus:ring-offset-2 focus:ring-offset-zinc-900"></button>
+                        </div>
                     </div>
                 </div>
 
@@ -498,6 +505,12 @@
             if (images[color]) {
                 img.src = images[color];
             }
+        }
+    </script>
+
+    <script>
+        function changeComboColor(imgSrc) {
+            document.getElementById('combo-image').src = imgSrc;
         }
     </script>
 </body>

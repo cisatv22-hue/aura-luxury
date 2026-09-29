@@ -45,6 +45,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <link rel="stylesheet" href="css/styles.css">
+    <link rel="preload" href="model_crema.png" as="image">
+    <link rel="preload" href="model_blanco.png" as="image">
+    <link rel="preload" href="model_gris.png" as="image">
+    <link rel="preload" href="model_negro.png" as="image">
+    <link rel="preload" href="model_verde.png" as="image">
+    <link rel="preload" href="model_total_black.png" as="image">
 </head>
 <body class="antialiased selection:bg-white selection:text-black flex flex-col min-h-screen">
 
@@ -158,7 +164,14 @@
                 <!-- Image Container with floating effect -->
                 <div class="relative group flex justify-center">
                     <div class="absolute inset-0 bg-red-600/20 rounded-full blur-[100px] group-hover:bg-red-500/30 transition-all duration-700"></div>
-                    <img id="hero-img" src="hero_essentials.png" alt="Essentials Fear of God" class="relative z-10 w-full max-w-lg object-contain drop-shadow-2xl hover:scale-105 transition-transform duration-700 ease-out transform translate-y-0 hover:-translate-y-4">
+                    <div class="relative z-10 w-full max-w-lg h-[400px] sm:h-[500px] flex items-center justify-center">
+                        <img id="hero-img-blanco" src="hero_essentials.png" alt="Essentials Fear of God Blanco" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 opacity-100 z-10">
+                        <img id="hero-img-negro" src="hero_essentials_black.png" alt="Essentials Fear of God Negro" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 opacity-0 z-0 pointer-events-none">
+                        <img id="hero-img-beige" src="hero_essentials_beige.png" alt="Essentials Fear of God Beige" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 opacity-0 z-0 pointer-events-none">
+                        <img id="hero-img-gris" src="hero_essentials_grey.png" alt="Essentials Fear of God Gris" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 opacity-0 z-0 pointer-events-none">
+                        <img id="hero-img-verde" src="hero_essentials_green.png" alt="Essentials Fear of God Verde" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 opacity-0 z-0 pointer-events-none">
+                        <img id="hero-img-totalblack" src="hero_essentials_totalblack.png" alt="Essentials Fear of God Total Black" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 opacity-0 z-0 pointer-events-none">
+                    </div>
                 </div>
                 
                 <!-- Content -->
@@ -268,16 +281,26 @@
         <div id="essentials-special-view" class="hidden mb-16">
             <div class="grid grid-cols-1 lg:grid-cols-2 bg-[#0a0a0a] rounded-xl overflow-hidden shadow-2xl">
                 <!-- Left side: Model Image -->
-                <div class="h-full relative bg-black">
-                    <img id="unified-model-img" src="model_crema.png" class="w-full h-[500px] lg:h-full object-cover object-top">
+                <div class="h-full relative bg-black min-h-[500px] overflow-hidden">
+                    <img id="unified-model-cream" src="model_crema.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 transition-opacity duration-150 opacity-100 z-10">
+                    <img id="unified-model-white" src="model_blanco.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                    <img id="unified-model-grey" src="model_gris.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                    <img id="unified-model-black" src="model_negro.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                    <img id="unified-model-green" src="model_verde.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                    <img id="unified-model-total_black" src="model_total_black.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
                 </div>
                 <!-- Right side: Details -->
                 <div class="p-8 lg:p-12 xl:p-16 flex flex-col justify-center border-l border-zinc-900">
                     <div class="text-right text-[9px] font-black text-zinc-500 tracking-[0.2em] uppercase mb-8">ESSENTIALS • FEAR OF GOD</div>
                     
                     <!-- Flat Image Box -->
-                    <div class="border border-[#3d1a1a] rounded-lg p-1 mb-8 bg-[#050505] w-full max-w-sm transition-all hover:border-red-900">
-                        <img id="unified-flat-img" src="" class="w-full h-40 object-cover rounded">
+                    <div class="border border-[#3d1a1a] rounded-lg p-1 mb-8 bg-[#050505] w-full max-w-sm transition-all hover:border-red-900 relative h-40 overflow-hidden">
+                        <img id="unified-flat-cream" class="unified-flat-img-item w-full h-40 object-cover rounded absolute inset-0 transition-opacity duration-150 opacity-100 z-10">
+                        <img id="unified-flat-white" class="unified-flat-img-item w-full h-40 object-cover rounded absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                        <img id="unified-flat-grey" class="unified-flat-img-item w-full h-40 object-cover rounded absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                        <img id="unified-flat-black" class="unified-flat-img-item w-full h-40 object-cover rounded absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                        <img id="unified-flat-green" class="unified-flat-img-item w-full h-40 object-cover rounded absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
+                        <img id="unified-flat-total_black" class="unified-flat-img-item w-full h-40 object-cover rounded absolute inset-0 transition-opacity duration-150 opacity-0 z-0 pointer-events-none">
                     </div>
 
                     <h4 class="text-xl sm:text-2xl font-black text-white uppercase tracking-widest mb-4">SUDADERA ESSENTIALS FEAR OF GOD</h4>
@@ -580,17 +603,14 @@
 
     <script>
         function changeHeroColor(color) {
-            const img = document.getElementById('hero-img');
-            const images = {
-                'blanco': 'hero_essentials.png',
-                'negro': 'hero_essentials_black.png',
-                'beige': 'hero_essentials_beige.png',
-                'gris': 'hero_essentials_grey.png',
-                'verde': 'hero_essentials_green.png',
-                'totalblack': 'hero_essentials_totalblack.png'
-            };
-            if (images[color]) {
-                img.src = images[color];
+            document.querySelectorAll('.hero-img-item').forEach(img => {
+                img.classList.remove('opacity-100', 'z-10');
+                img.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+            });
+            const target = document.getElementById('hero-img-' + color);
+            if (target) {
+                target.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+                target.classList.add('opacity-100', 'z-10');
             }
         }
     </script>
@@ -616,13 +636,7 @@
             'total_black': 'model_total_black.png'
         };
 
-        // Preload model images so color change is instant
-        Object.values(unifiedModelImages).forEach(src => {
-            const img = new Image();
-            img.src = src;
-        });
-
-        // Preload model images so color change is instant
+        // Preload model images
         Object.values(unifiedModelImages).forEach(src => {
             const img = new Image();
             img.src = src;
@@ -640,15 +654,36 @@
         let currentUnifiedColor = 'CREMA';
         let currentUnifiedSize = 'L'; // Default
 
-        // Initialize flat image on load
+        // Initialize flat images on load
         window.addEventListener('DOMContentLoaded', () => {
-            const flatImg = document.getElementById('unified-flat-img');
-            if (flatImg) flatImg.src = unifiedImages['cream'];
+            Object.keys(unifiedImages).forEach(key => {
+                const flatImg = document.getElementById('unified-flat-' + key);
+                if (flatImg) flatImg.src = unifiedImages[key];
+            });
         });
 
         function selectUnifiedColor(colorKey, btnElement) {
-            document.getElementById('unified-model-img').src = unifiedModelImages[colorKey];
-            document.getElementById('unified-flat-img').src = unifiedImages[colorKey];
+            // Switch model image instantly
+            document.querySelectorAll('.unified-model-img').forEach(img => {
+                img.classList.remove('opacity-100', 'z-10');
+                img.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+            });
+            const targetModel = document.getElementById('unified-model-' + colorKey);
+            if (targetModel) {
+                targetModel.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+                targetModel.classList.add('opacity-100', 'z-10');
+            }
+
+            // Switch flat image instantly
+            document.querySelectorAll('.unified-flat-img-item').forEach(img => {
+                img.classList.remove('opacity-100', 'z-10');
+                img.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+            });
+            const targetFlat = document.getElementById('unified-flat-' + colorKey);
+            if (targetFlat) {
+                targetFlat.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+                targetFlat.classList.add('opacity-100', 'z-10');
+            }
             
             currentUnifiedColor = unifiedColorNames[colorKey];
             document.getElementById('unified-color-name').innerText = currentUnifiedColor;

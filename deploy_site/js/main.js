@@ -663,15 +663,16 @@
             document.getElementById('close-modal').addEventListener('click', closeModal);
             document.getElementById('modal-backdrop').addEventListener('click', closeModal);
 
+            // threshold 0: reveal as soon as the element enters the screen. A percentage threshold never fires for
+            // sections taller than the viewport (the catalog is ~9000px tall on phones), leaving them at opacity 0.
             window.scrollObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
-                        // Optional: stop observing once revealed
-                        // window.scrollObserver.unobserve(entry.target);
+                        window.scrollObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
 
             document.querySelectorAll('.reveal-up').forEach(el => window.scrollObserver.observe(el));
         }

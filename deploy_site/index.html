@@ -493,13 +493,7 @@
                 'verde': 'hero_essentials_green.png'
             };
             if (images[color]) {
-                img.style.opacity = '0';
-                img.style.transform = 'translateY(10px) scale(0.95)';
-                setTimeout(() => {
-                    img.src = images[color];
-                    img.style.opacity = '1';
-                    img.style.transform = 'translateY(0) scale(1)';
-                }, 300);
+                img.src = images[color];
             }
         }
     </script>

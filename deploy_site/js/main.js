@@ -435,6 +435,8 @@
         function filterCategory(cat) {
             const grid = document.getElementById('product-grid');
             const specialView = document.getElementById('essentials-special-view');
+            const newDropSection = document.getElementById('new-drop-section');
+            const lookbookSection = document.getElementById('lookbook');
             
             if (cat === 'essentials_hoodies') {
                 if(grid) grid.style.display = 'none';
@@ -442,6 +444,14 @@
             } else {
                 if(grid) grid.style.display = 'grid';
                 if(specialView) specialView.style.display = 'none';
+            }
+
+            if (cat === 'all') {
+                if (newDropSection) newDropSection.style.display = 'block';
+                if (lookbookSection) lookbookSection.style.display = 'block';
+            } else {
+                if (newDropSection) newDropSection.style.display = 'none';
+                if (lookbookSection) lookbookSection.style.display = 'none';
             }
 
             activeCategory = cat;

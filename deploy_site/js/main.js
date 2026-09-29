@@ -706,5 +706,5 @@
             text += `\nSubtotal: $${total} MXN\n¿Me podrías proporcionar los datos para transferencia o pago?`;
             
             const encoded = encodeURIComponent(text);
-            window.open(`https://wa.me/?text=${encoded}`, '_blank');
+            window.open(`https://wa.me/525636196042?text=${encoded}`, '_blank');
         }

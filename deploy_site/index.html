@@ -265,61 +265,71 @@
         <!-- Unified Product View for Essentials Hoodies -->
         <div id="essentials-special-view" class="hidden mb-16">
             <div class="grid grid-cols-1 lg:grid-cols-2 bg-[#0a0a0a] rounded-xl overflow-hidden shadow-2xl">
-                <!-- Left side: Model Image -->
-                <div class="h-full relative bg-black">
-                    <img id="unified-model-img" src="model_crema.png" class="w-full h-[500px] lg:h-full object-cover object-top">
+                <!-- Left side: Model Image. On mobile it is a swipeable gallery (model + flat photo) with dots. -->
+                <div class="relative bg-black lg:h-full">
+                    <div id="unified-gallery" class="flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block lg:h-full lg:overflow-visible">
+                        <img id="unified-model-img" src="model_crema.png" alt="Sudadera Essentials Fear of God puesta" class="w-full shrink-0 snap-center aspect-[4/5] object-cover object-top lg:aspect-auto lg:h-full">
+                        <img id="unified-flat-img-mobile" src="" alt="Sudadera Essentials Fear of God" class="w-full shrink-0 snap-center aspect-[4/5] object-contain bg-[#050505] lg:hidden">
+                    </div>
+                    <div id="unified-dots" class="flex justify-center gap-1.5 py-3 lg:hidden" aria-hidden="true">
+                        <span class="unified-dot h-1.5 w-6 rounded-full bg-white transition-all"></span>
+                        <span class="unified-dot h-1.5 w-1.5 rounded-full bg-zinc-600 transition-all"></span>
+                    </div>
                 </div>
                 <!-- Right side: Details -->
-                <div class="p-8 lg:p-12 xl:p-16 flex flex-col justify-center border-l border-zinc-900">
-                    <div class="text-right text-[9px] font-black text-zinc-500 tracking-[0.2em] uppercase mb-8">ESSENTIALS • FEAR OF GOD</div>
-                    
+                <div class="px-4 pb-8 pt-2 sm:p-8 lg:p-12 xl:p-16 flex flex-col justify-center lg:border-l border-zinc-900">
+                    <div class="hidden lg:block text-right text-[9px] font-black text-zinc-500 tracking-[0.2em] uppercase mb-8">ESSENTIALS • FEAR OF GOD</div>
+
+                    <!-- Mobile: color thumbnails (flat photos already embedded in the page, no extra download) -->
+                    <div id="unified-thumbs" class="flex gap-3 overflow-x-auto pb-2 mb-6 -mx-4 px-4 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:hidden" role="group" aria-label="Colores"></div>
+
                     <!-- Flat Image Box -->
-                    <div class="border border-[#3d1a1a] rounded-lg p-1 mb-8 bg-[#050505] w-full max-w-sm transition-all hover:border-red-900">
-                        <img id="unified-flat-img" src="" class="w-full h-40 object-cover rounded">
+                    <div class="hidden lg:block border border-[#3d1a1a] rounded-lg p-1 mb-8 bg-[#050505] w-full max-w-sm transition-all hover:border-red-900">
+                        <img id="unified-flat-img" src="" alt="Sudadera Essentials Fear of God" class="w-full h-40 object-cover rounded">
                     </div>
 
                     <h4 class="text-xl sm:text-2xl font-black text-white uppercase tracking-widest mb-4">SUDADERA ESSENTIALS FEAR OF GOD</h4>
-                    <div class="text-xl font-bold text-white mb-10">$650 MXN</div>
+                    <div class="text-xl font-bold text-white mb-6 lg:mb-10">$650 MXN</div>
 
-                    <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-4">COLOR — <span id="unified-color-name" class="text-white">CREMA</span></p>
-                    <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-10">
+                    <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-6 lg:mb-4">COLOR — <span id="unified-color-name" class="text-white">CREMA</span></p>
+                    <div class="hidden lg:grid lg:grid-cols-3 gap-3 mb-10">
                         <!-- Color Pills -->
-                        <button onclick="selectUnifiedColor('cream', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-white text-white transition-all focus:outline-none">
+                        <button data-color="cream" onclick="selectUnifiedColor('cream', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-white text-white transition-all focus:outline-none">
                             <span class="w-4 h-4 rounded-full bg-[#a39480]"></span>
                             <span class="text-[10px] font-bold tracking-widest uppercase">CREMA</span>
                         </button>
-                        <button onclick="selectUnifiedColor('white', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
+                        <button data-color="white" onclick="selectUnifiedColor('white', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
                             <span class="w-4 h-4 rounded-full bg-[#FFFFFF]"></span>
                             <span class="text-[10px] font-bold tracking-widest uppercase">BLANCO</span>
                         </button>
-                        <button onclick="selectUnifiedColor('grey', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
+                        <button data-color="grey" onclick="selectUnifiedColor('grey', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
                             <span class="w-4 h-4 rounded-full bg-[#9f9e9e]"></span>
                             <span class="text-[10px] font-bold tracking-widest uppercase">GRIS</span>
                         </button>
-                        <button onclick="selectUnifiedColor('black', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
+                        <button data-color="black" onclick="selectUnifiedColor('black', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
                             <span class="w-4 h-4 rounded-full bg-[#1a1a1a]"></span>
                             <span class="text-[10px] font-bold tracking-widest uppercase">NEGRO</span>
                         </button>
-                        <button onclick="selectUnifiedColor('green', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
+                        <button data-color="green" onclick="selectUnifiedColor('green', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
                             <span class="w-4 h-4 rounded-full bg-[#1B3E32]"></span>
                             <span class="text-[10px] font-bold tracking-widest uppercase">VERDE</span>
                         </button>
-                        <button onclick="selectUnifiedColor('total_black', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
+                        <button data-color="total_black" onclick="selectUnifiedColor('total_black', this)" class="unified-color-btn flex items-center gap-3 px-4 py-2.5 rounded-full border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">
                             <span class="w-4 h-4 rounded-full bg-[#050505]"></span>
                             <span class="text-[10px] font-bold tracking-widest uppercase">TOTAL BLACK</span>
                         </button>
                     </div>
 
                     <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-4">TALLA — <span id="unified-size-name" class="text-white">L</span></p>
-                    <div class="flex gap-3 mb-12">
-                        <button onclick="selectUnifiedSize('S', this)" class="unified-size-btn w-14 h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">S</button>
-                        <button onclick="selectUnifiedSize('M', this)" class="unified-size-btn w-14 h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">M</button>
-                        <button onclick="selectUnifiedSize('L', this)" class="unified-size-btn w-14 h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-white text-white transition-all focus:outline-none">L</button>
-                        <button onclick="selectUnifiedSize('XL', this)" class="unified-size-btn w-14 h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">XL</button>
+                    <div class="grid grid-cols-4 gap-3 mb-8 lg:flex lg:mb-12">
+                        <button onclick="selectUnifiedSize('S', this)" class="unified-size-btn h-12 lg:w-14 lg:h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">S</button>
+                        <button onclick="selectUnifiedSize('M', this)" class="unified-size-btn h-12 lg:w-14 lg:h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">M</button>
+                        <button onclick="selectUnifiedSize('L', this)" class="unified-size-btn h-12 lg:w-14 lg:h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-white text-white transition-all focus:outline-none">L</button>
+                        <button onclick="selectUnifiedSize('XL', this)" class="unified-size-btn h-12 lg:w-14 lg:h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">XL</button>
                     </div>
 
                     <!-- Add to cart -->
-                    <button onclick="addUnifiedToCart()" class="w-full bg-white text-black font-extrabold text-sm uppercase tracking-widest rounded-lg py-4 transition-all hover:bg-zinc-200 active:scale-[0.98] mb-8 flex items-center justify-center gap-3">
+                    <button onclick="addUnifiedToCart()" class="w-full bg-white text-black font-extrabold text-sm uppercase tracking-widest rounded-full lg:rounded-lg py-4 transition-all hover:bg-zinc-200 active:scale-[0.98] mb-8 flex items-center justify-center gap-3">
                         ADD TO CART <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                     
@@ -626,26 +636,69 @@
         let currentUnifiedColor = 'CREMA';
         let currentUnifiedSize = 'L'; // Default
 
-        // Initialize flat image on load
+        // Initialize flat images, mobile thumbnails and gallery dots on load
         window.addEventListener('DOMContentLoaded', () => {
             const flatImg = document.getElementById('unified-flat-img');
             if (flatImg) flatImg.src = unifiedImages['cream'];
+            const flatMobile = document.getElementById('unified-flat-img-mobile');
+            if (flatMobile) flatMobile.src = unifiedImages['cream'];
+
+            const thumbs = document.getElementById('unified-thumbs');
+            if (thumbs) {
+                Object.keys(unifiedImages).forEach(key => {
+                    const btn = document.createElement('button');
+                    btn.type = 'button';
+                    btn.dataset.color = key;
+                    btn.setAttribute('aria-label', unifiedColorNames[key]);
+                    btn.className = 'unified-color-thumb shrink-0 w-24 h-24 rounded-lg overflow-hidden border-2 bg-[#050505] transition-all focus:outline-none ' + (key === 'cream' ? 'border-white' : 'border-zinc-800');
+                    const img = document.createElement('img');
+                    img.src = unifiedImages[key];
+                    img.alt = '';
+                    img.className = 'w-full h-full object-cover';
+                    btn.appendChild(img);
+                    btn.addEventListener('click', () => selectUnifiedColor(key));
+                    thumbs.appendChild(btn);
+                });
+            }
+
+            const gallery = document.getElementById('unified-gallery');
+            if (gallery) {
+                gallery.addEventListener('scroll', () => {
+                    const index = Math.round(gallery.scrollLeft / gallery.clientWidth);
+                    document.querySelectorAll('.unified-dot').forEach((dot, i) => {
+                        dot.classList.toggle('w-6', i === index);
+                        dot.classList.toggle('bg-white', i === index);
+                        dot.classList.toggle('w-1.5', i !== index);
+                        dot.classList.toggle('bg-zinc-600', i !== index);
+                    });
+                }, { passive: true });
+            }
         });
 
-        function selectUnifiedColor(colorKey, btnElement) {
+        // Called from the desktop color pills and the mobile thumbnails; keeps both in sync.
+        function selectUnifiedColor(colorKey) {
             document.getElementById('unified-model-img').src = unifiedModelImages[colorKey];
             document.getElementById('unified-flat-img').src = unifiedImages[colorKey];
-            
+            const flatMobile = document.getElementById('unified-flat-img-mobile');
+            if (flatMobile) flatMobile.src = unifiedImages[colorKey];
+            const gallery = document.getElementById('unified-gallery');
+            if (gallery) gallery.scrollTo({ left: 0, behavior: 'smooth' });
+
             currentUnifiedColor = unifiedColorNames[colorKey];
             document.getElementById('unified-color-name').innerText = currentUnifiedColor;
-            
-            // Update active state of color buttons
+
             document.querySelectorAll('.unified-color-btn').forEach(btn => {
-                btn.classList.remove('border-white', 'text-white');
-                btn.classList.add('border-zinc-800', 'text-zinc-400');
+                const active = btn.dataset.color === colorKey;
+                btn.classList.toggle('border-white', active);
+                btn.classList.toggle('text-white', active);
+                btn.classList.toggle('border-zinc-800', !active);
+                btn.classList.toggle('text-zinc-400', !active);
             });
-            btnElement.classList.remove('border-zinc-800', 'text-zinc-400');
-            btnElement.classList.add('border-white', 'text-white');
+            document.querySelectorAll('.unified-color-thumb').forEach(btn => {
+                const active = btn.dataset.color === colorKey;
+                btn.classList.toggle('border-white', active);
+                btn.classList.toggle('border-zinc-800', !active);
+            });
         }
 
         function selectUnifiedSize(size, btnElement) {

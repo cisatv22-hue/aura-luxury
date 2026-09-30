@@ -431,7 +431,10 @@
                         <h3 class="text-xs font-black uppercase tracking-tight text-white group-hover:text-zinc-300 transition-colors cursor-pointer" onclick="${action}">
                             ${product.name}
                         </h3>
-                        <p class="text-base font-black text-amber-200 mt-2">$${product.price.toLocaleString('es-MX')}.00 MXN</p>
+                        <div class="flex items-center gap-2.5 mt-2">
+                        <p class="text-base font-black text-amber-200">$${product.price.toLocaleString('es-MX')}.00 MXN</p>
+                        <span class="text-xs font-bold text-zinc-500 line-through">$${Math.round(product.price / 0.6).toLocaleString('es-MX')}.00 MXN</span>
+                    </div>
                     </div>
 
                     <button onclick="${action}" class="${buttonClass}">
@@ -515,7 +518,7 @@
             document.getElementById('modal-tag').textContent = product.tag;
             document.getElementById('modal-tag').className = `inline-block text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-sm ${product.tagClass}`;
             document.getElementById('modal-title').textContent = product.name;
-            document.getElementById('modal-price').textContent = `$${product.price.toLocaleString('es-MX')}.00 MXN`;
+            document.getElementById('modal-price').innerHTML = `$${product.price.toLocaleString('es-MX')}.00 MXN <span class="text-xs font-bold text-zinc-500 line-through ml-2">$${Math.round(product.price / 0.6).toLocaleString('es-MX')}.00 MXN</span>`;
             document.getElementById('modal-desc').textContent = product.desc;
 
             const optionsContainer = document.getElementById('modal-options');

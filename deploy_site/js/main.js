@@ -1,3 +1,18 @@
+
+function getCleanOriginalPrice(price) {
+    if (price <= 250) return price + 300; // 550
+    if (price === 380) return 680;
+    if (price === 400) return 700;
+    if (price === 450) return 750;
+    if (price === 480) return 780;
+    if (price === 590) return 890;
+    if (price === 650) return 990;
+    if (price === 750) return 1090;
+    if (price === 1100) return 1490;
+    if (price >= 2000) return price + 400;
+    return price + 300;
+}
+
         // Array de productos utilizando las imágenes especificadas
         const products = [
     {
@@ -435,7 +450,7 @@
                         </h3>
                         <div class="flex items-center gap-2.5 mt-2">
                         <p class="text-base font-black text-amber-200">$${product.price.toLocaleString('es-MX')}.00 MXN</p>
-                        <span class="text-xs font-bold text-zinc-500 line-through">$${Math.round(product.price / 0.6).toLocaleString('es-MX')}.00 MXN</span>
+                        <span class="text-xs font-bold text-zinc-500 line-through">$${getCleanOriginalPrice(product.price).toLocaleString('es-MX')}.00 MXN</span>
                     </div>
                     </div>
 
@@ -520,7 +535,7 @@
             document.getElementById('modal-tag').textContent = product.tag;
             document.getElementById('modal-tag').className = `inline-block text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-sm ${product.tagClass}`;
             document.getElementById('modal-title').textContent = product.name;
-            document.getElementById('modal-price').innerHTML = `$${product.price.toLocaleString('es-MX')}.00 MXN <span class="text-xs font-bold text-zinc-500 line-through ml-2">$${Math.round(product.price / 0.6).toLocaleString('es-MX')}.00 MXN</span>`;
+            document.getElementById('modal-price').innerHTML = `$${product.price.toLocaleString('es-MX')}.00 MXN <span class="text-xs font-bold text-zinc-500 line-through ml-2">$${getCleanOriginalPrice(product.price).toLocaleString('es-MX')}.00 MXN</span>`;
             document.getElementById('modal-desc').textContent = product.desc;
 
             const optionsContainer = document.getElementById('modal-options');

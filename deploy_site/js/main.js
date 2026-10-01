@@ -754,3 +754,31 @@ function getCleanOriginalPrice(price) {
             const encoded = encodeURIComponent(text);
             window.open(`https://wa.me/525516069816?text=${encoded}`, '_blank');
         }
+
+        function checkoutInstagram() {
+            if (cart.length === 0) {
+                showToast("Tu carrito está vacío");
+                return;
+            }
+            let text = "Hola TROPIEZO MX, me interesa realizar el pedido de los siguientes productos:\n\n";
+            let total = 0;
+            cart.forEach(item => {
+                text += `• ${item.name} (${item.option}) x${item.qty} - $${item.price * item.qty} MXN\n`;
+                total += item.price * item.qty;
+            });
+            text += `\nSubtotal: $${total} MXN\n¿Me podrías proporcionar los datos para transferencia o pago?`;
+            
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(() => {
+                    showToast("¡Pedido copiado! Pégalo en el DM de Instagram");
+                }).catch(() => {
+                    showToast("Abriendo Instagram...");
+                });
+            } else {
+                showToast("Abriendo Instagram...");
+            }
+            setTimeout(() => {
+                window.open('https://ig.me/m/tropiezo_mx', '_blank');
+            }, 600);
+        }
+

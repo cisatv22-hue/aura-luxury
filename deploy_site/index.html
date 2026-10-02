@@ -545,6 +545,17 @@
                 </button>
             </div>
 
+            <!-- Free Shipping Progress Bar -->
+            <div class="px-6 pt-4 pb-3 bg-neutral-900/60 border-b border-zinc-800/80">
+                <div class="flex justify-between items-center text-[10px] font-extrabold uppercase tracking-wider text-zinc-300 mb-2">
+                    <span id="free-shipping-message">Agrega productos para <strong>Envío Gratis</strong></span>
+                    <span class="text-zinc-500">$1,200 MXN</span>
+                </div>
+                <div class="w-full h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-label="Progreso para envío gratis" aria-valuemin="0" aria-valuemax="1200">
+                    <div id="free-shipping-bar" class="shipping-progress-bar h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full" style="width: 0%;"></div>
+                </div>
+            </div>
+
             <!-- Items Container -->
             <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4" role="region" aria-label="Lista de artículos en el carrito">
                 <!-- Javascript insertion -->

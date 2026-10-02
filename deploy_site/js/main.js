@@ -383,6 +383,8 @@ function getCleanOriginalPrice(price) {
         let currentUnifiedColor = 'CREMA';
         let currentUnifiedSize = 'L';
 
+        const FREE_SHIPPING_THRESHOLD = 1200;
+
         // ==========================================
         // INITIALIZATION
         // ==========================================
@@ -1074,6 +1076,57 @@ function getCleanOriginalPrice(price) {
             return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
         }
 
+        function updateFreeShippingProgressBar(subtotal) {
+            const progressBar = document.getElementById('free-shipping-bar');
+            const messageEl = document.getElementById('free-shipping-message');
+            if (!progressBar && !messageEl) return;
+
+            const progressContainer = progressBar ? progressBar.closest('[role="progressbar"]') : null;
+
+            if (subtotal <= 0) {
+                if (progressBar) {
+                    progressBar.style.width = '0%';
+                    progressBar.className = "shipping-progress-bar h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full";
+                }
+                if (messageEl) {
+                    messageEl.innerHTML = `Agrega productos para <strong>Envío Gratis</strong>`;
+                }
+                if (progressContainer) {
+                    progressContainer.setAttribute('aria-valuenow', '0');
+                    progressContainer.setAttribute('aria-valuetext', 'Agrega productos para envío gratis');
+                }
+                return;
+            }
+
+            if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+                if (progressBar) {
+                    progressBar.style.width = '100%';
+                    progressBar.className = "shipping-progress-bar h-full bg-gradient-to-r from-emerald-400 to-emerald-300 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.5)]";
+                }
+                if (messageEl) {
+                    messageEl.innerHTML = `<span class="text-emerald-400 font-black inline-flex items-center gap-1.5"><i class="fa-solid fa-circle-check text-xs"></i> ¡Felicidades! Tienes Envío Gratis</span>`;
+                }
+                if (progressContainer) {
+                    progressContainer.setAttribute('aria-valuenow', FREE_SHIPPING_THRESHOLD.toString());
+                    progressContainer.setAttribute('aria-valuetext', '¡Felicidades! Tienes Envío Gratis');
+                }
+            } else {
+                const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
+                const percentage = Math.min(100, Math.max(0, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100)));
+                if (progressBar) {
+                    progressBar.style.width = `${percentage}%`;
+                    progressBar.className = "shipping-progress-bar h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full";
+                }
+                if (messageEl) {
+                    messageEl.innerHTML = `Te faltan <strong class="text-amber-300">$${remaining.toLocaleString('es-MX')} MXN</strong> más para <strong>Envío Gratis</strong>`;
+                }
+                if (progressContainer) {
+                    progressContainer.setAttribute('aria-valuenow', subtotal.toString());
+                    progressContainer.setAttribute('aria-valuetext', `Te faltan $${remaining.toLocaleString('es-MX')} MXN más para envío gratis`);
+                }
+            }
+        }
+
         function updateCartUI() {
             const countEl = document.getElementById('cart-count');
             const drawerCountEl = document.getElementById('cart-drawer-count');
@@ -1082,12 +1135,17 @@ function getCleanOriginalPrice(price) {
             const cartBtn = document.getElementById('cart-btn');
 
             const totalItems = getTotalCartItems();
+            const subtotal = getCartSubtotal();
+
             if (countEl) countEl.textContent = totalItems;
             if (drawerCountEl) drawerCountEl.textContent = totalItems;
 
             if (cartBtn) {
                 cartBtn.setAttribute('aria-label', `Carrito de compras con ${totalItems} producto${totalItems === 1 ? '' : 's'}`);
             }
+
+            // Always update free shipping progress bar with current subtotal
+            updateFreeShippingProgressBar(subtotal);
 
             // Empty cart state
             if (cart.length === 0) {
@@ -1114,7 +1172,6 @@ function getCleanOriginalPrice(price) {
             // Populate Items
             if (container) {
                 container.innerHTML = '';
-                const subtotal = getCartSubtotal();
 
                 cart.forEach((item, index) => {
                     const itemEl = document.createElement('div');
@@ -1253,7 +1310,13 @@ function getCleanOriginalPrice(price) {
             });
 
             text += `━━━━━━━━━━━━━━━━━━━━━\n`;
-            text += `*• TOTAL PRODUCTOS: $${subtotal.toLocaleString('es-MX')}.00 MXN*\n`;
+            text += `*• SUBTOTAL PRODUCTOS: $${subtotal.toLocaleString('es-MX')}.00 MXN*\n`;
+            if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+                text += `*• ENVÍO: ¡GRATIS! (Supera $${FREE_SHIPPING_THRESHOLD.toLocaleString('es-MX')} MXN)*\n`;
+            } else {
+                const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
+                text += `*• ENVÍO: Por coordinar (Faltan $${remaining.toLocaleString('es-MX')} MXN para Envío Gratis)*\n`;
+            }
             text += `━━━━━━━━━━━━━━━━━━━━━\n`;
             text += `Hola, me gustaría coordinar el envío y pago para este pedido. ¿Me podrían dar los datos para concretar la compra? ¡Gracias!`;
 

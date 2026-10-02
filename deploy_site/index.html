@@ -61,14 +61,23 @@
     <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
 
-    <div class="bg-gradient-to-r from-neutral-950 via-zinc-900 to-neutral-950 border-b border-zinc-800/80 text-[11px] py-2.5 text-center tracking-widest uppercase font-extrabold text-zinc-300 px-4 flex items-center justify-center gap-3">
-        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>ENVÍO EXPRESS GRATIS A TODO MÉXICO EN COMPRAS DESDE $1,200 MXN</span>
-        <span class="hidden md:inline text-zinc-600">//</span>
-        <span class="hidden md:inline text-amber-200"><i class="fa-solid fa-certificate mr-1"></i> PLATAFORMA OFICIAL CON CERTIFICADO DE PLATA .925</span>
+        <!-- Infinite Luxury Announcement Marquee -->
+    <div class="marquee-container bg-[#050507] border-b border-zinc-800/80 py-2.5 text-[10px] sm:text-xs font-black uppercase tracking-widest text-zinc-300">
+        <div class="marquee-track flex gap-8 items-center" aria-hidden="true">
+            <span>✦ ENVÍO GRATIS EN PEDIDOS DESDE $1,200 MXN</span>
+            <span class="text-amber-400">✦ PLATA LEY .925 CERTIFICADA</span>
+            <span>✦ ALGODÓN PESADO 450 GSM HEAVYWEIGHT</span>
+            <span class="text-amber-400">✦ ATENCIÓN PERSONALIZADA POR WHATSAPP</span>
+            <span>✦ DISEÑADO Y CREADO EN MÉXICO</span>
+            <span class="text-amber-400">✦ ENVÍO GRATIS EN PEDIDOS DESDE $1,200 MXN</span>
+            <span>✦ PLATA LEY .925 CERTIFICADA</span>
+            <span class="text-amber-400">✦ ALGODÓN PESADO 450 GSM HEAVYWEIGHT</span>
+            <span>✦ ATENCIÓN PERSONALIZADA POR WHATSAPP</span>
+            <span class="text-amber-400">✦ DISEÑADO Y CREADO EN MÉXICO</span>
+        </div>
     </div>
 
-    <header class="sticky top-0 z-40 glass-header border-b border-zinc-800/80 transition-all duration-300">
+<header class="sticky top-0 z-40 glass-header border-b border-zinc-800/80 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Mobile Menu Button -->
@@ -205,6 +214,7 @@
                         <i class="fa-solid fa-fire mr-1"></i> New Drop
                     </span>
                     <h2 class="font-display text-5xl sm:text-7xl font-black text-white uppercase tracking-tighter mb-4 leading-none">
+                        <span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-2">I. ESSENTIALS</span>
                         Essentials <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-300">Fear of God</span>
                     </h2>
                     <p class="text-zinc-400 text-sm sm:text-base mb-8 max-w-md leading-relaxed">
@@ -247,7 +257,7 @@
         <!-- Header & Category Filters -->
         <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-12 pb-6 border-b border-zinc-800 gap-8">
             <div class="shrink-0 lg:mr-8">
-                <h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none">Catálogo<br>Completo</h2>
+                <h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none"><span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-2">II. EXCLUSIVO</span>Catálogo<br>Completo</h2>
                 <span class="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-zinc-400 mt-2 block">Colección Disponible</span>
             </div>
 
@@ -320,15 +330,15 @@
         <div id="essentials-special-view" class="hidden mb-16">
             <div class="grid grid-cols-1 lg:grid-cols-2 bg-[#0a0a0a] rounded-xl overflow-hidden shadow-2xl">
                 <!-- Left side: Model Image. On mobile it is a swipeable gallery (model + flat photo) with dots. -->
-                <div class="relative bg-black lg:h-full lg:min-h-[500px]">
+                <div class="relative bg-black lg:h-full lg:min-h-[500px] zoom-interactive-container">
                     <div id="unified-gallery" class="flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block lg:h-full lg:overflow-hidden">
                         <div class="relative w-full shrink-0 snap-center aspect-[4/5] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[500px]">
-                            <img id="unified-model-cream" src="model_crema.png" class="unified-model-img w-full h-full object-cover object-top absolute inset-0 z-10">
-                            <img id="unified-model-white" src="model_blanco.png" class="unified-model-img w-full h-full object-cover object-top absolute inset-0 z-0">
-                            <img id="unified-model-grey" src="model_gris.png" class="unified-model-img w-full h-full object-cover object-top absolute inset-0 z-0">
-                            <img id="unified-model-black" src="model_negro.png" class="unified-model-img w-full h-full object-cover object-top absolute inset-0 z-0">
-                            <img id="unified-model-green" src="model_verde.png" class="unified-model-img w-full h-full object-cover object-top absolute inset-0 z-0">
-                            <img id="unified-model-total_black" src="model_total_black.png" class="unified-model-img w-full h-full object-cover object-top absolute inset-0 z-0">
+                            <img id="unified-model-cream" src="model_crema.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-10">
+                            <img id="unified-model-white" src="model_blanco.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
+                            <img id="unified-model-grey" src="model_gris.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
+                            <img id="unified-model-black" src="model_negro.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
+                            <img id="unified-model-green" src="model_verde.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
+                            <img id="unified-model-total_black" src="model_total_black.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
                         </div>
                         <div class="relative w-full shrink-0 snap-center aspect-[4/5] bg-[#050505] lg:hidden">
                             <img id="unified-flat-mobile" alt="Sudadera Essentials Fear of God" class="w-full h-full object-contain">
@@ -437,7 +447,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-14">
                 <span class="text-xs uppercase tracking-[0.3em] text-amber-300 font-extrabold">El Outfit Definitivo</span>
-                <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">Combos & Lookbooks</h2>
+                <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1"><span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-1">III.</span> Combos & Lookbooks</h2>
                 <p class="text-zinc-400 text-xs sm:text-sm mt-3 leading-relaxed">
                     Sudaderas Essentials combinadas con cadenas de Plata Ley .925 para el look perfecto.
                 </p>
@@ -681,6 +691,43 @@
                 </div>
             </div>
 
+            <!-- Interactive Fit Calculator -->
+            <div class="my-5 p-4 rounded-lg bg-zinc-900/60 border border-zinc-800">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-amber-400"></i> Calculadora de Fit Ideal
+                    </span>
+                    <span id="fit-recommendation-badge" class="px-2.5 py-1 text-[10px] font-black uppercase rounded bg-amber-400 text-black shadow font-sans">
+                        Recomendado: Talla L
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <div class="flex justify-between text-zinc-400 mb-1">
+                            <span>Tu Altura:</span>
+                            <span id="fit-height-val" class="font-bold text-white">175 cm</span>
+                        </div>
+                        <input id="fit-height-slider" type="range" min="150" max="195" value="175"
+                               aria-label="Seleccionar altura en centímetros"
+                               oninput="updateFitRecommendation()"
+                               class="w-full accent-amber-400 cursor-pointer">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-zinc-400 mb-1">
+                            <span>Tu Peso:</span>
+                            <span id="fit-weight-val" class="font-bold text-white">75 kg</span>
+                        </div>
+                        <input id="fit-weight-slider" type="range" min="50" max="110" value="75"
+                               aria-label="Seleccionar peso en kilogramos"
+                               oninput="updateFitRecommendation()"
+                               class="w-full accent-amber-400 cursor-pointer">
+                    </div>
+                </div>
+                <p id="fit-recommendation-desc" class="text-[11px] text-zinc-400 mt-2">
+                    Con 175 cm y 75 kg, la talla L te brindará la silueta <em>oversized</em> icónica de AURA con caída perfecta sobre hombros.
+                </p>
+            </div>
+
             <!-- Table for Hoodies -->
             <div class="mb-6">
                 <h4 class="text-xs font-black uppercase tracking-wider text-amber-200 mb-2 flex items-center gap-2">
@@ -698,28 +745,28 @@
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-zinc-800 text-zinc-300">
-                            <tr>
+                            <tr class="size-table-row transition-colors" data-size="S">
                                 <td class="p-3 font-extrabold text-white">Chica (S)</td>
                                 <td class="p-3"><span class="size-val-cm">58 cm</span><span class="size-val-in hidden">22.8 in</span></td>
                                 <td class="p-3"><span class="size-val-cm">68 cm</span><span class="size-val-in hidden">26.8 in</span></td>
                                 <td class="p-3"><span class="size-val-cm">62 cm</span><span class="size-val-in hidden">24.4 in</span></td>
                                 <td class="p-3 text-[11px] text-zinc-400">1.55m - 1.68m (50-65 kg)</td>
                             </tr>
-                            <tr>
+                            <tr class="size-table-row transition-colors" data-size="M">
                                 <td class="p-3 font-extrabold text-white">Mediana (M)</td>
                                 <td class="p-3"><span class="size-val-cm">62 cm</span><span class="size-val-in hidden">24.4 in</span></td>
                                 <td class="p-3"><span class="size-val-cm">71 cm</span><span class="size-val-in hidden">28.0 in</span></td>
                                 <td class="p-3"><span class="size-val-cm">64 cm</span><span class="size-val-in hidden">25.2 in</span></td>
                                 <td class="p-3 text-[11px] text-zinc-400">1.69m - 1.77m (65-78 kg)</td>
                             </tr>
-                            <tr>
+                            <tr class="size-table-row transition-colors size-highlight-box" data-size="L">
                                 <td class="p-3 font-extrabold text-white">Grande (L)</td>
                                 <td class="p-3"><span class="size-val-cm">66 cm</span><span class="size-val-in hidden">26.0 in</span></td>
                                 <td class="p-3"><span class="size-val-cm">74 cm</span><span class="size-val-in hidden">29.1 in</span></td>
                                 <td class="p-3"><span class="size-val-cm">66 cm</span><span class="size-val-in hidden">26.0 in</span></td>
                                 <td class="p-3 text-[11px] text-zinc-400">1.78m - 1.86m (78-90 kg)</td>
                             </tr>
-                            <tr>
+                            <tr class="size-table-row transition-colors" data-size="XL">
                                 <td class="p-3 font-extrabold text-white">Extra Grande (XL)</td>
                                 <td class="p-3"><span class="size-val-cm">70 cm</span><span class="size-val-in hidden">27.6 in</span></td>
                                 <td class="p-3"><span class="size-val-cm">77 cm</span><span class="size-val-in hidden">30.3 in</span></td>
@@ -1030,5 +1077,56 @@
         }
     </script>
     
+    <!-- Floating Back to Top Button with SVG Circular Progress -->
+    <button id="back-to-top" type="button" aria-label="Volver arriba de la página"
+            class="back-to-top-btn w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-zinc-950/90 border border-zinc-700/80 text-white flex items-center justify-center shadow-2xl backdrop-blur-md hover:border-amber-400 hover:text-amber-300 transition-all focus:outline-none">
+        <svg class="absolute inset-0 w-full h-full p-1" viewBox="0 0 36 36">
+            <path class="text-zinc-800" stroke-width="2.5" stroke="currentColor" fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="back-to-top-progress" class="text-amber-400 progress-ring-circle" stroke-width="2.5"
+                  stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-linecap="round"
+                  stroke="currentColor" fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        </svg>
+        <i class="fa-solid fa-arrow-up text-xs sm:text-sm z-10" aria-hidden="true"></i>
+    </button>
+
+    <!-- Sticky Mobile Buy Bar for Hero Product -->
+    <div id="sticky-mobile-cart-bar" class="lg:hidden fixed bottom-[58px] left-0 right-0 z-30 bg-[#0f0f13]/95 backdrop-blur-md border-t border-zinc-800/90 px-4 py-2.5 flex items-center justify-between transform translate-y-24 opacity-0 transition-all duration-300 shadow-2xl">
+        <div class="flex items-center gap-3">
+            <img src="model_crema.png" alt="Essentials Hoodie" class="w-10 h-10 object-cover rounded border border-zinc-700">
+            <div>
+                <p class="text-[10px] font-bold uppercase text-white tracking-wider line-clamp-1">Sudadera Essentials</p>
+                <p class="text-[11px] font-black text-amber-300">$650 MXN</p>
+            </div>
+        </div>
+        <button type="button" onclick="addUnifiedToCart()" class="bg-white text-black font-black text-[11px] uppercase tracking-wider px-4 py-2 rounded-full hover:bg-zinc-200 transition-all active:scale-95 shadow-md flex items-center gap-1.5">
+            <i class="fa-solid fa-bag-shopping text-[10px]"></i> Comprar
+        </button>
+    </div>
+
+    <!-- Mobile Bottom App Navigation Bar -->
+    <nav id="mobile-bottom-nav" aria-label="Navegación móvil rápida"
+         class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#08080a]/95 backdrop-blur-xl border-t border-zinc-800/90 px-4 py-2.5 flex justify-around items-center text-zinc-400 shadow-[0_-10px_25px_rgba(0,0,0,0.5)]">
+        <a href="index.html" class="flex flex-col items-center gap-1 hover:text-white transition-colors">
+            <i class="fa-solid fa-house text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Inicio</span>
+        </a>
+        <a href="catalogo.html" class="flex flex-col items-center gap-1 hover:text-white transition-colors">
+            <i class="fa-solid fa-shapes text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Catálogo</span>
+        </a>
+        <button type="button" onclick="toggleWishlistFilter()" class="flex flex-col items-center gap-1 hover:text-amber-300 transition-colors relative">
+            <i class="fa-regular fa-heart text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Deseos</span>
+            <span id="mobile-wishlist-count" class="hidden absolute -top-1 -right-2 bg-red-500 text-white text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">0</span>
+        </button>
+        <button type="button" onclick="toggleCartDrawer(true)" class="flex flex-col items-center gap-1 hover:text-white transition-colors relative">
+            <i class="fa-solid fa-bag-shopping text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Bolsa</span>
+            <span id="mobile-cart-count" class="hidden absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">0</span>
+        </button>
+    </nav>
+
 </body>
 </html>

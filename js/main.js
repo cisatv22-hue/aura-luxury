@@ -385,6 +385,79 @@ function getCleanOriginalPrice(price) {
 
         const FREE_SHIPPING_THRESHOLD = 1200;
 
+        // Web Vibration API for tactical haptic feedback
+        function triggerHaptic(duration = 15) {
+            if (typeof window !== 'undefined' && 'vibrate' in navigator) {
+                try { navigator.vibrate(duration); } catch (e) {}
+            }
+        }
+
+        // Lightweight Canvas-based Luxury Gold Confetti
+        function triggerLuxuryConfetti() {
+            try {
+                let canvas = document.getElementById('luxury-confetti-canvas');
+                if (!canvas) {
+                    canvas = document.createElement('canvas');
+                    canvas.id = 'luxury-confetti-canvas';
+                    canvas.style.cssText = 'position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:99999;';
+                    document.body.appendChild(canvas);
+                }
+                const ctx = canvas.getContext('2d');
+                canvas.width = window.innerWidth;
+                canvas.height = window.innerHeight;
+
+                const colors = ['#f59e0b', '#fbbf24', '#ffffff', '#e2e8f0', '#ded8ce', '#d97706'];
+                const particles = [];
+                for (let i = 0; i < 40; i++) {
+                    particles.push({
+                        x: canvas.width / 2 + (Math.random() - 0.5) * 200,
+                        y: canvas.height * 0.35 + (Math.random() - 0.5) * 100,
+                        w: Math.random() * 8 + 4,
+                        h: Math.random() * 6 + 3,
+                        vx: (Math.random() - 0.5) * 8,
+                        vy: (Math.random() - 1.2) * 9,
+                        color: colors[Math.floor(Math.random() * colors.length)],
+                        rotation: Math.random() * 360,
+                        vr: (Math.random() - 0.5) * 12,
+                        opacity: 1
+                    });
+                }
+
+                let frame = 0;
+                function render() {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    let active = false;
+                    particles.forEach(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.32;
+                        p.rotation += p.vr;
+                        p.opacity -= 0.016;
+
+                        if (p.opacity > 0) {
+                            active = true;
+                            ctx.save();
+                            ctx.translate(p.x, p.y);
+                            ctx.rotate((p.rotation * Math.PI) / 180);
+                            ctx.globalAlpha = Math.max(0, p.opacity);
+                            ctx.fillStyle = p.color;
+                            ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+                            ctx.restore();
+                        }
+                    });
+
+                    frame++;
+                    if (active && frame < 90) {
+                        requestAnimationFrame(render);
+                    } else {
+                        ctx.clearRect(0, 0, canvas.width, canvas.height);
+                        if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+                    }
+                }
+                render();
+            } catch (e) {}
+        }
+
         // ==========================================
         // INITIALIZATION
         // ==========================================
@@ -573,7 +646,7 @@ function getCleanOriginalPrice(price) {
                 }
 
                 const card = document.createElement('div');
-                card.className = "group relative bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden flex flex-col justify-between hover:border-zinc-500 transition-all duration-300 shadow-lg hover:shadow-2xl focus-within:ring-2 focus-within:ring-white";
+                card.className = "card-spotlight group relative bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden flex flex-col justify-between hover:border-zinc-500 transition-all duration-300 shadow-lg hover:shadow-2xl focus-within:ring-2 focus-within:ring-white";
 
                 card.innerHTML = `
                     <div class="relative w-full aspect-square bg-zinc-900/40 p-4 sm:p-6 flex items-center justify-center overflow-hidden cursor-pointer" onclick="openModal(${p.id})">
@@ -733,6 +806,11 @@ function getCleanOriginalPrice(price) {
             }
             if (filterCountEl) {
                 filterCountEl.textContent = total;
+            }
+            const mobileWishlistCount = document.getElementById('mobile-wishlist-count');
+            if (mobileWishlistCount) {
+                mobileWishlistCount.textContent = total;
+                mobileWishlistCount.classList.toggle('hidden', total === 0);
             }
 
             // Update modal heart if modal is open
@@ -1099,6 +1177,11 @@ function getCleanOriginalPrice(price) {
             }
 
             if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+                if (!window._freeShippingCelebrated) {
+                    window._freeShippingCelebrated = true;
+                    triggerLuxuryConfetti();
+                    triggerHaptic(30);
+                }
                 if (progressBar) {
                     progressBar.style.width = '100%';
                     progressBar.className = "shipping-progress-bar h-full bg-gradient-to-r from-emerald-400 to-emerald-300 rounded-full shadow-[0_0_12px_rgba(52,211,153,0.5)]";
@@ -1111,6 +1194,7 @@ function getCleanOriginalPrice(price) {
                     progressContainer.setAttribute('aria-valuetext', '¡Felicidades! Tienes Envío Gratis');
                 }
             } else {
+                window._freeShippingCelebrated = false;
                 const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
                 const percentage = Math.min(100, Math.max(0, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100)));
                 if (progressBar) {
@@ -1139,6 +1223,18 @@ function getCleanOriginalPrice(price) {
 
             if (countEl) countEl.textContent = totalItems;
             if (drawerCountEl) drawerCountEl.textContent = totalItems;
+            const mobileCartCount = document.getElementById('mobile-cart-count');
+            if (mobileCartCount) {
+                mobileCartCount.textContent = totalItems;
+                mobileCartCount.classList.toggle('hidden', totalItems === 0);
+            }
+            [countEl, drawerCountEl, mobileCartCount].forEach(el => {
+                if (el && totalItems > 0) {
+                    el.classList.remove('cart-badge-bounce');
+                    void el.offsetWidth;
+                    el.classList.add('cart-badge-bounce');
+                }
+            });
 
             if (cartBtn) {
                 cartBtn.setAttribute('aria-label', `Carrito de compras con ${totalItems} producto${totalItems === 1 ? '' : 's'}`);
@@ -1147,21 +1243,68 @@ function getCleanOriginalPrice(price) {
             // Always update free shipping progress bar with current subtotal
             updateFreeShippingProgressBar(subtotal);
 
-            // Empty cart state
+            // Empty cart state with quick-add recommendations
             if (cart.length === 0) {
                 if (container) {
                     container.innerHTML = `
-                        <div class="text-center py-16 px-4 flex flex-col items-center justify-center">
-                            <div class="w-16 h-16 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-4">
-                                <i class="fa-solid fa-bag-shopping text-2xl" aria-hidden="true"></i>
+                        <div class="text-center py-6 px-2 flex flex-col items-center justify-center">
+                            <div class="w-14 h-14 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-3 shadow-inner">
+                                <i class="fa-solid fa-bag-shopping text-xl" aria-hidden="true"></i>
                             </div>
-                            <h4 class="font-display text-base font-black uppercase text-white tracking-wider">Tu Carrito está vacío</h4>
-                            <p class="text-xs text-zinc-400 mt-2 max-w-xs leading-relaxed">
-                                Explora nuestras sudaderas de algodón pesado y joyería de Plata Ley .925.
+                            <h4 class="font-display text-sm font-black uppercase text-white tracking-wider">Tu Carrito está vacío</h4>
+                            <p class="text-[11px] text-zinc-500 max-w-xs mt-1 leading-relaxed mb-4">
+                                Explora piezas exclusivas de moda urbana pesada y joyería fina.
                             </p>
-                            <button onclick="toggleCartDrawer(false); location.href='#catalogo'" class="mt-6 px-6 py-3 bg-white text-black font-black text-xs uppercase tracking-widest rounded hover:bg-zinc-200 transition-all">
-                                Explorar Catálogo
-                            </button>
+
+                            <div class="w-full text-left border-t border-zinc-800/80 pt-4">
+                                <p class="text-[10px] font-black uppercase tracking-wider text-amber-300 mb-3 flex items-center gap-1.5">
+                                    <i class="fa-solid fa-sparkles text-[10px]"></i> Recomendados para comenzar
+                                </p>
+                                <div class="space-y-2.5">
+                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-11 h-11 rounded bg-zinc-950 p-1 border border-zinc-800 flex items-center justify-center shrink-0">
+                                                <i class="fa-solid fa-gem text-amber-300 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-[11px] font-bold text-white uppercase tracking-wider">Pulsera Plata Ley .925</p>
+                                                <p class="text-[10px] text-amber-300 font-black">$380 MXN</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" onclick="quickAddToCart(10)" class="px-3 py-1.5 bg-white text-black hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider rounded transition-all active:scale-95 shadow">
+                                            + Añadir
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-11 h-11 rounded bg-zinc-950 p-1 border border-zinc-800 flex items-center justify-center shrink-0">
+                                                <i class="fa-solid fa-shirt text-zinc-300 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-[11px] font-bold text-white uppercase tracking-wider">Sudadera Apex Racers</p>
+                                                <p class="text-[10px] text-amber-300 font-black">$480 MXN</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" onclick="quickAddToCart(2)" class="px-3 py-1.5 bg-white text-black hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider rounded transition-all active:scale-95 shadow">
+                                            + Añadir
+                                        </button>
+                                    </div>
+                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-11 h-11 rounded bg-zinc-950 p-1 border border-zinc-800 flex items-center justify-center shrink-0">
+                                                <i class="fa-solid fa-link text-zinc-300 text-sm"></i>
+                                            </div>
+                                            <div>
+                                                <p class="text-[11px] font-bold text-white uppercase tracking-wider">Cadena de Plata Ley .925</p>
+                                                <p class="text-[10px] text-amber-300 font-black">$750 MXN</p>
+                                            </div>
+                                        </div>
+                                        <button type="button" onclick="quickAddToCart(9)" class="px-3 py-1.5 bg-white text-black hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider rounded transition-all active:scale-95 shadow">
+                                            + Añadir
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     `;
                 }
@@ -1175,31 +1318,42 @@ function getCleanOriginalPrice(price) {
 
                 cart.forEach((item, index) => {
                     const itemEl = document.createElement('div');
-                    itemEl.className = "flex gap-4 border-b border-zinc-800/80 pb-4 items-center justify-between";
+                    itemEl.id = `cart-item-${index}`;
+                    itemEl.className = "flex gap-3.5 border-b border-zinc-800/80 pb-4 items-center justify-between transition-all duration-300";
                     itemEl.innerHTML = `
-                        <img src="${item.image}" class="w-16 h-16 object-contain bg-zinc-900 border border-zinc-800 p-1.5 rounded shrink-0" alt="${item.name}">
-                        <div class="flex-grow min-w-0">
+                        <img src="${item.image}" class="w-16 h-16 object-contain bg-zinc-900 border border-zinc-800 p-1.5 rounded shrink-0 shadow-sm" alt="${item.name}">
+                        <div class="flex-grow min-w-0 pr-1">
                             <h4 class="text-xs font-bold text-white uppercase truncate">${item.name}</h4>
-                            <p class="text-[10px] text-zinc-400 mt-0.5">Opción: <span class="text-zinc-200">${item.option}</span></p>
+                            <p class="text-[10px] text-zinc-400 mt-0.5">Talla: <span class="text-zinc-200 font-semibold">${item.option}</span></p>
                             <p class="text-xs font-black text-amber-200 mt-1">$${item.price.toLocaleString('es-MX')} MXN</p>
-                            <div class="flex items-center gap-2 mt-2" role="group" aria-label="Cantidad para ${item.name}">
+                            <div class="flex items-center gap-1.5 mt-2" role="group" aria-label="Cantidad para ${item.name}">
                                 <button type="button" 
                                         onclick="changeQty(${index}, -1)" 
                                         aria-label="Disminuir una unidad de ${item.name}" 
-                                        class="w-6 h-6 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-white flex items-center justify-center text-xs font-bold rounded focus:outline-none">-</button>
-                                <span class="text-xs text-zinc-200 font-bold px-1" aria-label="Cantidad actual: ${item.qty}">${item.qty}</span>
+                                        class="w-6 h-6 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-white flex items-center justify-center text-xs font-bold rounded focus:outline-none transition-colors">-</button>
+                                <span class="text-xs text-zinc-200 font-bold px-1.5" aria-label="Cantidad actual: ${item.qty}">${item.qty}</span>
                                 <button type="button" 
                                         onclick="changeQty(${index}, 1)" 
                                         aria-label="Aumentar una unidad de ${item.name}" 
-                                        class="w-6 h-6 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-white flex items-center justify-center text-xs font-bold rounded focus:outline-none">+</button>
+                                        class="w-6 h-6 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-white flex items-center justify-center text-xs font-bold rounded focus:outline-none transition-colors">+</button>
                             </div>
                         </div>
-                        <button type="button" 
-                                onclick="removeItem(${index})" 
-                                aria-label="Eliminar ${item.name} del carrito" 
-                                class="text-zinc-500 hover:text-red-400 p-2 focus:outline-none">
-                            <i class="fa-solid fa-trash-can text-sm" aria-hidden="true"></i>
-                        </button>
+                        <div class="flex flex-col items-end justify-between self-stretch shrink-0 py-0.5">
+                            <button type="button" 
+                                    onclick="removeItem(${index})" 
+                                    aria-label="Eliminar ${item.name} del carrito" 
+                                    class="text-zinc-500 hover:text-red-400 p-1.5 focus:outline-none transition-colors"
+                                    title="Eliminar producto">
+                                <i class="fa-solid fa-trash-can text-xs" aria-hidden="true"></i>
+                            </button>
+                            <button type="button" 
+                                    onclick="duplicateCartItem(${index})" 
+                                    aria-label="Duplicar ${item.name}" 
+                                    class="text-zinc-500 hover:text-amber-300 p-1.5 focus:outline-none transition-colors"
+                                    title="Duplicar artículo (+1)">
+                                <i class="fa-regular fa-copy text-xs" aria-hidden="true"></i>
+                            </button>
+                        </div>
                     `;
                     container.appendChild(itemEl);
                 });
@@ -1223,11 +1377,35 @@ function getCleanOriginalPrice(price) {
             announceA11y(`Cantidad de ${name} actualizada a ${cart[index].qty}`);
         }
 
+        function duplicateCartItem(index) {
+            if (!cart[index]) return;
+            cart[index].qty += 1;
+            saveCart();
+            updateCartUI();
+            triggerHaptic(15);
+            showToast(`Artículo duplicado: ${cart[index].name} (+1)`);
+            announceA11y(`Una unidad más de ${cart[index].name} agregada al carrito.`);
+        }
+
         function removeItem(index) {
+            if (!cart[index]) return;
+            const itemEl = document.getElementById(`cart-item-${index}`);
+            if (itemEl) {
+                itemEl.classList.add('item-removing');
+                setTimeout(() => {
+                    executeRemoveItem(index);
+                }, 240);
+            } else {
+                executeRemoveItem(index);
+            }
+        }
+
+        function executeRemoveItem(index) {
             if (!cart[index]) return;
             const removed = cart.splice(index, 1)[0];
             saveCart();
             updateCartUI();
+            triggerHaptic(20);
 
             // Save for undo functionality
             lastRemovedItem = { item: removed, index: index };
@@ -1314,6 +1492,7 @@ function getCleanOriginalPrice(price) {
             if (subtotal >= FREE_SHIPPING_THRESHOLD) {
                 text += `*• ENVÍO: ¡GRATIS! (Supera $${FREE_SHIPPING_THRESHOLD.toLocaleString('es-MX')} MXN)*\n`;
             } else {
+                window._freeShippingCelebrated = false;
                 const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
                 text += `*• ENVÍO: Por coordinar (Faltan $${remaining.toLocaleString('es-MX')} MXN para Envío Gratis)*\n`;
             }
@@ -1475,6 +1654,15 @@ function getCleanOriginalPrice(price) {
             }, { threshold: 0.1 });
 
             document.querySelectorAll('.reveal-up').forEach(el => window.scrollObserver.observe(el));
+            setupBackToTop();
+            setupInteractiveZoom();
+            setupCardSpotlight();
+            setupSwipeGestures();
+
+            try {
+                const savedGrid = localStorage.getItem('aura_grid_view');
+                if (savedGrid) setCatalogGrid(parseInt(savedGrid, 10));
+            } catch(e) {}
         }
 
         function toggleMobileMenu() {
@@ -1518,6 +1706,195 @@ function getCleanOriginalPrice(price) {
             toastTimeout = setTimeout(() => {
                 toast.classList.add('translate-y-20', 'opacity-0');
             }, actionText ? 5000 : 3200);
+        }
+
+        // ==========================================
+        // SORTING & GRID CONTROLS
+        // ==========================================
+        function sortProducts() {
+            const sortSelect = document.getElementById('sort-select');
+            if (!sortSelect) return;
+            const val = sortSelect.value;
+
+            if (val === 'price-low') {
+                products.sort((a, b) => a.price - b.price);
+            } else if (val === 'price-high') {
+                products.sort((a, b) => b.price - a.price);
+            } else if (val === 'name-asc') {
+                products.sort((a, b) => a.name.localeCompare(b.name, 'es'));
+            } else {
+                products.sort((a, b) => a.id - b.id);
+            }
+            renderProducts();
+            announceA11y(`Catálogo ordenado por ${sortSelect.options[sortSelect.selectedIndex].text}`);
+        }
+
+        function setCatalogGrid(cols) {
+            const container = document.getElementById('product-grid') || document.getElementById('products-container');
+            const btn2 = document.getElementById('grid-view-2-btn');
+            const btn4 = document.getElementById('grid-view-4-btn');
+            if (!container) return;
+
+            if (cols === 2) {
+                container.classList.remove('catalog-grid-4', 'sm:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4');
+                container.classList.add('catalog-grid-2');
+                if (btn2) { btn2.classList.add('bg-zinc-800', 'text-white'); btn2.classList.remove('text-zinc-400'); }
+                if (btn4) { btn4.classList.remove('bg-zinc-800', 'text-white'); btn4.classList.add('text-zinc-400'); }
+            } else {
+                container.classList.remove('catalog-grid-2');
+                container.classList.add('catalog-grid-4', 'sm:grid-cols-2', 'lg:grid-cols-3', 'xl:grid-cols-4');
+                if (btn4) { btn4.classList.add('bg-zinc-800', 'text-white'); btn4.classList.remove('text-zinc-400'); }
+                if (btn2) { btn2.classList.remove('bg-zinc-800', 'text-white'); btn2.classList.add('text-zinc-400'); }
+            }
+            try { localStorage.setItem('aura_grid_view', cols.toString()); } catch (e) {}
+            announceA11y(`Visualización ajustada a ${cols} columnas`);
+        }
+
+        // ==========================================
+        // INTERACTIVE FIT CALCULATOR (SIZE GUIDE)
+        // ==========================================
+        function updateFitRecommendation() {
+            const hSlider = document.getElementById('fit-height-slider');
+            const wSlider = document.getElementById('fit-weight-slider');
+            const hVal = document.getElementById('fit-height-val');
+            const wVal = document.getElementById('fit-weight-val');
+            const badge = document.getElementById('fit-recommendation-badge');
+            const desc = document.getElementById('fit-recommendation-desc');
+
+            if (!hSlider || !wSlider) return;
+
+            const height = parseInt(hSlider.value, 10);
+            const weight = parseInt(wSlider.value, 10);
+
+            if (hVal) hVal.textContent = `${height} cm`;
+            if (wVal) wVal.textContent = `${weight} kg`;
+
+            let recSize = 'L';
+            let fitText = '';
+
+            if (weight < 62 || height < 165) {
+                recSize = 'S';
+                fitText = `Con ${height} cm y ${weight} kg, la talla S te brindará el corte oversize ideal sin exceder el largo en torso.`;
+            } else if (weight <= 72 || height <= 174) {
+                recSize = 'M';
+                fitText = `Con ${height} cm y ${weight} kg, la talla M ofrece hombros caídos impecables y ajuste streetwear equilibrado.`;
+            } else if (weight <= 85 || height <= 184) {
+                recSize = 'L';
+                fitText = `Con ${height} cm y ${weight} kg, la talla L te brindará la silueta oversized icónica de AURA con caída perfecta sobre hombros.`;
+            } else {
+                recSize = 'XL';
+                fitText = `Con ${height} cm y ${weight} kg, la talla XL te dará un ajuste relajado, amplio y envolvente con 450 GSM de algodón pesado.`;
+            }
+
+            if (badge) badge.textContent = `Recomendado: Talla ${recSize}`;
+            if (desc) desc.innerHTML = fitText;
+
+            document.querySelectorAll('.size-table-row').forEach(row => {
+                const isMatch = row.dataset.size === recSize;
+                row.classList.toggle('size-highlight-box', isMatch);
+            });
+        }
+
+        // ==========================================
+        // BACK TO TOP & SCROLL PROGRESS
+        // ==========================================
+        function setupBackToTop() {
+            const btn = document.getElementById('back-to-top');
+            const progressCircle = document.getElementById('back-to-top-progress');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const progress = scrollHeight > 0 ? (scrollTop / scrollHeight) * 100 : 0;
+
+                if (progressCircle) {
+                    const offset = 100 - progress;
+                    progressCircle.style.strokeDashoffset = offset;
+                }
+
+                if (btn) {
+                    if (scrollTop > 280) {
+                        btn.classList.add('is-visible');
+                    } else {
+                        btn.classList.remove('is-visible');
+                    }
+                }
+
+                // Sticky Mobile Cart Bar in index.html
+                const stickyBar = document.getElementById('sticky-mobile-cart-bar');
+                if (stickyBar) {
+                    const shouldShow = scrollTop > 460 && scrollTop < (scrollHeight - 400);
+                    if (shouldShow) {
+                        stickyBar.classList.remove('translate-y-24', 'opacity-0');
+                    } else {
+                        stickyBar.classList.add('translate-y-24', 'opacity-0');
+                    }
+                }
+            }, { passive: true });
+
+            if (btn) {
+                btn.addEventListener('click', () => {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+            }
+        }
+
+        // ==========================================
+        // INTERACTIVE ZOOM & CARD SPOTLIGHT
+        // ==========================================
+        function setupInteractiveZoom() {
+            const containers = document.querySelectorAll('.zoom-interactive-container');
+            containers.forEach(container => {
+                const img = container.querySelector('.zoom-interactive-img') || container.querySelector('img');
+                if (!img) return;
+
+                container.addEventListener('mousemove', (e) => {
+                    const rect = container.getBoundingClientRect();
+                    const x = ((e.clientX - rect.left) / rect.width) * 100;
+                    const y = ((e.clientY - rect.top) / rect.height) * 100;
+                    img.style.transformOrigin = `${x}% ${y}%`;
+                    img.style.transform = 'scale(1.7)';
+                });
+
+                container.addEventListener('mouseleave', () => {
+                    img.style.transform = 'scale(1)';
+                    img.style.transformOrigin = 'center center';
+                });
+            });
+        }
+
+        function setupCardSpotlight() {
+            document.addEventListener('mousemove', (e) => {
+                const cards = document.querySelectorAll('.card-spotlight');
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.top < window.innerHeight && rect.bottom > 0) {
+                        const x = e.clientX - rect.left;
+                        const y = e.clientY - rect.top;
+                        card.style.setProperty('--mouse-x', `${x}px`);
+                        card.style.setProperty('--mouse-y', `${y}px`);
+                    }
+                });
+            }, { passive: true });
+        }
+
+        function setupSwipeGestures() {
+            const gallery = document.getElementById('unified-gallery');
+            if (gallery) {
+                let touchStartX = 0;
+                let touchEndX = 0;
+                gallery.addEventListener('touchstart', (e) => {
+                    touchStartX = e.changedTouches[0].screenX;
+                }, { passive: true });
+
+                gallery.addEventListener('touchend', (e) => {
+                    touchEndX = e.changedTouches[0].screenX;
+                    const diff = touchStartX - touchEndX;
+                    if (Math.abs(diff) > 40) {
+                        gallery.scrollBy({ left: diff > 0 ? 240 : -240, behavior: 'smooth' });
+                    }
+                }, { passive: true });
+            }
         }
 
         function subscribeNewsletter(e) {

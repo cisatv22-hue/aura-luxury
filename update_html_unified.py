@@ -137,7 +137,7 @@ def update_html(filepath):
         }}
 
         function addUnifiedToCart() {{
-            const phoneNumber = "525636196042"; // Same as the standard checkout
+            const phoneNumber = "525516069816"; // Same as the standard checkout
             const message = `Hola, quiero comprar la Sudadera Essentials.\\n\\nColor: ${{currentUnifiedColor}}\\nTalla: ${{currentUnifiedSize}}\\nCantidad: ${{currentUnifiedQty}}\\nPrecio Total: $${{650 * currentUnifiedQty}} MXN`;
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/${{phoneNumber}}?text=${{encodedMessage}}`, '_blank');

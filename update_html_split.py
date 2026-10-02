@@ -66,7 +66,7 @@ def update_html(filepath):
 
                     <!-- Add to cart -->
                     <button onclick="addUnifiedToCart()" class="w-full bg-white text-black font-extrabold text-sm uppercase tracking-widest rounded-lg py-4 transition-all hover:bg-zinc-200 active:scale-[0.98] mb-8 flex items-center justify-center gap-3">
-                        ADD TO CART <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        AGREGAR AL CARRITO <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                     
                     <p class="text-[8px] font-bold text-zinc-600 text-center tracking-widest uppercase leading-relaxed max-w-sm mx-auto">
@@ -155,7 +155,7 @@ def update_html(filepath):
         }}
 
         function addUnifiedToCart() {{
-            const phoneNumber = "525636196042"; // Same as the standard checkout
+            const phoneNumber = "525516069816"; // Same as the standard checkout
             const message = `Hola, quiero comprar la Sudadera Essentials Fear of God.\\n\\nColor: ${{currentUnifiedColor}}\\nTalla: ${{currentUnifiedSize}}\\nPrecio Total: $650 MXN`;
             const encodedMessage = encodeURIComponent(message);
             window.open(`https://wa.me/${{phoneNumber}}?text=${{encodedMessage}}`, '_blank');

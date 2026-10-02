@@ -53,15 +53,31 @@
     <link rel="preload" href="model_total_black.png" as="image">
 </head>
 <body class="antialiased selection:bg-white selection:text-black flex flex-col min-h-screen">
+    <!-- WCAG 2.1 AA Skip Link -->
+    <a href="#catalogo" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-5 focus:py-3 focus:bg-white focus:text-black focus:font-black focus:rounded-md focus:shadow-2xl focus:outline-none focus:ring-2 focus:ring-white">
+        Saltar al contenido principal
+    </a>
+    <!-- Screen Reader Live Announcer -->
+    <div id="a11y-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
-    <div class="bg-gradient-to-r from-neutral-950 via-zinc-900 to-neutral-950 border-b border-zinc-800/80 text-[11px] py-2.5 text-center tracking-widest uppercase font-extrabold text-zinc-300 px-4 flex items-center justify-center gap-3">
-        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>ENVÍO EXPRESS GRATIS A TODO MÉXICO EN COMPRAS DESDE $1,200 MXN</span>
-        <span class="hidden md:inline text-zinc-600">//</span>
-        <span class="hidden md:inline text-amber-200"><i class="fa-solid fa-certificate mr-1"></i> PLATAFORMA OFICIAL CON CERTIFICADO DE PLATA .925</span>
+
+        <!-- Infinite Luxury Announcement Marquee -->
+    <div class="marquee-container bg-[#050507] border-b border-zinc-800/80 py-2.5 text-[10px] sm:text-xs font-black uppercase tracking-widest text-zinc-300">
+        <div class="marquee-track flex gap-8 items-center" aria-hidden="true">
+            <span>✦ ENVÍO GRATIS EN PEDIDOS DESDE $1,200 MXN</span>
+            <span class="text-amber-400">✦ PLATA LEY .925 CERTIFICADA</span>
+            <span>✦ ALGODÓN PESADO 450 GSM HEAVYWEIGHT</span>
+            <span class="text-amber-400">✦ ATENCIÓN PERSONALIZADA POR WHATSAPP</span>
+            <span>✦ DISEÑADO Y CREADO EN MÉXICO</span>
+            <span class="text-amber-400">✦ ENVÍO GRATIS EN PEDIDOS DESDE $1,200 MXN</span>
+            <span>✦ PLATA LEY .925 CERTIFICADA</span>
+            <span class="text-amber-400">✦ ALGODÓN PESADO 450 GSM HEAVYWEIGHT</span>
+            <span>✦ ATENCIÓN PERSONALIZADA POR WHATSAPP</span>
+            <span class="text-amber-400">✦ DISEÑADO Y CREADO EN MÉXICO</span>
+        </div>
     </div>
 
-    <header class="sticky top-0 z-40 glass-header border-b border-zinc-800/80 transition-all duration-300">
+<header class="sticky top-0 z-40 glass-header border-b border-zinc-800/80 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
                 <!-- Mobile Menu Button -->
@@ -89,13 +105,22 @@
                 </nav>
 
                 <!-- Header Action Buttons -->
-                <div class="flex items-center space-x-4">
-                    <button id="search-toggle" class="text-zinc-300 hover:text-white transition-colors p-2" title="Buscar productos">
-                        <i class="fa-solid fa-magnifying-glass text-lg"></i>
+                <div class="flex items-center space-x-2 sm:space-x-3">
+
+                    <!-- Botón de Favoritos Guardados -->
+                    <button id="wishlist-btn" onclick="toggleWishlistFilter()" aria-label="Ver productos favoritos guardados" class="relative text-zinc-300 hover:text-white transition-colors p-2 focus:outline-none" title="Mis Favoritos">
+                        <i class="fa-regular fa-heart text-lg" aria-hidden="true"></i>
+                        <span id="wishlist-count" class="absolute -top-1 -right-1 bg-red-600 text-white text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg hidden">0</span>
+                    </button>
+
+                    <!-- Botón Buscador -->
+                    <button id="search-toggle" aria-label="Abrir barra de búsqueda" aria-expanded="false" class="text-zinc-300 hover:text-white transition-colors p-2 focus:outline-none" title="Buscar productos (Atajo: /)">
+                        <i class="fa-solid fa-magnifying-glass text-lg" aria-hidden="true"></i>
                     </button>
                     
-                    <button id="cart-btn" class="relative bg-zinc-900 border border-zinc-800 hover:border-zinc-500 p-2.5 rounded-full transition-all flex items-center justify-center">
-                        <i class="fa-solid fa-bag-shopping text-slate-200 text-base"></i>
+                    <!-- Botón Carrito de Compras -->
+                    <button id="cart-btn" aria-label="Carrito de compras con 0 productos" aria-haspopup="dialog" aria-expanded="false" class="relative bg-zinc-900 border border-zinc-800 hover:border-zinc-500 p-2.5 rounded-full transition-all flex items-center justify-center focus:outline-none">
+                        <i class="fa-solid fa-bag-shopping text-slate-200 text-base" aria-hidden="true"></i>
                         <span id="cart-count" class="absolute -top-1 -right-1 bg-white text-black text-[10px] font-black w-4 h-4 rounded-full flex items-center justify-center shadow-lg">0</span>
                     </button>
                 </div>
@@ -115,10 +140,18 @@
         <!-- Search Overlay -->
         <div id="search-bar" class="hidden bg-neutral-900/95 border-b border-zinc-800 py-4 px-4 sm:px-8">
             <div class="max-w-3xl mx-auto flex items-center gap-3">
-                <i class="fa-solid fa-magnifying-glass text-zinc-500"></i>
-                <input type="text" id="search-input" placeholder="Buscar Sudadera Essentials, Apex Racers $480, Cadena Cubana Plata..." 
+                <i class="fa-solid fa-magnifying-glass text-zinc-500" aria-hidden="true"></i>
+                <input type="text" id="search-input" role="searchbox" placeholder="Buscar Sudadera Essentials, Apex Racers, Cadena Plata..." 
+                    aria-label="Buscar productos en el catálogo"
                     class="w-full bg-transparent text-white placeholder-zinc-500 text-xs sm:text-sm focus:outline-none uppercase tracking-wider font-semibold">
-                <button id="close-search" class="text-zinc-400 hover:text-white text-xs uppercase tracking-wider font-bold px-3 py-1 bg-zinc-800 rounded">Cerrar</button>
+                <button id="clear-search-btn" type="button" aria-label="Borrar texto de búsqueda" class="hidden text-zinc-400 hover:text-white px-2 text-sm focus:outline-none">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+                <button id="close-search" type="button" aria-label="Cerrar barra de búsqueda" class="text-zinc-400 hover:text-white text-xs uppercase tracking-wider font-bold px-3 py-1 bg-zinc-800 rounded">Cerrar</button>
+            </div>
+            <div class="max-w-3xl mx-auto mt-2 text-[10px] text-zinc-500 uppercase tracking-widest flex items-center justify-between">
+                <span>Escribe cualquier prenda o accesorio</span>
+                <span class="hidden sm:inline">Atajo rápido: <kbd class="px-1.5 py-0.5 bg-zinc-800 rounded border border-zinc-700 text-zinc-300">/</kbd> o <kbd class="px-1.5 py-0.5 bg-zinc-800 rounded border border-zinc-700 text-zinc-300">Esc</kbd></span>
             </div>
         </div>
     </header>
@@ -183,6 +216,7 @@
                         <i class="fa-solid fa-fire mr-1"></i> New Drop
                     </span>
                     <h2 class="font-display text-5xl sm:text-7xl font-black text-white uppercase tracking-tighter mb-4 leading-none">
+                        <span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-2">I. ESSENTIALS</span>
                         Essentials <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-zinc-500 to-zinc-300">Fear of God</span>
                     </h2>
                     <p class="text-zinc-400 text-sm sm:text-base mb-8 max-w-md leading-relaxed">
@@ -198,19 +232,19 @@
                     <!-- Color Picker -->
                     <div class="mt-8">
                         <p class="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-3">Selecciona un color</p>
-                        <div class="flex gap-4">
+                        <div class="flex gap-4" role="radiogroup" aria-label="Selecciona un color para la sudadera Essentials">
                             <!-- Blanco -->
-                            <button onclick="changeHeroColor('blanco')" class="w-8 h-8 rounded-full bg-[#E5E5E5] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)]"></button>
+                            <button onclick="changeHeroColor('blanco')" aria-label="Color Blanco" aria-pressed="true" class="w-8 h-8 rounded-full bg-[#E5E5E5] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:outline-none"></button>
                             <!-- Negro -->
-                            <button onclick="changeHeroColor('negro')" class="w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-transparent hover:border-zinc-400 focus:border-zinc-400 transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)]"></button>
+                            <button onclick="changeHeroColor('negro')" aria-label="Color Negro" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-transparent hover:border-zinc-400 focus:border-zinc-400 transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)] focus:outline-none"></button>
                             <!-- Beige -->
-                            <button onclick="changeHeroColor('beige')" class="w-8 h-8 rounded-full bg-[#D5CDBE] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(213,205,190,0.2)]"></button>
+                            <button onclick="changeHeroColor('beige')" aria-label="Color Beige" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#D5CDBE] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(213,205,190,0.2)] focus:outline-none"></button>
                             <!-- Gris -->
-                            <button onclick="changeHeroColor('gris')" class="w-8 h-8 rounded-full bg-[#8A8A8A] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(138,138,138,0.2)]"></button>
+                            <button onclick="changeHeroColor('gris')" aria-label="Color Gris" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#8A8A8A] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(138,138,138,0.2)] focus:outline-none"></button>
                             <!-- Verde -->
-                            <button onclick="changeHeroColor('verde')" class="w-8 h-8 rounded-full bg-[#1B3E32] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(27,62,50,0.3)]"></button>
+                            <button onclick="changeHeroColor('verde')" aria-label="Color Verde" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#1B3E32] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(27,62,50,0.3)] focus:outline-none"></button>
                             <!-- Total Black -->
-                            <button onclick="changeHeroColor('totalblack')" class="w-8 h-8 rounded-full bg-[#111111] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(17,17,17,0.3)]"></button>
+                            <button onclick="changeHeroColor('totalblack')" aria-label="Color Total Black" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#111111] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(17,17,17,0.3)] focus:outline-none"></button>
                         </div>
                     </div>
                     
@@ -225,7 +259,7 @@
         <!-- Header & Category Filters -->
         <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-12 pb-6 border-b border-zinc-800 gap-8">
             <div class="shrink-0 lg:mr-8">
-                <h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none">Catálogo<br>Completo</h2>
+                <h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none"><span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-2">II. EXCLUSIVO</span>Catálogo<br>Completo</h2>
                 <span class="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-zinc-400 mt-2 block">Colección Disponible</span>
             </div>
 
@@ -258,8 +292,21 @@
                 <button onclick="filterCategory('combos')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
                     Combos Especiales
                 </button>
+            
+                <button onclick="filterCategory('wishlist')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-red-400 hover:text-red-300 hover:border-red-500 transition-all rounded-full whitespace-nowrap shrink-0 flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart" aria-hidden="true"></i> Favoritos (<span id="wishlist-filter-count">0</span>)
+                </button>
             </div>
             <style>
+            <!-- Secondary Price Range Filters -->
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-zinc-900 text-xs w-full">
+                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500 mr-2">Precio:</span>
+                <button onclick="filterPrice('all')" data-price-range="all" aria-pressed="true" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-white bg-white text-black transition-all">Todos</button>
+                <button onclick="filterPrice('under-400')" data-price-range="under-400" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">Hasta $400 MXN</button>
+                <button onclick="filterPrice('400-700')" data-price-range="400-700" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">$400 - $700 MXN</button>
+                <button onclick="filterPrice('over-700')" data-price-range="over-700" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">Más de $700 MXN</button>
+            </div>
+            
                 .scrollbar-hide::-webkit-scrollbar {
                     display: none;
                 }
@@ -275,6 +322,7 @@
                     <option value="featured">Destacados</option>
                     <option value="price-low">Precio: Menor a Mayor</option>
                     <option value="price-high">Precio: Mayor a Menor</option>
+                    <option value="name-asc">Nombre: A - Z</option>
                 </select>
             </div>
         </div>
@@ -284,13 +332,13 @@
         <div id="essentials-special-view" class="hidden mb-16">
             <div class="grid grid-cols-1 lg:grid-cols-2 bg-[#0a0a0a] rounded-xl overflow-hidden shadow-2xl">
                 <!-- Left side: Model Image -->
-                <div class="h-full relative bg-black min-h-[500px] overflow-hidden">
-                    <img id="unified-model-cream" src="model_crema.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-10">
-                    <img id="unified-model-white" src="model_blanco.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
-                    <img id="unified-model-grey" src="model_gris.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
-                    <img id="unified-model-black" src="model_negro.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
-                    <img id="unified-model-green" src="model_verde.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
-                    <img id="unified-model-total_black" src="model_total_black.png" class="unified-model-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
+                <div class="h-full relative bg-black min-h-[500px] overflow-hidden zoom-interactive-container">
+                    <img id="unified-model-cream" src="model_crema.png" class="unified-model-img zoom-interactive-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-10">
+                    <img id="unified-model-white" src="model_blanco.png" class="unified-model-img zoom-interactive-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
+                    <img id="unified-model-grey" src="model_gris.png" class="unified-model-img zoom-interactive-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
+                    <img id="unified-model-black" src="model_negro.png" class="unified-model-img zoom-interactive-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
+                    <img id="unified-model-green" src="model_verde.png" class="unified-model-img zoom-interactive-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
+                    <img id="unified-model-total_black" src="model_total_black.png" class="unified-model-img zoom-interactive-img w-full h-[500px] lg:h-full object-cover object-top absolute inset-0 z-0">
                 </div>
                 <!-- Right side: Details -->
                 <div class="p-8 lg:p-12 xl:p-16 flex flex-col justify-center border-l border-zinc-900">
@@ -338,7 +386,12 @@
                         </button>
                     </div>
 
-                    <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-4">TALLA — <span id="unified-size-name" class="text-white">L</span></p>
+                    <div class="flex items-center justify-between mb-4">
+                        <p class="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">TALLA — <span id="unified-size-name" class="text-white">L</span></p>
+                        <button type="button" onclick="openSizeGuide()" class="text-[11px] text-amber-300 hover:text-amber-200 underline underline-offset-2 font-bold flex items-center gap-1 focus:outline-none">
+                            <i class="fa-solid fa-ruler-combined" aria-hidden="true"></i> Guía de Tallas
+                        </button>
+                    </div>
                     <div class="flex gap-3 mb-12">
                         <button onclick="selectUnifiedSize('S', this)" class="unified-size-btn w-14 h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">S</button>
                         <button onclick="selectUnifiedSize('M', this)" class="unified-size-btn w-14 h-10 rounded-lg flex items-center justify-center font-bold text-sm border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white transition-all focus:outline-none">M</button>
@@ -348,7 +401,7 @@
 
                     <!-- Add to cart -->
                     <button onclick="addUnifiedToCart()" class="w-full bg-white text-black font-extrabold text-sm uppercase tracking-widest rounded-lg py-4 transition-all hover:bg-zinc-200 active:scale-[0.98] mb-8 flex items-center justify-center gap-3">
-                        ADD TO CART <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                        AGREGAR AL CARRITO <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
                     
                     <p class="text-[8px] font-bold text-zinc-600 text-center tracking-widest uppercase leading-relaxed max-w-sm mx-auto">
@@ -382,7 +435,7 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center max-w-2xl mx-auto mb-14">
                 <span class="text-xs uppercase tracking-[0.3em] text-amber-300 font-extrabold">El Outfit Definitivo</span>
-                <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1">Combos & Lookbooks</h2>
+                <h2 class="font-display text-3xl sm:text-5xl font-black text-white uppercase tracking-tight mt-1"><span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-1">III.</span> Combos & Lookbooks</h2>
                 <p class="text-zinc-400 text-xs sm:text-sm mt-3 leading-relaxed">
                     Sudaderas Essentials combinadas con cadenas de Plata Ley .925 para el look perfecto.
                 </p>
@@ -475,65 +528,100 @@
         </div>
     </section>
 
-    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none hidden">
+        <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none hidden overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-heading">
         <div id="cart-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
 
         <div id="cart-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-neutral-950 border-l border-zinc-800 shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col">
             <!-- Header Cart -->
             <div class="p-6 border-b border-zinc-800 flex items-center justify-between bg-zinc-900/50">
                 <div>
-                    <h3 class="font-display text-lg font-black uppercase tracking-wider text-white">Tu Carrito</h3>
+                    <h3 id="cart-drawer-heading" class="font-display text-lg font-black uppercase tracking-wider text-white">Tu Carrito</h3>
                     <p class="text-[11px] text-zinc-400"><span id="cart-drawer-count">0</span> productos listos</p>
                 </div>
-                <button id="close-cart" class="text-zinc-400 hover:text-white text-xl p-2 focus:outline-none">
+                <button id="close-cart" aria-label="Cerrar carrito de compras" class="text-zinc-400 hover:text-white text-xl p-2 focus:outline-none">
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
 
+            <!-- Free Shipping Progress Bar -->
+            <div class="px-6 pt-4 pb-3 bg-neutral-900/60 border-b border-zinc-800/80">
+                <div class="flex justify-between items-center text-[10px] font-extrabold uppercase tracking-wider text-zinc-300 mb-2">
+                    <span id="free-shipping-message">Agrega productos para <strong>Envío Gratis</strong></span>
+                    <span class="text-zinc-500">$1,200 MXN</span>
+                </div>
+                <div class="w-full h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-label="Progreso para envío gratis" aria-valuemin="0" aria-valuemax="1200">
+                    <div id="free-shipping-bar" class="shipping-progress-bar h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full" style="width: 0%;"></div>
+                </div>
+            </div>
+
             <!-- Items Container -->
-            <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-6">
+            <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4" role="region" aria-label="Lista de artículos en el carrito">
                 <!-- Javascript insertion -->
             </div>
 
             <!-- Cart Footer -->
             <div class="p-6 border-t border-zinc-800 bg-zinc-900/80 space-y-4">
-                <div class="flex justify-between text-sm">
+                <div class="flex justify-between items-center text-sm">
                     <span class="text-zinc-400 uppercase tracking-wider text-xs font-bold">Subtotal:</span>
-                    <span id="cart-subtotal" class="font-black text-white text-lg">$0.00 MXN</span>
+                    <span id="cart-subtotal" class="font-black text-amber-200 text-lg">$0.00 MXN</span>
                 </div>
-                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Detalles de envío y pago coordinados directamente vía WhatsApp.</p>
-                
-                <button onclick="checkoutWhatsApp()" class="w-full py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-emerald-500 transition-all rounded shadow-xl flex items-center justify-center gap-3">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> Finalizar Pedido
+                <p class="text-[10px] text-zinc-500 uppercase tracking-wider text-center">Envío y formas de pago coordinados vía WhatsApp o Instagram.</p>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
+                    <button onclick="checkoutWhatsApp()" aria-label="Completar pedido por WhatsApp" class="w-full py-3.5 bg-emerald-600 text-white font-black text-xs uppercase tracking-[0.15em] hover:bg-emerald-500 transition-all rounded shadow-xl flex items-center justify-center gap-2 shadow-emerald-950/50">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp
+                    </button>
+                    <button onclick="checkoutInstagram()" aria-label="Completar pedido por Instagram DM" class="w-full py-3.5 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white font-black text-xs uppercase tracking-[0.15em] hover:opacity-90 transition-all rounded shadow-xl flex items-center justify-center gap-2 shadow-purple-950/50">
+                        <i class="fa-brands fa-instagram text-lg"></i> Instagram
+                    </button>
+                </div>
+
+                <button onclick="copyOrderSummary()" aria-label="Copiar resumen del pedido al portapapeles" class="w-full py-2.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-zinc-300 hover:text-white font-extrabold text-[11px] uppercase tracking-wider rounded transition-all flex items-center justify-center gap-2">
+                    <i class="fa-regular fa-copy text-sm"></i> Copiar Resumen de Pedido
                 </button>
             </div>
         </div>
     </div>
 
-    <div id="modal-container" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4">
+    <div id="modal-container" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div id="modal-backdrop" class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
 
         <div class="relative bg-neutral-950 border border-zinc-800 max-w-3xl w-full max-h-[90vh] overflow-y-auto z-10 p-6 sm:p-8 rounded-lg flex flex-col md:flex-row gap-8 shadow-2xl">
-            <button id="close-modal" class="absolute top-4 right-4 text-zinc-400 hover:text-white p-2 text-xl focus:outline-none">
+            <button id="close-modal" aria-label="Cerrar vista rápida" class="absolute top-4 right-4 text-zinc-400 hover:text-white p-2 text-xl focus:outline-none">
                 <i class="fa-solid fa-xmark"></i>
             </button>
 
             <!-- Image preview -->
             <div class="md:w-1/2 flex items-center justify-center bg-zinc-900 border border-zinc-800 rounded p-4">
-                <img id="modal-img" src="" alt="Producto Preview" class="w-full h-80 object-contain">
+                <img id="modal-img" src="" alt="Vista previa del producto" class="w-full h-80 object-contain">
             </div>
 
             <!-- Product detail info -->
             <div class="md:w-1/2 flex flex-col justify-between">
                 <div class="space-y-4">
-                    <span id="modal-tag" class="inline-block text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-sm"></span>
+                    <div class="flex items-center justify-between">
+                        <span id="modal-tag" class="inline-block text-[9px] font-black uppercase tracking-widest px-3 py-1 rounded-sm"></span>
+                        <div class="flex items-center gap-2">
+                            <button id="modal-fav-btn" type="button" aria-label="Guardar en favoritos" class="text-zinc-400 hover:text-red-400 p-2 text-lg focus:outline-none">
+                                <i class="fa-regular fa-heart" aria-hidden="true"></i>
+                            </button>
+                            <button id="modal-share-btn" type="button" aria-label="Compartir producto" class="text-zinc-400 hover:text-white p-2 text-base focus:outline-none">
+                                <i class="fa-solid fa-share-nodes" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
                     <h3 id="modal-title" class="font-display text-2xl font-black uppercase text-white mt-1"></h3>
                     <p id="modal-price" class="text-xl font-black text-amber-200"></p>
                     <p id="modal-desc" class="text-xs text-zinc-400 leading-relaxed"></p>
 
                     <div>
-                        <label class="block text-xs uppercase tracking-wider text-zinc-300 font-extrabold mb-2.5">Seleccionar Talla / Medida:</label>
-                        <div id="modal-options" class="flex flex-wrap gap-2">
+                        <div class="flex items-center justify-between mb-2.5">
+                            <label class="block text-xs uppercase tracking-wider text-zinc-300 font-extrabold">Seleccionar Talla / Medida:</label>
+                            <button type="button" onclick="openSizeGuide()" class="text-[11px] text-amber-300 hover:text-amber-200 underline underline-offset-2 font-bold flex items-center gap-1 focus:outline-none">
+                                <i class="fa-solid fa-ruler-combined" aria-hidden="true"></i> Guía de Tallas
+                            </button>
+                        </div>
+                        <div id="modal-options" class="flex flex-wrap gap-2" role="radiogroup" aria-label="Tallas disponibles">
                             <!-- Populated JS -->
                         </div>
                     </div>
@@ -548,6 +636,177 @@
         </div>
     </div>
 
+    
+    <!-- Recently Viewed Products Section -->
+    <section id="recently-viewed-section" class="hidden py-16 bg-neutral-950 border-t border-zinc-800/80">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between mb-8 pb-4 border-b border-zinc-800/60">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-clock-rotate-left text-amber-300" aria-hidden="true"></i>
+                    <h3 class="font-display text-xl sm:text-2xl font-black uppercase text-white tracking-wider">Vistos Recientemente</h3>
+                </div>
+                <span class="text-[11px] uppercase tracking-widest text-zinc-500 font-bold">Tu historial</span>
+            </div>
+            <div id="recently-viewed-grid" class="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                <!-- Dynamically populated from localStorage -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Size Guide Modal (Guía de Tallas) -->
+    <div id="size-guide-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="size-guide-title">
+        <div id="size-guide-backdrop" class="absolute inset-0 bg-black/85 backdrop-blur-md"></div>
+        <div class="relative bg-neutral-950 border border-zinc-700 max-w-2xl w-full max-h-[90vh] overflow-y-auto p-6 sm:p-8 rounded-lg shadow-2xl z-10 text-slate-100">
+            <div class="flex items-center justify-between pb-4 border-b border-zinc-800">
+                <div class="flex items-center gap-3">
+                    <i class="fa-solid fa-ruler-combined text-2xl text-amber-300" aria-hidden="true"></i>
+                    <div>
+                        <h3 id="size-guide-title" class="font-display text-xl font-black uppercase text-white tracking-wider">Guía Oficial de Tallas & Medidas</h3>
+                        <p class="text-[11px] text-zinc-400">Medidas exactas para sudaderas oversized y joyería fina</p>
+                    </div>
+                </div>
+                <button id="close-size-guide" aria-label="Cerrar guía de tallas" class="text-zinc-400 hover:text-white p-2 text-xl focus:outline-none">
+                    <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                </button>
+            </div>
+
+            <!-- Unit switcher -->
+            <div class="flex items-center justify-between my-5">
+                <span class="text-xs uppercase tracking-wider font-extrabold text-zinc-400">Unidad de Medida:</span>
+                <div class="inline-flex rounded border border-zinc-800 bg-zinc-900 p-0.5" role="group" aria-label="Unidad de medida">
+                    <button type="button" id="size-unit-cm" onclick="toggleSizeUnit('cm')" class="px-3 py-1 text-xs font-black uppercase rounded bg-white text-black transition-all">Centímetros (cm)</button>
+                    <button type="button" id="size-unit-in" onclick="toggleSizeUnit('in')" class="px-3 py-1 text-xs font-black uppercase rounded text-zinc-400 hover:text-white transition-all">Pulgadas (in)</button>
+                </div>
+            </div>
+
+            <!-- Interactive Fit Calculator -->
+            <div class="my-5 p-4 rounded-lg bg-zinc-900/60 border border-zinc-800">
+                <div class="flex items-center justify-between mb-3">
+                    <span class="text-xs font-black uppercase tracking-wider text-amber-300 flex items-center gap-2">
+                        <i class="fa-solid fa-calculator text-amber-400"></i> Calculadora de Fit Ideal
+                    </span>
+                    <span id="fit-recommendation-badge" class="px-2.5 py-1 text-[10px] font-black uppercase rounded bg-amber-400 text-black shadow font-sans">
+                        Recomendado: Talla L
+                    </span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                    <div>
+                        <div class="flex justify-between text-zinc-400 mb-1">
+                            <span>Tu Altura:</span>
+                            <span id="fit-height-val" class="font-bold text-white">175 cm</span>
+                        </div>
+                        <input id="fit-height-slider" type="range" min="150" max="195" value="175"
+                               aria-label="Seleccionar altura en centímetros"
+                               oninput="updateFitRecommendation()"
+                               class="w-full accent-amber-400 cursor-pointer">
+                    </div>
+                    <div>
+                        <div class="flex justify-between text-zinc-400 mb-1">
+                            <span>Tu Peso:</span>
+                            <span id="fit-weight-val" class="font-bold text-white">75 kg</span>
+                        </div>
+                        <input id="fit-weight-slider" type="range" min="50" max="110" value="75"
+                               aria-label="Seleccionar peso en kilogramos"
+                               oninput="updateFitRecommendation()"
+                               class="w-full accent-amber-400 cursor-pointer">
+                    </div>
+                </div>
+                <p id="fit-recommendation-desc" class="text-[11px] text-zinc-400 mt-2">
+                    Con 175 cm y 75 kg, la talla L te brindará la silueta <em>oversized</em> icónica de AURA con caída perfecta sobre hombros.
+                </p>
+            </div>
+
+            <!-- Table for Hoodies -->
+            <div class="mb-6">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-200 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-shirt" aria-hidden="true"></i> Sudaderas & Hoodies Essentials Oversized
+                </h4>
+                <div class="overflow-x-auto border border-zinc-800 rounded">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-zinc-900/80 text-zinc-400 uppercase tracking-wider text-[10px]">
+                            <tr>
+                                <th class="p-3">Talla</th>
+                                <th class="p-3">Pecho / Ancho</th>
+                                <th class="p-3">Largo Frontal</th>
+                                <th class="p-3">Manga</th>
+                                <th class="p-3">Recomendación</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-800 text-zinc-300">
+                            <tr class="size-table-row transition-colors" data-size="S">
+                                <td class="p-3 font-extrabold text-white">Chica (S)</td>
+                                <td class="p-3"><span class="size-val-cm">58 cm</span><span class="size-val-in hidden">22.8 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">68 cm</span><span class="size-val-in hidden">26.8 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">62 cm</span><span class="size-val-in hidden">24.4 in</span></td>
+                                <td class="p-3 text-[11px] text-zinc-400">1.55m - 1.68m (50-65 kg)</td>
+                            </tr>
+                            <tr class="size-table-row transition-colors" data-size="M">
+                                <td class="p-3 font-extrabold text-white">Mediana (M)</td>
+                                <td class="p-3"><span class="size-val-cm">62 cm</span><span class="size-val-in hidden">24.4 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">71 cm</span><span class="size-val-in hidden">28.0 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">64 cm</span><span class="size-val-in hidden">25.2 in</span></td>
+                                <td class="p-3 text-[11px] text-zinc-400">1.69m - 1.77m (65-78 kg)</td>
+                            </tr>
+                            <tr class="size-table-row transition-colors size-highlight-box" data-size="L">
+                                <td class="p-3 font-extrabold text-white">Grande (L)</td>
+                                <td class="p-3"><span class="size-val-cm">66 cm</span><span class="size-val-in hidden">26.0 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">74 cm</span><span class="size-val-in hidden">29.1 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">66 cm</span><span class="size-val-in hidden">26.0 in</span></td>
+                                <td class="p-3 text-[11px] text-zinc-400">1.78m - 1.86m (78-90 kg)</td>
+                            </tr>
+                            <tr class="size-table-row transition-colors" data-size="XL">
+                                <td class="p-3 font-extrabold text-white">Extra Grande (XL)</td>
+                                <td class="p-3"><span class="size-val-cm">70 cm</span><span class="size-val-in hidden">27.6 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">77 cm</span><span class="size-val-in hidden">30.3 in</span></td>
+                                <td class="p-3"><span class="size-val-cm">68 cm</span><span class="size-val-in hidden">26.8 in</span></td>
+                                <td class="p-3 text-[11px] text-zinc-400">1.85m+ (90 kg+)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Table for Jewelry -->
+            <div class="mb-6">
+                <h4 class="text-xs font-black uppercase tracking-wider text-amber-200 mb-2 flex items-center gap-2">
+                    <i class="fa-solid fa-gem" aria-hidden="true"></i> Joyería Plata Ley .925 (Cadenas & Pulseras)
+                </h4>
+                <div class="overflow-x-auto border border-zinc-800 rounded">
+                    <table class="w-full text-left text-xs">
+                        <thead class="bg-zinc-900/80 text-zinc-400 uppercase tracking-wider text-[10px]">
+                            <tr>
+                                <th class="p-3">Medida</th>
+                                <th class="p-3">Longitud</th>
+                                <th class="p-3">Caída Anatómica</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-zinc-800 text-zinc-300">
+                            <tr>
+                                <td class="p-3 font-extrabold text-white">Cadena 50 cm</td>
+                                <td class="p-3"><span class="size-val-cm">50 cm</span><span class="size-val-in hidden">19.7 in</span></td>
+                                <td class="p-3 text-[11px] text-zinc-400">A la altura de la clavícula / garganta</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-extrabold text-white">Cadena 55 cm</td>
+                                <td class="p-3"><span class="size-val-cm">55 cm</span><span class="size-val-in hidden">21.6 in</span></td>
+                                <td class="p-3 text-[11px] text-zinc-400">A la altura del esternón superior (caída estándar de lujo)</td>
+                            </tr>
+                            <tr>
+                                <td class="p-3 font-extrabold text-white">Pulsera Unitalla</td>
+                                <td class="p-3"><span class="size-val-cm">19 - 21 cm</span><span class="size-val-in hidden">7.5 - 8.3 in</span></td>
+                                <td class="p-3 text-[11px] text-zinc-400">Ajuste universal con broche reforzado</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="p-4 bg-zinc-900/60 border border-zinc-800 rounded text-xs text-zinc-400 leading-relaxed">
+                <p><strong class="text-white">¿Tienes dudas entre dos tallas?</strong> Contáctanos vía WhatsApp para sugerirte el fit perfecto según tu complexión.</p>
+            </div>
+        </div>
+    </div>
+
     <footer class="bg-neutral-950 border-t border-zinc-800 text-zinc-400 text-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 grid grid-cols-1 md:grid-cols-4 gap-10">
             <div class="space-y-4">
@@ -556,9 +815,9 @@
                     Tienda de moda urbana de alta gama. Diseños oversized pesados en algodón premium y accesorios macizos de Plata Ley .925.
                 </p>
                 <div class="flex space-x-4 text-base text-zinc-300 pt-2">
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/tropiezo_mx" target="_blank" rel="noopener" class="hover:text-white transition-colors" title="Instagram @tropiezo_mx"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://wa.me/525516069816" target="_blank" rel="noopener" class="hover:text-white transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
 
@@ -722,16 +981,101 @@
         }
 
         function addUnifiedToCart() {
-            const phoneNumber = "525636196042"; // Same as the standard checkout
-            const message = `Hola, quiero comprar la Sudadera Essentials Fear of God.
+            // Find or use Essentials product
+            const product = (typeof products !== 'undefined' ? products.find(p => p.id === 100) : null) || {
+                id: 100,
+                name: "Sudadera Essentials Fear of God",
+                price: 650,
+                image1: "model_crema.png"
+            };
 
-Color: ${currentUnifiedColor}
-Talla: ${currentUnifiedSize}
-Precio Total: $650 MXN`;
-            const encodedMessage = encodeURIComponent(message);
-            window.open(`https://wa.me/${phoneNumber}?text=${encodedMessage}`, '_blank');
+            const optionLabel = `${currentUnifiedColor} — Talla ${currentUnifiedSize}`;
+            const existingIndex = cart.findIndex(item => item.id === 100 && item.option === optionLabel);
+
+            let itemImage = product.image1;
+            const colorModelMap = {
+                'BLANCO': 'model_blanco.png',
+                'NEGRO': 'model_negro.png',
+                'CREMA': 'model_crema.png',
+                'GRIS': 'model_gris.png',
+                'VERDE': 'model_verde.png',
+                'TOTAL BLACK': 'model_total_black.png'
+            };
+            if (colorModelMap[currentUnifiedColor]) {
+                itemImage = colorModelMap[currentUnifiedColor];
+            }
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({
+                    id: 100,
+                    name: "Sudadera Essentials Fear of God",
+                    price: 650,
+                    image: itemImage,
+                    option: optionLabel,
+                    qty: 1
+                });
+            }
+
+            if (typeof saveCart === 'function') saveCart();
+            if (typeof updateCartUI === 'function') updateCartUI();
+            if (typeof toggleCartDrawer === 'function') toggleCartDrawer(true);
+            if (typeof showToast === 'function') showToast(`Añadido: Sudadera Essentials (${optionLabel})`);
+            if (typeof announceA11y === 'function') announceA11y(`Sudadera Essentials color ${currentUnifiedColor} talla ${currentUnifiedSize} añadida al carrito.`);
         }
     </script>
     
+    <!-- Floating Back to Top Button with SVG Circular Progress -->
+    <button id="back-to-top" type="button" aria-label="Volver arriba de la página"
+            class="back-to-top-btn w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-zinc-950/90 border border-zinc-700/80 text-white flex items-center justify-center shadow-2xl backdrop-blur-md hover:border-amber-400 hover:text-amber-300 transition-all focus:outline-none">
+        <svg class="absolute inset-0 w-full h-full p-1" viewBox="0 0 36 36">
+            <path class="text-zinc-800" stroke-width="2.5" stroke="currentColor" fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+            <path id="back-to-top-progress" class="text-amber-400 progress-ring-circle" stroke-width="2.5"
+                  stroke-dasharray="100, 100" stroke-dashoffset="100" stroke-linecap="round"
+                  stroke="currentColor" fill="none"
+                  d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+        </svg>
+        <i class="fa-solid fa-arrow-up text-xs sm:text-sm z-10" aria-hidden="true"></i>
+    </button>
+
+    <!-- Sticky Mobile Buy Bar for Hero Product -->
+    <div id="sticky-mobile-cart-bar" class="lg:hidden fixed bottom-[58px] left-0 right-0 z-30 bg-[#0f0f13]/95 backdrop-blur-md border-t border-zinc-800/90 px-4 py-2.5 flex items-center justify-between transform translate-y-24 opacity-0 transition-all duration-300 shadow-2xl">
+        <div class="flex items-center gap-3">
+            <img src="model_crema.png" alt="Essentials Hoodie" class="w-10 h-10 object-cover rounded border border-zinc-700">
+            <div>
+                <p class="text-[10px] font-bold uppercase text-white tracking-wider line-clamp-1">Sudadera Essentials</p>
+                <p class="text-[11px] font-black text-amber-300">$650 MXN</p>
+            </div>
+        </div>
+        <button type="button" onclick="addUnifiedToCart()" class="bg-white text-black font-black text-[11px] uppercase tracking-wider px-4 py-2 rounded-full hover:bg-zinc-200 transition-all active:scale-95 shadow-md flex items-center gap-1.5">
+            <i class="fa-solid fa-bag-shopping text-[10px]"></i> Comprar
+        </button>
+    </div>
+
+    <!-- Mobile Bottom App Navigation Bar -->
+    <nav id="mobile-bottom-nav" aria-label="Navegación móvil rápida"
+         class="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#08080a]/95 backdrop-blur-xl border-t border-zinc-800/90 px-4 py-2.5 flex justify-around items-center text-zinc-400 shadow-[0_-10px_25px_rgba(0,0,0,0.5)]">
+        <a href="index.html" class="flex flex-col items-center gap-1 hover:text-white transition-colors">
+            <i class="fa-solid fa-house text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Inicio</span>
+        </a>
+        <a href="catalogo.html" class="flex flex-col items-center gap-1 hover:text-white transition-colors">
+            <i class="fa-solid fa-shapes text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Catálogo</span>
+        </a>
+        <button type="button" onclick="toggleWishlistFilter()" class="flex flex-col items-center gap-1 hover:text-amber-300 transition-colors relative">
+            <i class="fa-regular fa-heart text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Deseos</span>
+            <span id="mobile-wishlist-count" class="hidden absolute -top-1 -right-2 bg-red-500 text-white text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">0</span>
+        </button>
+        <button type="button" onclick="toggleCartDrawer(true)" class="flex flex-col items-center gap-1 hover:text-white transition-colors relative">
+            <i class="fa-solid fa-bag-shopping text-sm"></i>
+            <span class="text-[9px] font-bold uppercase tracking-wider">Bolsa</span>
+            <span id="mobile-cart-count" class="hidden absolute -top-1 -right-2 bg-amber-400 text-black text-[8px] font-black w-3.5 h-3.5 rounded-full flex items-center justify-center">0</span>
+        </button>
+    </nav>
+
 </body>
 </html>

@@ -373,8 +373,6 @@ function getCleanOriginalPrice(price) {
         let cart = [];
         let wishlist = [];
         let recentlyViewed = [];
-        let appliedCoupon = null; // { code: 'AURA10', type: 'percent', value: 10 }
-        let customerOrderNote = '';
         let selectedProductForModal = null;
         let selectedOption = '';
         let lastFocusedElement = null;
@@ -385,22 +383,12 @@ function getCleanOriginalPrice(price) {
         let currentUnifiedColor = 'CREMA';
         let currentUnifiedSize = 'L';
 
-        // Available Promo Codes
-        const PROMO_CODES = {
-            'AURA10': { type: 'percent', value: 10, label: '10% de descuento exclusivo' },
-            'DROP2026': { type: 'fixed', value: 150, label: '$150 MXN de descuento en tu orden' },
-            'ENVIOFREE': { type: 'free_shipping', value: 0, label: 'Envío express gratis sin mínimo' }
-        };
-
-        const FREE_SHIPPING_THRESHOLD = 1200;
-        const STANDARD_SHIPPING_COST = 150;
-
         // ==========================================
         // INITIALIZATION
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             loadPersistedData();
-                        handleUrlParams();
+            handleUrlParams();
             renderProducts();
             renderRecentlyViewed();
             setupEventListeners();
@@ -429,20 +417,6 @@ function getCleanOriginalPrice(price) {
             } catch (e) {
                 recentlyViewed = [];
             }
-
-            try {
-                const savedCoupon = localStorage.getItem('aura_coupon');
-                if (savedCoupon) appliedCoupon = JSON.parse(savedCoupon);
-            } catch (e) {
-                appliedCoupon = null;
-            }
-
-            try {
-                const savedNote = localStorage.getItem('aura_order_note');
-                if (savedNote) customerOrderNote = savedNote;
-            } catch (e) {
-                customerOrderNote = '';
-            }
         }
 
         function saveCart() {
@@ -460,23 +434,6 @@ function getCleanOriginalPrice(price) {
         function saveRecentlyViewed() {
             try {
                 localStorage.setItem('aura_recently_viewed', JSON.stringify(recentlyViewed));
-            } catch (e) {}
-        }
-
-        function saveCoupon() {
-            try {
-                if (appliedCoupon) {
-                    localStorage.setItem('aura_coupon', JSON.stringify(appliedCoupon));
-                } else {
-                    localStorage.removeItem('aura_coupon');
-                }
-            } catch (e) {}
-        }
-
-        function saveOrderNote(note) {
-            customerOrderNote = note;
-            try {
-                localStorage.setItem('aura_order_note', note);
             } catch (e) {}
         }
 
@@ -598,99 +555,91 @@ function getCleanOriginalPrice(price) {
                 'caps': 'Solo Gorras',
                 'pants': 'Pants Rompevientos',
                 'pants_youngla': 'Pants Youngla',
-                'jackets_afelpadas': 'Hoodies & Jackets Afelpadas',
-                'combos': 'Combos Especiales',
-                'streetwear': 'Streetwear Exclusivo',
-                'wishlist': 'Tus Favoritos Guardados'
+                'wishlist': 'Mis Favoritos'
             };
 
-            let currentCategory = null;
+            filtered.forEach(p => {
+                const isFavorite = wishlist.includes(p.id);
+                const hasDiscount = p.price > 0;
+                const originalPrice = getCleanOriginalPrice(p.price);
 
-            filtered.forEach((product, index) => {
-                // If showing all products and not searching, group by category headers
-                if (activeCategory === 'all' && !searchQuery && product.category !== currentCategory) {
-                    currentCategory = product.category;
-                    const catTitle = document.createElement('div');
-                    catTitle.className = 'col-span-full mt-10 mb-2 border-b border-zinc-800 pb-2 reveal-up';
-                    catTitle.innerHTML = `<h3 class="text-xl font-black uppercase tracking-widest text-amber-50">${categoryNames[currentCategory] || currentCategory}</h3>`;
-                    container.appendChild(catTitle);
+                // Highlight search matches
+                let highlightedName = p.name;
+                if (searchQuery.trim()) {
+                    const regex = new RegExp(`(${escapeRegExp(searchQuery.trim())})`, 'gi');
+                    highlightedName = p.name.replace(regex, '<mark class="search-highlight">$1</mark>');
                 }
 
                 const card = document.createElement('div');
-                card.className = "group bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden metallic-border transition-all duration-300 flex flex-col justify-between reveal-up relative";
-                card.style.transitionDelay = `${(index % 4) * 100}ms`;
-
-                const isFav = wishlist.includes(product.id);
-                const action = product.custom_action ? product.custom_action : `openModal(${product.id})`;
-                const buttonText = product.custom_action ? "Ver 6 Colores" : "+ Agregar al Carrito";
-                const buttonClass = product.custom_action ? "mt-5 w-full py-3 bg-white text-black text-[11px] uppercase font-black tracking-wider transition-all rounded hover:bg-zinc-200" : "mt-5 w-full py-3 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-zinc-200 hover:text-white text-[11px] uppercase font-black tracking-wider transition-all rounded";
-
-                // Stock urgency badge
-                let stockNotice = "";
-                if (product.id === 2 || product.id === 11 || product.id === 201) {
-                    stockNotice = `<span class="inline-block mt-2 text-[9px] font-black uppercase tracking-wider text-amber-400 bg-amber-400/10 border border-amber-400/30 px-2 py-0.5 rounded-sm"><i class="fa-solid fa-clock-rotate-left mr-1" aria-hidden="true"></i> Últimas 2 piezas</span>`;
-                }
-
-                // Highlighted name if search query is active
-                let displayName = product.name;
-                if (searchQuery.trim()) {
-                    const regex = new RegExp(`(${escapeRegExp(searchQuery.trim())})`, 'gi');
-                    displayName = product.name.replace(regex, '<mark class="search-highlight">$1</mark>');
-                }
+                card.className = "group relative bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden flex flex-col justify-between hover:border-zinc-500 transition-all duration-300 shadow-lg hover:shadow-2xl focus-within:ring-2 focus-within:ring-white";
 
                 card.innerHTML = `
-                    <div class="img-container relative w-full h-80 bg-zinc-900/60 cursor-pointer flex items-center justify-center p-4">
-                        <span class="absolute top-3 left-3 z-10 text-[9px] font-black uppercase tracking-widest ${product.tagClass} px-2.5 py-1 rounded-sm shadow-md">
-                            ${product.tag}
+                    <div class="relative w-full aspect-square bg-zinc-900/40 p-4 sm:p-6 flex items-center justify-center overflow-hidden cursor-pointer" onclick="openModal(${p.id})">
+                        <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-sm shadow-md z-10 ${p.tagClass}">
+                            ${p.tag}
                         </span>
 
                         <button type="button" 
-                                onclick="event.stopPropagation(); toggleWishlist(${product.id})" 
-                                aria-label="${isFav ? 'Quitar de favoritos' : 'Guardar en favoritos'}: ${product.name}" 
-                                aria-pressed="${isFav ? 'true' : 'false'}"
-                                class="wishlist-heart-btn absolute top-3 right-3 z-20 w-8 h-8 rounded-full bg-black/70 border border-zinc-700/80 flex items-center justify-center text-sm ${isFav ? 'is-active text-red-500' : 'text-zinc-400 hover:text-white'}">
-                            <i class="${isFav ? 'fa-solid' : 'fa-regular'} fa-heart" aria-hidden="true"></i>
+                                onclick="event.stopPropagation(); toggleWishlist(${p.id})" 
+                                aria-label="${isFavorite ? 'Quitar de favoritos' : 'Guardar en favoritos'} ${p.name}" 
+                                aria-pressed="${isFavorite ? 'true' : 'false'}"
+                                class="wishlist-heart-btn absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-zinc-700/60 flex items-center justify-center text-sm ${isFavorite ? 'text-red-500' : 'text-zinc-400 hover:text-white'} focus:outline-none">
+                            <i class="${isFavorite ? 'fa-solid' : 'fa-regular'} fa-heart" aria-hidden="true"></i>
                         </button>
-                        
-                        <img src="${product.image1}" 
-                             alt="${product.name} - Calidad AURA LUXURY Streetwear" 
-                             loading="lazy" 
-                             onclick="${action}"
-                             class="w-full h-full object-contain focus:outline-none">
-                        
-                        <div class="absolute inset-x-0 bottom-0 p-3 bg-gradient-to-t from-neutral-950 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center pointer-events-none">
-                            <span class="text-[9px] font-black uppercase tracking-widest text-white bg-black/90 border border-zinc-700 px-4 py-2 rounded-sm">
-                                Vista Rápida
-                            </span>
-                        </div>
+
+                        <img src="${p.image1}" 
+                             alt="${p.name} - Streetwear premium AURA LUXURY" 
+                             loading="lazy"
+                             class="h-full w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out">
                     </div>
 
-                    <div class="p-5 flex-grow flex flex-col justify-between bg-zinc-900/40">
+                    <div class="p-4 sm:p-5 flex flex-col flex-grow justify-between border-t border-zinc-800/80 bg-zinc-950">
                         <div>
-                            <h3 class="text-xs font-black uppercase tracking-tight text-white group-hover:text-zinc-300 transition-colors cursor-pointer" onclick="${action}">
-                                ${displayName}
-                            </h3>
-                            <div class="flex items-center gap-2.5 mt-2">
-                                <span class="sr-only">Precio actual:</span>
-                                <p class="text-base font-black text-amber-200">$${product.price.toLocaleString('es-MX')}.00 MXN</p>
-                                <span class="sr-only">Precio original antes de descuento:</span>
-                                <span class="text-xs font-bold text-zinc-500 line-through" aria-hidden="true">$${getCleanOriginalPrice(product.price).toLocaleString('es-MX')}.00 MXN</span>
+                            <div class="flex items-center justify-between text-[10px] text-zinc-500 font-extrabold uppercase tracking-wider mb-1">
+                                <span>${categoryNames[p.category] || 'Colección'}</span>
+                                ${p.options && p.options.length > 1 ? `<span>${p.options.length} Tallas</span>` : ''}
                             </div>
-                            ${stockNotice}
+                            <h3 class="font-bold text-xs uppercase tracking-wider text-white line-clamp-2 min-h-[32px] group-hover:text-amber-200 transition-colors">
+                                ${highlightedName}
+                            </h3>
+                            <p class="text-[11px] text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
+                                ${p.desc}
+                            </p>
                         </div>
 
-                        <button onclick="${action}" 
-                                aria-label="${product.custom_action ? 'Ver opciones de color para ' + product.name : 'Agregar ' + product.name + ' al carrito'}"
-                                class="${buttonClass}">
-                            ${buttonText}
-                        </button>
+                        <div class="mt-4 pt-3 border-t border-zinc-900 flex items-center justify-between">
+                            <div>
+                                <span class="sr-only">Precio actual:</span>
+                                <span class="text-sm sm:text-base font-black text-amber-200">
+                                    $${p.price.toLocaleString('es-MX')}.00 MXN
+                                </span>
+                                <span class="sr-only">Precio de lista:</span>
+                                <span class="block text-[10px] text-zinc-500 line-through font-bold" aria-hidden="true">
+                                    $${originalPrice.toLocaleString('es-MX')}.00 MXN
+                                </span>
+                            </div>
+
+                            <div class="flex items-center gap-1.5">
+                                <button type="button" 
+                                        onclick="openModal(${p.id})" 
+                                        aria-label="Ver detalles y tallas de ${p.name}"
+                                        class="p-2.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 text-zinc-300 hover:text-white transition-all text-xs focus:outline-none" 
+                                        title="Vista rápida">
+                                    <i class="fa-solid fa-eye" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" 
+                                        onclick="quickAddToCart(${p.id})" 
+                                        aria-label="Agregar ${p.name} al carrito"
+                                        class="px-3 py-2 rounded bg-white hover:bg-zinc-200 text-black font-black text-[11px] uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md focus:outline-none">
+                                    <i class="fa-solid fa-plus text-[10px]" aria-hidden="true"></i>
+                                    <span>Agregar</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 `;
-                container.appendChild(card);
 
-                if (window.scrollObserver) {
-                    window.scrollObserver.observe(card);
-                }
+                container.appendChild(card);
             });
         }
 
@@ -698,60 +647,31 @@ function getCleanOriginalPrice(price) {
             return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
         }
 
+        function getCleanOriginalPrice(price) {
+            if (price <= 350) return price + 150;
+            if (price <= 650) return price + 250;
+            return price + 350;
+        }
+
+        // ==========================================
+        // FILTER HANDLERS
+        // ==========================================
         function filterCategory(cat) {
-            const grid = document.getElementById('product-grid');
-            const specialView = document.getElementById('essentials-special-view');
-            const newDropSection = document.getElementById('new-drop-section');
-            const lookbookSection = document.getElementById('lookbook');
-            
-            if (cat === 'essentials_hoodies') {
-                if (grid) grid.style.display = 'none';
-                if (specialView) specialView.style.display = 'block';
-            } else {
-                if (grid) grid.style.display = 'grid';
-                if (specialView) specialView.style.display = 'none';
-            }
-
-            if (cat === 'all') {
-                if (newDropSection) newDropSection.style.display = 'block';
-                if (lookbookSection) lookbookSection.style.display = 'block';
-            } else {
-                if (newDropSection) newDropSection.style.display = 'none';
-                if (lookbookSection) lookbookSection.style.display = 'none';
-            }
-
             activeCategory = cat;
-            
-            // Update button styles and ARIA states
-            const buttons = document.querySelectorAll('.cat-filter-btn');
-            buttons.forEach(btn => {
-                const btnOnclick = btn.getAttribute('onclick') || '';
-                const isTarget = btnOnclick.includes(`'${cat}'`);
-                btn.setAttribute('aria-pressed', isTarget ? 'true' : 'false');
-                if (isTarget) {
-                    btn.classList.add('active-cat', 'border-white', 'bg-white', 'text-black');
-                    btn.classList.remove('border-zinc-800', 'text-zinc-400', 'hover:text-white', 'hover:border-zinc-600');
-                } else {
-                    btn.classList.remove('active-cat', 'border-white', 'bg-white', 'text-black');
-                    btn.classList.add('border-zinc-800', 'text-zinc-400', 'hover:text-white', 'hover:border-zinc-600');
-                }
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                const isActive = btn.dataset.category === cat;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             });
-            
             renderProducts();
         }
 
-        function filterPrice(range) {
+        function filterByPrice(range) {
             activePriceFilter = range;
-            const priceBtns = document.querySelectorAll('.price-filter-btn');
-            priceBtns.forEach(btn => {
-                const btnRange = btn.getAttribute('data-price-range');
-                const isTarget = (btnRange === range);
-                btn.setAttribute('aria-pressed', isTarget ? 'true' : 'false');
-                btn.classList.toggle('border-white', isTarget);
-                btn.classList.toggle('bg-white', isTarget);
-                btn.classList.toggle('text-black', isTarget);
-                btn.classList.toggle('border-zinc-800', !isTarget);
-                btn.classList.toggle('text-zinc-400', !isTarget);
+            document.querySelectorAll('.price-filter-btn').forEach(btn => {
+                const isActive = btn.dataset.price === range;
+                btn.classList.toggle('active', isActive);
+                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
             });
             renderProducts();
         }
@@ -762,40 +682,37 @@ function getCleanOriginalPrice(price) {
             searchQuery = '';
             const searchInput = document.getElementById('search-input');
             if (searchInput) searchInput.value = '';
-            filterCategory('all');
-            filterPrice('all');
-        }
+            const clearSearchBtn = document.getElementById('clear-search-btn');
+            if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
 
-        function sortProducts() {
-            const val = document.getElementById('sort-select')?.value;
-            if (val === 'price-low') {
-                products.sort((a, b) => a.price - b.price);
-            } else if (val === 'price-high') {
-                products.sort((a, b) => b.price - a.price);
-            } else if (val === 'name-asc') {
-                products.sort((a, b) => a.name.localeCompare(b.name));
-            } else {
-                products.sort((a, b) => a.id - b.id);
-            }
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.category === 'all');
+                btn.setAttribute('aria-pressed', btn.dataset.category === 'all' ? 'true' : 'false');
+            });
+            document.querySelectorAll('.price-filter-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.price === 'all');
+                btn.setAttribute('aria-pressed', btn.dataset.price === 'all' ? 'true' : 'false');
+            });
             renderProducts();
+            showToast("Filtros restablecidos");
         }
 
         // ==========================================
         // WISHLIST (FAVORITOS) SYSTEM
         // ==========================================
         function toggleWishlist(productId) {
-            const idx = wishlist.indexOf(productId);
+            const index = wishlist.indexOf(productId);
             const product = products.find(p => p.id === productId);
             const name = product ? product.name : 'Producto';
 
-            if (idx > -1) {
-                wishlist.splice(idx, 1);
+            if (index > -1) {
+                wishlist.splice(index, 1);
                 showToast(`Eliminado de favoritos: ${name}`);
-                announceA11y(`${name} eliminado de tu lista de favoritos`);
+                announceA11y(`${name} eliminado de tus favoritos`);
             } else {
                 wishlist.push(productId);
-                showToast(`¡Guardado en favoritos! ❤️ ${name}`);
-                announceA11y(`${name} guardado en tu lista de favoritos`);
+                showToast(`Guardado en favoritos: ${name} ❤️`);
+                announceA11y(`${name} guardado en tus favoritos`);
             }
 
             saveWishlist();
@@ -1157,39 +1074,20 @@ function getCleanOriginalPrice(price) {
             return cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
         }
 
-        function getDiscountAmount(subtotal) {
-            if (!appliedCoupon) return 0;
-            if (appliedCoupon.type === 'percent') {
-                return Math.round((subtotal * appliedCoupon.value) / 100);
-            }
-            if (appliedCoupon.type === 'fixed') {
-                return Math.min(subtotal, appliedCoupon.value);
-            }
-            return 0; // free_shipping affects shipping cost, not subtotal
-        }
-
         function updateCartUI() {
             const countEl = document.getElementById('cart-count');
             const drawerCountEl = document.getElementById('cart-drawer-count');
             const container = document.getElementById('cart-items-container');
             const subtotalEl = document.getElementById('cart-subtotal');
-            const discountRow = document.getElementById('cart-discount-row');
-            const discountAmountEl = document.getElementById('cart-discount-amount');
-            const shippingEl = document.getElementById('cart-shipping-cost');
-            const totalFinalEl = document.getElementById('cart-total-final');
             const cartBtn = document.getElementById('cart-btn');
 
             const totalItems = getTotalCartItems();
             if (countEl) countEl.textContent = totalItems;
             if (drawerCountEl) drawerCountEl.textContent = totalItems;
 
-            // Accessible label for cart button
             if (cartBtn) {
                 cartBtn.setAttribute('aria-label', `Carrito de compras con ${totalItems} producto${totalItems === 1 ? '' : 's'}`);
             }
-
-            // Update Free Shipping Progress Bar
-            updateFreeShippingProgressBar();
 
             // Empty cart state
             if (cart.length === 0) {
@@ -1210,9 +1108,6 @@ function getCleanOriginalPrice(price) {
                     `;
                 }
                 if (subtotalEl) subtotalEl.textContent = "$0.00 MXN";
-                if (discountRow) discountRow.classList.add('hidden');
-                if (shippingEl) shippingEl.textContent = "$0.00 MXN";
-                if (totalFinalEl) totalFinalEl.textContent = "$0.00 MXN";
                 return;
             }
 
@@ -1220,12 +1115,6 @@ function getCleanOriginalPrice(price) {
             if (container) {
                 container.innerHTML = '';
                 const subtotal = getCartSubtotal();
-                const discount = getDiscountAmount(subtotal);
-                
-                // Determine Shipping
-                let isFreeShipping = (subtotal >= FREE_SHIPPING_THRESHOLD) || (appliedCoupon && appliedCoupon.type === 'free_shipping');
-                let shippingCost = isFreeShipping ? 0 : STANDARD_SHIPPING_COST;
-                let finalTotal = Math.max(0, subtotal - discount) + shippingCost;
 
                 cart.forEach((item, index) => {
                     const itemEl = document.createElement('div');
@@ -1259,57 +1148,6 @@ function getCleanOriginalPrice(price) {
                 });
 
                 if (subtotalEl) subtotalEl.textContent = `$${subtotal.toLocaleString('es-MX')}.00 MXN`;
-                
-                if (discountRow && discountAmountEl) {
-                    if (discount > 0) {
-                        discountRow.classList.remove('hidden');
-                        discountAmountEl.textContent = `-$${discount.toLocaleString('es-MX')}.00 MXN`;
-                    } else {
-                        discountRow.classList.add('hidden');
-                    }
-                }
-
-                if (shippingEl) {
-                    if (isFreeShipping) {
-                        shippingEl.innerHTML = `<span class="text-emerald-400 font-black">GRATIS</span>`;
-                    } else {
-                        shippingEl.textContent = `$${STANDARD_SHIPPING_COST.toLocaleString('es-MX')}.00 MXN`;
-                    }
-                }
-
-                if (totalFinalEl) totalFinalEl.textContent = `$${finalTotal.toLocaleString('es-MX')}.00 MXN`;
-            }
-
-            // Update Coupon Badge in Cart Drawer
-            updateCouponUI();
-
-            // Populate Customer Note in Cart Drawer
-            const noteTextarea = document.getElementById('cart-order-note');
-            if (noteTextarea && document.activeElement !== noteTextarea) {
-                noteTextarea.value = customerOrderNote;
-            }
-        }
-
-        function updateFreeShippingProgressBar() {
-            const bar = document.getElementById('free-shipping-bar');
-            const messageEl = document.getElementById('free-shipping-message');
-            if (!bar || !messageEl) return;
-
-            const subtotal = getCartSubtotal();
-            if (appliedCoupon && appliedCoupon.type === 'free_shipping') {
-                bar.style.width = '100%';
-                messageEl.innerHTML = `<i class="fa-solid fa-gift text-emerald-400 mr-1" aria-hidden="true"></i> ¡Cupón aplicado! Tienes <strong>Envío Gratis Express</strong>.`;
-                return;
-            }
-
-            if (subtotal >= FREE_SHIPPING_THRESHOLD) {
-                bar.style.width = '100%';
-                messageEl.innerHTML = `<i class="fa-solid fa-check text-emerald-400 mr-1" aria-hidden="true"></i> ¡Felicidades! Tienes <strong>Envío Gratis a todo México</strong>.`;
-            } else {
-                const diff = FREE_SHIPPING_THRESHOLD - subtotal;
-                const percent = Math.min(100, Math.round((subtotal / FREE_SHIPPING_THRESHOLD) * 100));
-                bar.style.width = `${percent}%`;
-                messageEl.innerHTML = `Agrega <strong>$${diff.toLocaleString('es-MX')} MXN</strong> más para tener <strong>Envío Gratis</strong>.`;
             }
         }
 
@@ -1358,58 +1196,6 @@ function getCleanOriginalPrice(price) {
         }
 
         // ==========================================
-        // PROMO CODE / COUPON SYSTEM
-        // ==========================================
-        function applyCoupon() {
-            const input = document.getElementById('coupon-input');
-            if (!input) return;
-            const code = input.value.trim().toUpperCase();
-
-            if (!code) {
-                showToast("Ingresa un código de descuento");
-                return;
-            }
-
-            if (PROMO_CODES[code]) {
-                appliedCoupon = { code: code, ...PROMO_CODES[code] };
-                saveCoupon();
-                updateCartUI();
-                input.value = '';
-                showToast(`¡Cupón ${code} aplicado exitosamente!`);
-                announceA11y(`Cupón ${code} aplicado. ${appliedCoupon.label}`);
-            } else {
-                showToast("Código de descuento no válido");
-                announceA11y("Código de descuento no válido");
-            }
-        }
-
-        function removeCoupon() {
-            if (!appliedCoupon) return;
-            const oldCode = appliedCoupon.code;
-            appliedCoupon = null;
-            saveCoupon();
-            updateCartUI();
-            showToast(`Cupón ${oldCode} eliminado`);
-            announceA11y(`Cupón ${oldCode} eliminado`);
-        }
-
-        function updateCouponUI() {
-            const badge = document.getElementById('cart-coupon-badge');
-            const codeName = document.getElementById('cart-coupon-code');
-            const codeDesc = document.getElementById('cart-coupon-desc');
-
-            if (!badge) return;
-
-            if (appliedCoupon) {
-                badge.classList.remove('hidden');
-                if (codeName) codeName.textContent = appliedCoupon.code;
-                if (codeDesc) codeDesc.textContent = appliedCoupon.label;
-            } else {
-                badge.classList.add('hidden');
-            }
-        }
-
-        // ==========================================
         // CART DRAWER CONTROLS
         // ==========================================
         function toggleCartDrawer(open) {
@@ -1455,52 +1241,21 @@ function getCleanOriginalPrice(price) {
         function buildOrderSummaryText() {
             const orderId = generateOrderNumber();
             const subtotal = getCartSubtotal();
-            const discount = getDiscountAmount(subtotal);
-            const isFreeShipping = (subtotal >= FREE_SHIPPING_THRESHOLD) || (appliedCoupon && appliedCoupon.type === 'free_shipping');
-            const shippingCost = isFreeShipping ? 0 : STANDARD_SHIPPING_COST;
-            const total = Math.max(0, subtotal - discount) + shippingCost;
 
-            let text = `👑 *ORDEN DE COMPRA AURA LUXURY* [Pedido ${orderId}]
-`;
-            text += `━━━━━━━━━━━━━━━━━━━━━
-`;
-            text += `*PRODUCTOS SELECCIONADOS:*
-`;
+            let text = `👑 *ORDEN DE COMPRA AURA LUXURY* [Pedido ${orderId}]\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `*PRODUCTOS SELECCIONADOS:*\n`;
 
             cart.forEach((item, idx) => {
-                text += `${idx + 1}. *${item.name}*
-`;
-                text += `   • Medida / Talla: ${item.option}
-`;
-                text += `   • Cantidad: ${item.qty} | $${(item.price * item.qty).toLocaleString('es-MX')} MXN
-`;
+                text += `${idx + 1}. *${item.name}*\n`;
+                text += `   • Medida / Talla: ${item.option}\n`;
+                text += `   • Cantidad: ${item.qty} | $${(item.price * item.qty).toLocaleString('es-MX')} MXN\n`;
             });
 
-            text += `━━━━━━━━━━━━━━━━━━━━━
-`;
-            text += `• Subtotal: $${subtotal.toLocaleString('es-MX')} MXN
-`;
-
-            if (discount > 0) {
-                text += `• Descuento (${appliedCoupon.code}): -$${discount.toLocaleString('es-MX')} MXN
-`;
-            }
-
-            text += `• Envío: ${isFreeShipping ? 'GRATIS Express a todo México 🚚' : '$' + STANDARD_SHIPPING_COST + ' MXN'}
-`;
-            text += `*• TOTAL FINAL: $${total.toLocaleString('es-MX')} MXN*
-`;
-
-            if (customerOrderNote.trim()) {
-                text += `━━━━━━━━━━━━━━━━━━━━━
-`;
-                text += `📝 *Nota del cliente:* ${customerOrderNote.trim()}
-`;
-            }
-
-            text += `━━━━━━━━━━━━━━━━━━━━━
-`;
-            text += `¿Me podrían proporcionar los datos bancarios para transferencia / pago con tarjeta? ¡Muchas gracias!`;
+            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `*• TOTAL PRODUCTOS: $${subtotal.toLocaleString('es-MX')}.00 MXN*\n`;
+            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
+            text += `Hola, me gustaría coordinar el envío y pago para este pedido. ¿Me podrían dar los datos para concretar la compra? ¡Gracias!`;
 
             return text;
         }
@@ -1608,14 +1363,6 @@ function getCleanOriginalPrice(price) {
                     clearSearchBtn.classList.add('hidden');
                     searchInput.focus();
                     renderProducts();
-                });
-            }
-
-            // Customer Order Note Input listener
-            const orderNoteInput = document.getElementById('cart-order-note');
-            if (orderNoteInput) {
-                orderNoteInput.addEventListener('input', (e) => {
-                    saveOrderNote(e.target.value);
                 });
             }
 

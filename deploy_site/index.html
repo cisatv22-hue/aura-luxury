@@ -530,7 +530,7 @@
         </div>
     </section>
 
-    <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none hidden overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-heading">
+        <div id="cart-drawer" class="fixed inset-0 z-50 pointer-events-none hidden overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-heading">
         <div id="cart-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm opacity-0 transition-opacity duration-300"></div>
 
         <div id="cart-panel" class="absolute top-0 right-0 h-full w-full max-w-md bg-neutral-950 border-l border-zinc-800 shadow-2xl transform translate-x-full transition-transform duration-300 pointer-events-auto flex flex-col">
@@ -545,86 +545,33 @@
                 </button>
             </div>
 
-            <!-- Free Shipping Progress Bar -->
-            <div class="px-6 pt-4 pb-3 bg-neutral-900/60 border-b border-zinc-800/80">
-                <div class="flex justify-between items-center text-[10px] font-extrabold uppercase tracking-wider text-zinc-300 mb-2">
-                    <span id="free-shipping-message">Agrega productos para <strong>Envío Gratis</strong></span>
-                    <span class="text-zinc-500">$1,200 MXN</span>
-                </div>
-                <div class="w-full h-2 bg-zinc-800 rounded-full overflow-hidden" role="progressbar" aria-label="Progreso para envío gratis" aria-valuemin="0" aria-valuemax="1200">
-                    <div id="free-shipping-bar" class="shipping-progress-bar h-full bg-gradient-to-r from-amber-400 to-emerald-400 rounded-full" style="width: 0%;"></div>
-                </div>
-            </div>
-
             <!-- Items Container -->
             <div id="cart-items-container" class="flex-grow overflow-y-auto p-6 space-y-4" role="region" aria-label="Lista de artículos en el carrito">
                 <!-- Javascript insertion -->
             </div>
 
-            <!-- Promo Code Input & Badge -->
-            <div class="px-6 py-3 border-t border-zinc-800/80 bg-zinc-900/30">
-                <div id="cart-coupon-badge" class="hidden flex items-center justify-between bg-amber-400/10 border border-amber-400/30 px-3 py-1.5 rounded mb-2 text-xs">
-                    <div class="flex items-center gap-2">
-                        <i class="fa-solid fa-tag text-amber-300" aria-hidden="true"></i>
-                        <span id="cart-coupon-code" class="font-extrabold text-amber-200"></span>
-                        <span id="cart-coupon-desc" class="text-zinc-400 text-[10px]"></span>
-                    </div>
-                    <button onclick="removeCoupon()" aria-label="Eliminar cupón de descuento" class="text-zinc-400 hover:text-white text-xs">
-                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <div class="flex gap-2">
-                    <input type="text" id="coupon-input" placeholder="Código (ej. AURA10, DROP2026)" aria-label="Código de descuento" class="flex-grow bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 text-xs px-3 py-2 rounded focus:outline-none focus:border-zinc-500 uppercase">
-                    <button onclick="applyCoupon()" class="px-4 py-2 bg-zinc-800 hover:bg-zinc-700 text-white font-extrabold text-xs uppercase tracking-wider rounded transition-all">
-                        Aplicar
-                    </button>
-                </div>
-            </div>
-
-            <!-- Customer Order Note -->
-            <div class="px-6 py-3 border-t border-zinc-800/80 bg-zinc-900/20">
-                <label for="cart-order-note" class="block text-[10px] uppercase tracking-wider font-extrabold text-zinc-400 mb-1">
-                    <i class="fa-solid fa-pencil mr-1" aria-hidden="true"></i> Nota especial o instrucciones de entrega:
-                </label>
-                <textarea id="cart-order-note" rows="2" placeholder="Ej. Empaque para regalo, horario preferido..." aria-label="Instrucciones especiales para el pedido" class="w-full bg-zinc-900 border border-zinc-800 text-white placeholder-zinc-500 text-xs p-2 rounded focus:outline-none focus:border-zinc-500 resize-none"></textarea>
-            </div>
-
             <!-- Cart Footer -->
             <div class="p-6 border-t border-zinc-800 bg-zinc-900/80 space-y-4">
-                <div class="space-y-1.5 text-xs text-zinc-400">
-                    <div class="flex justify-between">
-                        <span class="uppercase tracking-wider">Subtotal:</span>
-                        <span id="cart-subtotal" class="font-bold text-white">$0.00 MXN</span>
-                    </div>
-                    <div id="cart-discount-row" class="hidden flex justify-between text-amber-300 font-bold">
-                        <span class="uppercase tracking-wider">Descuento aplicado:</span>
-                        <span id="cart-discount-amount">-$0.00 MXN</span>
-                    </div>
-                    <div class="flex justify-between">
-                        <span class="uppercase tracking-wider">Envío Express:</span>
-                        <span id="cart-shipping-cost" class="font-bold text-white">$150.00 MXN</span>
-                    </div>
-                    <div class="flex justify-between text-sm pt-2 border-t border-zinc-800">
-                        <span class="text-white uppercase tracking-wider font-extrabold">Total Final:</span>
-                        <span id="cart-total-final" class="font-black text-amber-200 text-lg">$0.00 MXN</span>
-                    </div>
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-zinc-400 uppercase tracking-wider text-xs font-bold">Subtotal:</span>
+                    <span id="cart-subtotal" class="font-black text-amber-200 text-lg">$0.00 MXN</span>
                 </div>
+                <p class="text-[10px] text-zinc-500 uppercase tracking-wider text-center">Envío y formas de pago coordinados vía WhatsApp o Instagram.</p>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
                     <button onclick="checkoutWhatsApp()" aria-label="Completar pedido por WhatsApp" class="w-full py-3.5 bg-emerald-600 text-white font-black text-xs uppercase tracking-[0.15em] hover:bg-emerald-500 transition-all rounded shadow-xl flex items-center justify-center gap-2 shadow-emerald-950/50">
-                        <i class="fa-brands fa-whatsapp text-lg" aria-hidden="true"></i> WhatsApp
+                        <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp
                     </button>
                     <button onclick="checkoutInstagram()" aria-label="Completar pedido por Instagram DM" class="w-full py-3.5 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white font-black text-xs uppercase tracking-[0.15em] hover:opacity-90 transition-all rounded shadow-xl flex items-center justify-center gap-2 shadow-purple-950/50">
-                        <i class="fa-brands fa-instagram text-lg" aria-hidden="true"></i> Instagram
+                        <i class="fa-brands fa-instagram text-lg"></i> Instagram
                     </button>
                 </div>
 
                 <button onclick="copyOrderSummary()" aria-label="Copiar resumen del pedido al portapapeles" class="w-full py-2.5 bg-zinc-900 border border-zinc-800 hover:border-zinc-500 text-zinc-300 hover:text-white font-extrabold text-[11px] uppercase tracking-wider rounded transition-all flex items-center justify-center gap-2">
-                    <i class="fa-regular fa-copy text-sm" aria-hidden="true"></i> Copiar Resumen de Pedido
+                    <i class="fa-regular fa-copy text-sm"></i> Copiar Resumen de Pedido
                 </button>
             </div>
         </div>
-    </div>
     </div>
 
     <div id="modal-container" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">

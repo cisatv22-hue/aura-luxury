@@ -385,14 +385,6 @@ function getCleanOriginalPrice(price) {
         let currentUnifiedColor = 'CREMA';
         let currentUnifiedSize = 'L';
 
-        // Accessibility settings state
-        let a11yState = {
-            highContrast: false,
-            fontScale: 'normal',
-            accessibleFont: false,
-            underlineLinks: false
-        };
-
         // Available Promo Codes
         const PROMO_CODES = {
             'AURA10': { type: 'percent', value: 10, label: '10% de descuento exclusivo' },
@@ -408,8 +400,7 @@ function getCleanOriginalPrice(price) {
         // ==========================================
         document.addEventListener('DOMContentLoaded', () => {
             loadPersistedData();
-            initA11y();
-            handleUrlParams();
+                        handleUrlParams();
             renderProducts();
             renderRecentlyViewed();
             setupEventListeners();
@@ -452,11 +443,6 @@ function getCleanOriginalPrice(price) {
             } catch (e) {
                 customerOrderNote = '';
             }
-
-            try {
-                const savedA11y = localStorage.getItem('aura_a11y');
-                if (savedA11y) a11yState = Object.assign(a11yState, JSON.parse(savedA11y));
-            } catch (e) {}
         }
 
         function saveCart() {
@@ -492,139 +478,6 @@ function getCleanOriginalPrice(price) {
             try {
                 localStorage.setItem('aura_order_note', note);
             } catch (e) {}
-        }
-
-        function saveA11y() {
-            try {
-                localStorage.setItem('aura_a11y', JSON.stringify(a11yState));
-            } catch (e) {}
-        }
-
-        // ==========================================
-        // ACCESSIBILITY (A11Y) SUITE
-        // ==========================================
-        function initA11y() {
-            applyA11yClasses();
-            updateA11yControlsUI();
-        }
-
-        function applyA11yClasses() {
-            const body = document.body;
-            const html = document.documentElement;
-
-            // High Contrast
-            if (a11yState.highContrast) {
-                body.classList.add('high-contrast');
-            } else {
-                body.classList.remove('high-contrast');
-            }
-
-            // Font Scaling
-            html.classList.remove('font-scale-md', 'font-scale-lg');
-            if (a11yState.fontScale === 'md') html.classList.add('font-scale-md');
-            if (a11yState.fontScale === 'lg') html.classList.add('font-scale-lg');
-
-            // Dyslexia-friendly Font
-            if (a11yState.accessibleFont) {
-                body.classList.add('accessible-font');
-            } else {
-                body.classList.remove('accessible-font');
-            }
-
-            // Underline Links
-            if (a11yState.underlineLinks) {
-                body.classList.add('underline-links');
-            } else {
-                body.classList.remove('underline-links');
-            }
-        }
-
-        function updateA11yControlsUI() {
-            const hcToggle = document.getElementById('a11y-hc-toggle');
-            if (hcToggle) {
-                hcToggle.setAttribute('aria-pressed', a11yState.highContrast ? 'true' : 'false');
-                hcToggle.classList.toggle('bg-white', a11yState.highContrast);
-                hcToggle.classList.toggle('text-black', a11yState.highContrast);
-                hcToggle.classList.toggle('bg-zinc-900', !a11yState.highContrast);
-                hcToggle.classList.toggle('text-zinc-300', !a11yState.highContrast);
-            }
-
-            const fontToggle = document.getElementById('a11y-font-toggle');
-            if (fontToggle) {
-                fontToggle.setAttribute('aria-pressed', a11yState.accessibleFont ? 'true' : 'false');
-                fontToggle.classList.toggle('bg-white', a11yState.accessibleFont);
-                fontToggle.classList.toggle('text-black', a11yState.accessibleFont);
-                fontToggle.classList.toggle('bg-zinc-900', !a11yState.accessibleFont);
-                fontToggle.classList.toggle('text-zinc-300', !a11yState.accessibleFont);
-            }
-
-            const underlineToggle = document.getElementById('a11y-underline-toggle');
-            if (underlineToggle) {
-                underlineToggle.setAttribute('aria-pressed', a11yState.underlineLinks ? 'true' : 'false');
-                underlineToggle.classList.toggle('bg-white', a11yState.underlineLinks);
-                underlineToggle.classList.toggle('text-black', a11yState.underlineLinks);
-                underlineToggle.classList.toggle('bg-zinc-900', !a11yState.underlineLinks);
-                underlineToggle.classList.toggle('text-zinc-300', !a11yState.underlineLinks);
-            }
-        }
-
-        function toggleHighContrast() {
-            a11yState.highContrast = !a11yState.highContrast;
-            applyA11yClasses();
-            updateA11yControlsUI();
-            saveA11y();
-            announceA11y(a11yState.highContrast ? "Modo de alto contraste activado" : "Modo de alto contraste desactivado");
-        }
-
-        function cycleFontSize() {
-            if (a11yState.fontScale === 'normal') a11yState.fontScale = 'md';
-            else if (a11yState.fontScale === 'md') a11yState.fontScale = 'lg';
-            else a11yState.fontScale = 'normal';
-
-            applyA11yClasses();
-            saveA11y();
-            const labels = { 'normal': 'Tamaño de texto estándar', 'md': 'Tamaño de texto mediano (+15%)', 'lg': 'Tamaño de texto grande (+25%)' };
-            const fontScaleLabel = document.getElementById('a11y-scale-label');
-            if (fontScaleLabel) fontScaleLabel.textContent = labels[a11yState.fontScale];
-            announceA11y(labels[a11yState.fontScale]);
-        }
-
-        function toggleAccessibleFont() {
-            a11yState.accessibleFont = !a11yState.accessibleFont;
-            applyA11yClasses();
-            updateA11yControlsUI();
-            saveA11y();
-            announceA11y(a11yState.accessibleFont ? "Fuente de alta legibilidad activada" : "Fuente estándar activada");
-        }
-
-        function toggleUnderlineLinks() {
-            a11yState.underlineLinks = !a11yState.underlineLinks;
-            applyA11yClasses();
-            updateA11yControlsUI();
-            saveA11y();
-            announceA11y(a11yState.underlineLinks ? "Subrayado de enlaces activado" : "Subrayado de enlaces desactivado");
-        }
-
-        function toggleA11yMenu(forceOpen) {
-            const menu = document.getElementById('a11y-modal');
-            if (!menu) return;
-            const isHidden = menu.classList.contains('hidden');
-            const shouldOpen = forceOpen !== undefined ? forceOpen : isHidden;
-
-            if (shouldOpen) {
-                lastFocusedElement = document.activeElement;
-                menu.classList.remove('hidden');
-                document.getElementById('a11y-toggle-btn')?.setAttribute('aria-expanded', 'true');
-                trapFocus(menu);
-                const firstBtn = menu.querySelector('button');
-                if (firstBtn) firstBtn.focus();
-            } else {
-                menu.classList.add('hidden');
-                document.getElementById('a11y-toggle-btn')?.setAttribute('aria-expanded', 'false');
-                if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
-                    lastFocusedElement.focus();
-                }
-            }
         }
 
         function announceA11y(message) {
@@ -1772,8 +1625,6 @@ function getCleanOriginalPrice(price) {
             document.getElementById('modal-backdrop')?.addEventListener('click', closeModal);
             document.getElementById('close-size-guide')?.addEventListener('click', closeSizeGuide);
             document.getElementById('size-guide-backdrop')?.addEventListener('click', closeSizeGuide);
-            document.getElementById('close-a11y-modal')?.addEventListener('click', () => toggleA11yMenu(false));
-            document.getElementById('a11y-modal-backdrop')?.addEventListener('click', () => toggleA11yMenu(false));
 
             // Global Esc Key and Search Shortcut (/)
             document.addEventListener('keydown', (e) => {
@@ -1781,13 +1632,11 @@ function getCleanOriginalPrice(price) {
                     const modal = document.getElementById('modal-container');
                     const drawer = document.getElementById('cart-drawer');
                     const sizeGuide = document.getElementById('size-guide-modal');
-                    const a11yModal = document.getElementById('a11y-modal');
                     const searchBar = document.getElementById('search-bar');
                     const mobileMenu = document.getElementById('mobile-menu');
 
                     if (modal && !modal.classList.contains('hidden')) closeModal();
                     else if (sizeGuide && !sizeGuide.classList.contains('hidden')) closeSizeGuide();
-                    else if (a11yModal && !a11yModal.classList.contains('hidden')) toggleA11yMenu(false);
                     else if (drawer && !drawer.classList.contains('hidden')) toggleCartDrawer(false);
                     else if (searchBar && !searchBar.classList.contains('hidden')) {
                         searchBar.classList.add('hidden');

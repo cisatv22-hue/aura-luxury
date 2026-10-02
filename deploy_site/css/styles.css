@@ -159,66 +159,7 @@
             white-space: normal !important;
         }
 
-        /* High Contrast Mode (WCAG 1.4.3 / 1.4.6) */
-        body.high-contrast {
-            background-color: #000000 !important;
-            color: #ffffff !important;
-        }
-        body.high-contrast .bg-neutral-950,
-        body.high-contrast .bg-neutral-900,
-        body.high-contrast .bg-zinc-950,
-        body.high-contrast .bg-zinc-900,
-        body.high-contrast .bg-brand-bg,
-        body.high-contrast .glass-header {
-            background-color: #000000 !important;
-            background: #000000 !important;
-        }
-        body.high-contrast .border-zinc-800,
-        body.high-contrast .border-zinc-700,
-        body.high-contrast .border-zinc-900,
-        body.high-contrast .metallic-border {
-            border-color: #ffffff !important;
-            box-shadow: none !important;
-        }
-        body.high-contrast .text-zinc-400,
-        body.high-contrast .text-zinc-500,
-        body.high-contrast .text-zinc-600 {
-            color: #e2e8f0 !important;
-        }
-        body.high-contrast .text-amber-200,
-        body.high-contrast .text-amber-300 {
-            color: #ffff00 !important;
-            font-weight: 900 !important;
-        }
-        body.high-contrast a:hover,
-        body.high-contrast button:hover {
-            outline: 2px solid #ffffff !important;
-        }
-
-        /* Font Scaling Options */
-        html.font-scale-md {
-            font-size: 112.5% !important;
-        }
-        html.font-scale-lg {
-            font-size: 125% !important;
-        }
-
-        /* Dyslexia / Readability Font */
-        body.accessible-font,
-        body.accessible-font * {
-            font-family: Arial, Helvetica, Verdana, sans-serif !important;
-            letter-spacing: 0.03em !important;
-            line-height: 1.65 !important;
-        }
-
-        /* Underline Links Mode */
-        body.underline-links a,
-        body.underline-links .cat-filter-btn {
-            text-decoration: underline !important;
-            text-underline-offset: 4px !important;
-        }
-
-        /* Prefers-Reduced-Motion (WCAG 2.3.3) */
+        /* Prefers-Reduced-Motion */
         @media (prefers-reduced-motion: reduce) {
             *, *::before, *::after {
                 animation-duration: 0.001ms !important;

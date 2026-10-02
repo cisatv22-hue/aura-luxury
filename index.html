@@ -97,10 +97,6 @@
 
                 <!-- Header Action Buttons -->
                 <div class="flex items-center space-x-2 sm:space-x-3">
-                    <!-- Botón de Preferencias de Accesibilidad -->
-                    <button id="a11y-toggle-btn" onclick="toggleA11yMenu()" aria-label="Abrir opciones de accesibilidad" aria-expanded="false" class="text-zinc-300 hover:text-white transition-colors p-2 focus:outline-none" title="Accesibilidad">
-                        <i class="fa-solid fa-universal-access text-lg" aria-hidden="true"></i>
-                    </button>
 
                     <!-- Botón de Favoritos Guardados -->
                     <button id="wishlist-btn" onclick="toggleWishlistFilter()" aria-label="Ver productos favoritos guardados" class="relative text-zinc-300 hover:text-white transition-colors p-2 focus:outline-none" title="Mis Favoritos">
@@ -147,74 +143,6 @@
             <div class="max-w-3xl mx-auto mt-2 text-[10px] text-zinc-500 uppercase tracking-widest flex items-center justify-between">
                 <span>Escribe cualquier prenda o accesorio</span>
                 <span class="hidden sm:inline">Atajo rápido: <kbd class="px-1.5 py-0.5 bg-zinc-800 rounded border border-zinc-700 text-zinc-300">/</kbd> o <kbd class="px-1.5 py-0.5 bg-zinc-800 rounded border border-zinc-700 text-zinc-300">Esc</kbd></span>
-            </div>
-        </div>
-
-        <!-- Modal de Preferencias de Accesibilidad (WCAG) -->
-        <div id="a11y-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="a11y-title">
-            <div id="a11y-modal-backdrop" class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
-            <div class="relative bg-neutral-950 border border-zinc-700 max-w-md w-full p-6 rounded-lg shadow-2xl z-10 text-slate-100">
-                <div class="flex items-center justify-between pb-4 border-b border-zinc-800">
-                    <div class="flex items-center gap-2.5">
-                        <i class="fa-solid fa-universal-access text-xl text-amber-300" aria-hidden="true"></i>
-                        <h3 id="a11y-title" class="font-display text-lg font-black uppercase tracking-wider text-white">Accesibilidad & Confort</h3>
-                    </div>
-                    <button id="close-a11y-modal" aria-label="Cerrar opciones de accesibilidad" class="text-zinc-400 hover:text-white p-2 text-xl focus:outline-none">
-                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                    </button>
-                </div>
-                
-                <div class="py-5 space-y-4 text-xs">
-                    <!-- Alto Contraste -->
-                    <div class="flex items-center justify-between gap-4 p-3 bg-zinc-900/60 rounded border border-zinc-800">
-                        <div>
-                            <span class="font-extrabold text-white block uppercase tracking-wider">Alto Contraste</span>
-                            <span class="text-zinc-400 text-[11px]">Bordes nítidos y texto blanco puro sobre negro.</span>
-                        </div>
-                        <button id="a11y-hc-toggle" onclick="toggleHighContrast()" aria-pressed="false" class="px-3.5 py-1.5 rounded font-extrabold uppercase tracking-wider border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-white transition-all">
-                            Alternar
-                        </button>
-                    </div>
-
-                    <!-- Tamaño de Texto -->
-                    <div class="flex items-center justify-between gap-4 p-3 bg-zinc-900/60 rounded border border-zinc-800">
-                        <div>
-                            <span class="font-extrabold text-white block uppercase tracking-wider">Tamaño de Fuente</span>
-                            <span id="a11y-scale-label" class="text-zinc-400 text-[11px]">Tamaño de texto estándar</span>
-                        </div>
-                        <button onclick="cycleFontSize()" class="px-3.5 py-1.5 rounded font-extrabold uppercase tracking-wider border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-white transition-all">
-                            Aumentar <i class="fa-solid fa-text-height ml-1" aria-hidden="true"></i>
-                        </button>
-                    </div>
-
-                    <!-- Tipografía Legible -->
-                    <div class="flex items-center justify-between gap-4 p-3 bg-zinc-900/60 rounded border border-zinc-800">
-                        <div>
-                            <span class="font-extrabold text-white block uppercase tracking-wider">Fuente Accesible</span>
-                            <span class="text-zinc-400 text-[11px]">Optimizado para lectura y dislexia.</span>
-                        </div>
-                        <button id="a11y-font-toggle" onclick="toggleAccessibleFont()" aria-pressed="false" class="px-3.5 py-1.5 rounded font-extrabold uppercase tracking-wider border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-white transition-all">
-                            Alternar
-                        </button>
-                    </div>
-
-                    <!-- Subrayar Enlaces -->
-                    <div class="flex items-center justify-between gap-4 p-3 bg-zinc-900/60 rounded border border-zinc-800">
-                        <div>
-                            <span class="font-extrabold text-white block uppercase tracking-wider">Subrayar Enlaces</span>
-                            <span class="text-zinc-400 text-[11px]">Resalta hipervínculos con línea continua.</span>
-                        </div>
-                        <button id="a11y-underline-toggle" onclick="toggleUnderlineLinks()" aria-pressed="false" class="px-3.5 py-1.5 rounded font-extrabold uppercase tracking-wider border border-zinc-700 bg-zinc-900 text-zinc-300 hover:border-white transition-all">
-                            Alternar
-                        </button>
-                    </div>
-                </div>
-
-                <div class="pt-3 border-t border-zinc-800 flex justify-end">
-                    <button onclick="toggleA11yMenu(false)" class="px-5 py-2.5 bg-white text-black font-black text-xs uppercase tracking-wider rounded hover:bg-zinc-200 transition-all">
-                        Listo
-                    </button>
-                </div>
             </div>
         </div>
     </header>

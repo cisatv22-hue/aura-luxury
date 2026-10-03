@@ -348,11 +348,16 @@
                     <span class="text-zinc-400 uppercase tracking-wider text-xs font-bold">Subtotal:</span>
                     <span id="cart-subtotal" class="font-black text-white text-lg">$0.00 MXN</span>
                 </div>
-                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Detalles de envío y pago coordinados directamente vía WhatsApp.</p>
+                <p class="text-[10px] text-zinc-500 uppercase tracking-wider">Detalles de envío y pago coordinados vía WhatsApp o Instagram.</p>
                 
-                <button onclick="checkoutWhatsApp()" class="w-full py-4 bg-emerald-600 text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-emerald-500 transition-all rounded shadow-xl flex items-center justify-center gap-3">
-                    <i class="fa-brands fa-whatsapp text-lg"></i> Finalizar Pedido
-                </button>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <button onclick="checkoutWhatsApp()" class="w-full py-3.5 bg-emerald-600 text-white font-black text-xs uppercase tracking-[0.15em] hover:bg-emerald-500 transition-all rounded shadow-xl flex items-center justify-center gap-2 shadow-emerald-950/50">
+                        <i class="fa-brands fa-whatsapp text-lg"></i> WhatsApp
+                    </button>
+                    <button onclick="checkoutInstagram()" class="w-full py-3.5 bg-gradient-to-r from-purple-600 via-pink-600 to-amber-500 text-white font-black text-xs uppercase tracking-[0.15em] hover:opacity-90 transition-all rounded shadow-xl flex items-center justify-center gap-2 shadow-purple-950/50">
+                        <i class="fa-brands fa-instagram text-lg"></i> Instagram
+                    </button>
+                </div>
             </div>
         </div>
     </div>
@@ -403,9 +408,9 @@
                     Tienda de moda urbana de alta gama. Diseños oversized pesados en algodón premium y accesorios macizos de Plata Ley .925.
                 </p>
                 <div class="flex space-x-4 text-base text-zinc-300 pt-2">
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="https://www.instagram.com/tropiezo_mx" target="_blank" rel="noopener" class="hover:text-white transition-colors" title="Instagram @tropiezo_mx"><i class="fa-brands fa-instagram"></i></a>
                     <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-tiktok"></i></a>
-                    <a href="#" class="hover:text-white transition-colors"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://wa.me/525516069816" target="_blank" rel="noopener" class="hover:text-white transition-colors" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
                 </div>
             </div>
 

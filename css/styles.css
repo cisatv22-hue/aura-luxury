@@ -464,3 +464,10 @@ html.light-mode #toast {
     border-color: #cbd5e1 !important;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
 }
+
+/* Logo Switcher between Dark Mode and Light Mode */
+.dark-logo-img { display: block; }
+.light-logo-img { display: none; }
+
+html.light-mode .dark-logo-img { display: none !important; }
+html.light-mode .light-logo-img { display: block !important; }

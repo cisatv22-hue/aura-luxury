@@ -64,17 +64,18 @@
     <header class="sticky top-0 z-40 glass-header border-b border-zinc-800/80 transition-all duration-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
-                <!-- Mobile Menu Button -->
-                <button id="mobile-menu-btn" class="md:hidden text-zinc-300 hover:text-white p-2 focus:outline-none">
-                    <i class="fa-solid fa-bars-staggered text-xl"></i>
-                </button>
+                <!-- Left Group: Menu Icon + Logo (Pegados a la izquierda) -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button id="mobile-menu-btn" class="md:hidden text-zinc-300 hover:text-white p-1.5 focus:outline-none">
+                        <i class="fa-solid fa-bars-staggered text-xl"></i>
+                    </button>
 
-                <!-- Brand Logo -->
-                <a href="#" class="flex items-center gap-3 group">
-                    <img id="header-logo-dark" src="assets/aura_logo.jpg" alt="AURA LUXURY Logo" class="h-10 sm:h-12 w-auto object-contain rounded-md border border-zinc-800/80 shadow-md group-hover:scale-105 transition-transform dark-logo-img">
-                    <img id="header-logo-light" src="assets/aura_logo_light.png" alt="AURA LUXURY Logo" class="h-10 sm:h-12 w-auto object-contain rounded-md border border-slate-200 shadow-md group-hover:scale-105 transition-transform light-logo-img hidden">
-                    <span class="text-[9px] sm:text-[10px] font-black tracking-[0.25em] uppercase text-zinc-400 silver-gradient-text hidden sm:inline-block">High Streetwear & Silver .925</span>
-                </a>
+                    <a href="#" class="flex items-center gap-2 sm:gap-3 group">
+                        <img id="header-logo-dark" src="assets/aura_logo.jpg" alt="AURA LUXURY Logo" class="h-10 sm:h-12 w-auto object-contain rounded-md border border-zinc-800/80 shadow-md group-hover:scale-105 transition-transform dark-logo-img">
+                        <img id="header-logo-light" src="assets/aura_logo_light.png" alt="AURA LUXURY Logo" class="h-10 sm:h-12 w-auto object-contain rounded-md border border-slate-200/60 shadow-md group-hover:scale-105 transition-transform light-logo-img">
+                        <span class="text-[9px] sm:text-[10px] font-black tracking-[0.25em] uppercase text-zinc-400 silver-gradient-text hidden md:inline-block">High Streetwear & Silver .925</span>
+                    </a>
+                </div>
 
                 <!-- Navigation Links -->
                 <nav class="hidden md:flex space-x-8 text-xs font-black tracking-[0.2em] uppercase text-zinc-300">

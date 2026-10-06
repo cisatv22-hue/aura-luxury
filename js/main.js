@@ -503,6 +503,10 @@ function getCleanOriginalPrice(price) {
             });
             
             renderProducts();
+
+            if (cat === 'essentials_hoodies' && specialView) {
+                specialView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         function sortProducts() {
@@ -515,6 +519,10 @@ function getCleanOriginalPrice(price) {
                 products.sort((a, b) => a.id - b.id);
             }
             renderProducts();
+
+            if (cat === 'essentials_hoodies' && specialView) {
+                specialView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         function openModal(id) {

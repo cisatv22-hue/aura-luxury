@@ -505,6 +505,10 @@ function getCleanOriginalPrice(price) {
             });
             
             renderProducts();
+
+            if (cat === 'essentials_hoodies' && specialView) {
+                specialView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
         }
 
         function sortProducts() {

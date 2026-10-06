@@ -88,7 +88,11 @@
                 </nav>
 
                 <!-- Header Action Buttons -->
-                <div class="flex items-center space-x-4">
+                <div class="flex items-center space-x-3 sm:space-x-4">
+                    <!-- Theme Toggle Button -->
+                    <button id="theme-toggle" onclick="toggleTheme()" class="text-zinc-300 hover:text-white transition-all p-2 rounded-full hover:bg-zinc-800/60 focus:outline-none" title="Cambiar a Modo Claro">
+                        <i class="fa-solid fa-moon text-slate-300 text-lg"></i>
+                    </button>
                     <button id="search-toggle" class="text-zinc-300 hover:text-white transition-colors p-2" title="Buscar productos">
                         <i class="fa-solid fa-magnifying-glass text-lg"></i>
                     </button>
@@ -813,5 +817,49 @@ Precio Total: $650 MXN`;
         }
     </script>
     
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const isDark = !html.classList.contains('light-mode');
+            if (isDark) {
+                html.classList.remove('dark');
+                html.classList.add('light-mode');
+                localStorage.setItem('aura_theme', 'light');
+                updateThemeIcons('light');
+            } else {
+                html.classList.remove('light-mode');
+                html.classList.add('dark');
+                localStorage.setItem('aura_theme', 'dark');
+                updateThemeIcons('dark');
+            }
+        }
+
+        function updateThemeIcons(theme) {
+            const btnIcons = document.querySelectorAll('#theme-toggle i');
+            const btns = document.querySelectorAll('#theme-toggle');
+            btnIcons.forEach(btnIcon => {
+                if (theme === 'light') {
+                    btnIcon.className = 'fa-solid fa-sun text-amber-500 text-lg';
+                } else {
+                    btnIcon.className = 'fa-solid fa-moon text-slate-300 hover:text-white text-lg';
+                }
+            });
+            btns.forEach(btn => {
+                btn.title = theme === 'light' ? 'Cambiar a Modo Oscuro' : 'Cambiar a Modo Claro';
+            });
+        }
+
+        (function initTheme() {
+            const savedTheme = localStorage.getItem('aura_theme');
+            if (savedTheme === 'light') {
+                document.documentElement.classList.remove('dark');
+                document.documentElement.classList.add('light-mode');
+                document.addEventListener('DOMContentLoaded', () => updateThemeIcons('light'));
+            } else {
+                document.documentElement.classList.add('dark');
+                document.addEventListener('DOMContentLoaded', () => updateThemeIcons('dark'));
+            }
+        })();
+    </script>
 </body>
 </html>

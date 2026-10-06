@@ -127,3 +127,146 @@
         ::-webkit-scrollbar-track { background: #08080a; }
         ::-webkit-scrollbar-thumb { background: #272730; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+
+/* ==========================================================================
+   LIGHT / DARK THEME SYSTEM
+   ========================================================================== */
+
+body, header, section, div, h1, h2, h3, h4, p, span, a, button, input, select {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+html.light-mode body {
+    background-color: #f8fafc !important;
+    color: #0f172a !important;
+}
+
+html.light-mode .glass-header {
+    background: rgba(255, 255, 255, 0.92) !important;
+    border-color: rgba(226, 232, 240, 0.9) !important;
+}
+
+html.light-mode header nav a,
+html.light-mode header button,
+html.light-mode #mobile-menu-btn {
+    color: #334155 !important;
+}
+
+html.light-mode header nav a:hover,
+html.light-mode header button:hover {
+    color: #000000 !important;
+}
+
+html.light-mode .silver-gradient-text {
+    background: linear-gradient(135deg, #020617 0%, #334155 50%, #0f172a 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+html.light-mode .bg-neutral-950,
+html.light-mode .bg-[#08080a] {
+    background-color: #f1f5f9 !important;
+}
+
+html.light-mode .bg-zinc-900,
+html.light-mode .bg-zinc-900\/60,
+html.light-mode .bg-zinc-900\/40,
+html.light-mode .bg-[#0a0a0a],
+html.light-mode .bg-black {
+    background-color: #ffffff !important;
+}
+
+html.light-mode .border-zinc-800,
+html.light-mode .border-zinc-800\/80,
+html.light-mode .border-zinc-700,
+html.light-mode .border-zinc-900 {
+    border-color: #cbd5e1 !important;
+}
+
+html.light-mode .text-white {
+    color: #020617 !important;
+}
+
+html.light-mode .text-zinc-400,
+html.light-mode .text-zinc-300,
+html.light-mode .text-zinc-500 {
+    color: #475569 !important;
+}
+
+html.light-mode .metallic-border {
+    border-color: #e2e8f0 !important;
+    background-color: #ffffff !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+html.light-mode .metallic-border:hover {
+    border-color: #94a3b8 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+html.light-mode #new-drop-section {
+    background-color: #f8fafc !important;
+    border-color: #e2e8f0 !important;
+}
+
+html.light-mode #new-drop-section h2 {
+    color: #020617 !important;
+}
+
+html.light-mode #new-drop-section h2 span {
+    background: linear-gradient(135deg, #334155 0%, #64748b 100%) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+html.light-mode .bg-zinc-950\/80,
+html.light-mode .bg-zinc-900\/90 {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+}
+
+html.light-mode #essentials-special-view {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+html.light-mode #essentials-special-view .bg-[#0a0a0a] {
+    background-color: #ffffff !important;
+}
+
+html.light-mode #essentials-special-view .bg-[#050505] {
+    background-color: #f1f5f9 !important;
+}
+
+html.light-mode #modal-container > div:last-child {
+    background-color: #ffffff !important;
+    color: #020617 !important;
+    border: 1px solid #cbd5e1;
+}
+
+html.light-mode #modal-backdrop {
+    background-color: rgba(255, 255, 255, 0.75) !important;
+}
+
+html.light-mode .cat-filter-btn {
+    background-color: #ffffff;
+    border-color: #cbd5e1;
+    color: #475569;
+}
+
+html.light-mode .cat-filter-btn.active-cat {
+    background-color: #0f172a !important;
+    border-color: #0f172a !important;
+    color: #ffffff !important;
+}
+
+html.light-mode footer {
+    background-color: #f1f5f9 !important;
+    border-color: #e2e8f0 !important;
+    color: #334155 !important;
+}
+
+html.light-mode ::-webkit-scrollbar-track { background: #f1f5f9; }
+html.light-mode ::-webkit-scrollbar-thumb { background: #cbd5e1; }

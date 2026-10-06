@@ -471,3 +471,58 @@ html.light-mode #toast {
 
 html.light-mode .dark-logo-img { display: none !important; }
 html.light-mode .light-logo-img { display: block !important; }
+
+/* Top Editorial Hero Section Light Mode Overrides */
+html.light-mode section.relative.h-\[85vh\] {
+    background-color: #f8fafc !important;
+    border-color: #cbd5e1 !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] div.absolute.bg-cover {
+    background-image: url('../assets/aura_logo_light.png') !important;
+    filter: brightness(0.95) contrast(1.05) !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] div.bg-gradient-to-t {
+    background: linear-gradient(to top, rgba(248, 250, 252, 0.98), rgba(248, 250, 252, 0.6), transparent) !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] div.bg-radial-at-c {
+    background: radial-gradient(circle at center, transparent 20%, rgba(255, 255, 255, 0.7) 70%, rgba(248, 250, 252, 0.98) 100%) !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] div.inline-flex {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06) !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] h1 {
+    color: #020617 !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] p {
+    color: #334155 !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] a[href="#featured"] {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+html.light-mode section.relative.h-\[85vh\] a[href="#featured"]:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
+}
+
+html.light-mode section.relative.h-\[85vh\] a[href="#catalogo"] {
+    background-color: rgba(255, 255, 255, 0.9) !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html.light-mode section.relative.h-\[85vh\] a[href="#catalogo"]:hover {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+}

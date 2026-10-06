@@ -730,11 +730,27 @@ function getCleanOriginalPrice(price) {
 
         function showToast(msg) {
             const toast = document.getElementById('toast');
-            toast.textContent = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 3000);
+            const toastMsg = document.getElementById('toast-message');
+            if (toastMsg) {
+                toastMsg.textContent = msg;
+            } else if (toast) {
+                toast.textContent = msg;
+            }
+            if (toast) {
+                toast.classList.remove('-translate-y-10', 'translate-y-20', 'opacity-0');
+                toast.classList.add('translate-y-0', 'opacity-100');
+                setTimeout(() => {
+                    toast.classList.remove('translate-y-0', 'opacity-100');
+                    toast.classList.add('-translate-y-10', 'opacity-0');
+                }, 3000);
+            }
+            const cartCount = document.getElementById('cart-count');
+            if (cartCount) {
+                cartCount.classList.add('animate-bounce');
+                setTimeout(() => {
+                    cartCount.classList.remove('animate-bounce');
+                }, 1000);
+            }
         }
 
         function subscribeNewsletter(e) {

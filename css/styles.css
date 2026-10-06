@@ -428,3 +428,39 @@ html.light-mode footer button.bg-white {
 /* 16. Scrollbars */
 html.light-mode ::-webkit-scrollbar-track { background: #f1f5f9; }
 html.light-mode ::-webkit-scrollbar-thumb { background: #cbd5e1; }
+
+
+/* ==========================================================================
+   ULTRA LUXURY VISUAL EFFECTS & MICRO-INTERACTIONS
+   ========================================================================== */
+
+.group {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease !important;
+}
+
+.group:hover {
+    transform: translateY(-6px) !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.08) !important;
+}
+
+html.light-mode .group:hover {
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 15px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Glassmorphism Header Glow */
+.glass-header {
+    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
+}
+
+/* Smooth active button scale */
+button:active, a:active {
+    transform: scale(0.96) !important;
+}
+
+/* Toast Glassmorphism in Light Mode */
+html.light-mode #toast {
+    background-color: rgba(255, 255, 255, 0.95) !important;
+    color: #020617 !important;
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
+}

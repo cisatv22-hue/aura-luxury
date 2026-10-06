@@ -129,22 +129,39 @@
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
 
+
+
 /* ==========================================================================
-   LIGHT / DARK THEME SYSTEM
+   COMPREHENSIVE LUXURY LIGHT MODE THEME OVERRIDES
    ========================================================================== */
 
+/* Smooth background & text color transitions */
 body, header, section, div, h1, h2, h3, h4, p, span, a, button, input, select {
     transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
+/* 1. Global Page & Body */
+html.light-mode,
 html.light-mode body {
     background-color: #f8fafc !important;
     color: #0f172a !important;
 }
 
+/* 2. Top Announcement Bar */
+html.light-mode div.bg-gradient-to-r.from-neutral-950 {
+    background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%) !important;
+    border-color: #cbd5e1 !important;
+    color: #1e293b !important;
+}
+html.light-mode div.bg-gradient-to-r.from-neutral-950 span.text-zinc-300 {
+    color: #1e293b !important;
+}
+
+/* 3. Header & Navigation */
 html.light-mode .glass-header {
-    background: rgba(255, 255, 255, 0.92) !important;
-    border-color: rgba(226, 232, 240, 0.9) !important;
+    background: rgba(255, 255, 255, 0.94) !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 html.light-mode header nav a,
@@ -159,20 +176,33 @@ html.light-mode header button:hover {
 }
 
 html.light-mode .silver-gradient-text {
-    background: linear-gradient(135deg, #020617 0%, #334155 50%, #0f172a 100%) !important;
+    background: linear-gradient(135deg, #0f172a 0%, #334155 50%, #000000 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
 
+/* 4. Mobile Drawer & Search Modal */
+html.light-mode #mobile-menu,
+html.light-mode #search-modal {
+    background-color: rgba(255, 255, 255, 0.98) !important;
+    border-color: #cbd5e1 !important;
+}
+html.light-mode #search-input {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* 5. General Backgrounds & Borders */
 html.light-mode .bg-neutral-950,
-html.light-mode .bg-[#08080a] {
+html.light-mode .bg-\[\#08080a\] {
     background-color: #f1f5f9 !important;
 }
 
 html.light-mode .bg-zinc-900,
 html.light-mode .bg-zinc-900\/60,
 html.light-mode .bg-zinc-900\/40,
-html.light-mode .bg-[#0a0a0a],
+html.light-mode .bg-\[\#0a0a0a\],
 html.light-mode .bg-black {
     background-color: #ffffff !important;
 }
@@ -184,29 +214,39 @@ html.light-mode .border-zinc-900 {
     border-color: #cbd5e1 !important;
 }
 
+/* 6. Typography Overrides */
 html.light-mode .text-white {
     color: #020617 !important;
 }
 
 html.light-mode .text-zinc-400,
 html.light-mode .text-zinc-300,
-html.light-mode .text-zinc-500 {
-    color: #475569 !important;
+html.light-mode .text-zinc-500,
+html.light-mode .text-zinc-200,
+html.light-mode .text-slate-200 {
+    color: #334155 !important;
 }
 
+/* Price Tags (High contrast in Light Mode) */
+html.light-mode .text-amber-200 {
+    color: #d97706 !important;
+}
+
+/* 7. Metallic Borders & Cards */
 html.light-mode .metallic-border {
     border-color: #e2e8f0 !important;
     background-color: #ffffff !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
 }
 
 html.light-mode .metallic-border:hover {
     border-color: #94a3b8 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
 }
 
+/* 8. Hero / New Drop Section */
 html.light-mode #new-drop-section {
-    background-color: #f8fafc !important;
+    background-color: #ffffff !important;
     border-color: #e2e8f0 !important;
 }
 
@@ -215,58 +255,176 @@ html.light-mode #new-drop-section h2 {
 }
 
 html.light-mode #new-drop-section h2 span {
-    background: linear-gradient(135deg, #334155 0%, #64748b 100%) !important;
+    background: linear-gradient(135deg, #1e293b 0%, #64748b 100%) !important;
     -webkit-background-clip: text !important;
     -webkit-text-fill-color: transparent !important;
 }
 
-html.light-mode .bg-zinc-950\/80,
+html.light-mode #new-drop-section .font-display.text-\[12rem\] {
+    color: #0f172a !important;
+    opacity: 0.04 !important;
+}
+
+/* Hero Color Selector Capsule */
 html.light-mode .bg-zinc-900\/90 {
-    background-color: rgba(255, 255, 255, 0.95) !important;
+    background-color: rgba(248, 250, 252, 0.95) !important;
     border-color: #cbd5e1 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+}
+html.light-mode #hero-color-name {
+    color: #020617 !important;
 }
 
-html.light-mode #essentials-special-view {
+/* Buttons inside Hero & Cards in Light Mode */
+html.light-mode button.glow-button.bg-white,
+html.light-mode button.bg-white.text-black {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+html.light-mode button.glow-button.bg-white:hover,
+html.light-mode button.bg-white.text-black:hover {
+    background-color: #000000 !important;
+    color: #ffffff !important;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+/* 9. Product Grid & Cards */
+html.light-mode .group.bg-neutral-950 {
     background-color: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
+    border-color: #e2e8f0 !important;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
-
-html.light-mode #essentials-special-view .bg-[#0a0a0a] {
-    background-color: #ffffff !important;
-}
-
-html.light-mode #essentials-special-view .bg-[#050505] {
+html.light-mode .group .img-container {
     background-color: #f1f5f9 !important;
 }
-
-html.light-mode #modal-container > div:last-child {
-    background-color: #ffffff !important;
+html.light-mode .group .img-container span.text-white {
+    background-color: rgba(255, 255, 255, 0.95) !important;
     color: #020617 !important;
-    border: 1px solid #cbd5e1;
+    border-color: #cbd5e1 !important;
 }
 
-html.light-mode #modal-backdrop {
-    background-color: rgba(255, 255, 255, 0.75) !important;
+html.light-mode .group button.bg-zinc-900 {
+    background-color: #f1f5f9 !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html.light-mode .group button.bg-zinc-900:hover {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
 }
 
+/* 10. Category Filter Buttons */
 html.light-mode .cat-filter-btn {
-    background-color: #ffffff;
-    border-color: #cbd5e1;
-    color: #475569;
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
 }
-
+html.light-mode .cat-filter-btn:hover {
+    border-color: #0f172a !important;
+    color: #000000 !important;
+}
 html.light-mode .cat-filter-btn.active-cat {
     background-color: #0f172a !important;
     border-color: #0f172a !important;
     color: #ffffff !important;
 }
 
+/* 11. Sort Select Dropdown */
+html.light-mode #sort-select {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+
+/* 12. Unified 6-Color Essentials Special View */
+html.light-mode #essentials-special-view {
+    background-color: #ffffff !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+}
+html.light-mode #essentials-special-view .bg-\[\#0a0a0a\] {
+    background-color: #ffffff !important;
+}
+html.light-mode #essentials-special-view .bg-\[\#050505\],
+html.light-mode #essentials-special-view .bg-black {
+    background-color: #f1f5f9 !important;
+}
+html.light-mode .unified-color-btn {
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
+}
+html.light-mode .unified-color-btn:hover {
+    border-color: #0f172a !important;
+    color: #000000 !important;
+}
+html.light-mode .unified-color-btn.border-white {
+    border-color: #0f172a !important;
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+html.light-mode .unified-size-btn {
+    border-color: #cbd5e1 !important;
+    color: #475569 !important;
+}
+html.light-mode .unified-size-btn:hover {
+    border-color: #0f172a !important;
+    color: #000000 !important;
+}
+html.light-mode .unified-size-btn.border-white {
+    border-color: #0f172a !important;
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+html.light-mode button[onclick="addUnifiedToCart()"] {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+
+/* 13. Shopping Cart Drawer */
+html.light-mode #cart-drawer > div:last-child {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html.light-mode #cart-drawer .bg-neutral-950,
+html.light-mode #cart-drawer .bg-zinc-900 {
+    background-color: #f8fafc !important;
+}
+
+/* 14. Modals */
+html.light-mode #modal-container > div:last-child {
+    background-color: #ffffff !important;
+    color: #020617 !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15) !important;
+}
+html.light-mode #modal-backdrop {
+    background-color: rgba(255, 255, 255, 0.8) !important;
+    backdrop-filter: blur(12px) !important;
+}
+html.light-mode #modal-add-btn {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
+
+/* 15. Footer & Newsletter */
 html.light-mode footer {
     background-color: #f1f5f9 !important;
     border-color: #e2e8f0 !important;
     color: #334155 !important;
 }
+html.light-mode footer input[type="email"] {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+}
+html.light-mode footer button[type="submit"],
+html.light-mode footer button.bg-white {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+}
 
+/* 16. Scrollbars */
 html.light-mode ::-webkit-scrollbar-track { background: #f1f5f9; }
 html.light-mode ::-webkit-scrollbar-thumb { background: #cbd5e1; }

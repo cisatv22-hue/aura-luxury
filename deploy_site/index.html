@@ -70,13 +70,9 @@
                 </button>
 
                 <!-- Brand Logo -->
-                <a href="#" class="flex items-center gap-3 group">
-                        <img src="assets/aura_logo.jpg" alt="AURA LUXURY Logo" class="h-10 w-auto rounded-md object-contain border border-zinc-800/80 shadow-[0_0_15px_rgba(255,255,255,0.15)] group-hover:scale-105 transition-transform">
-                        <div class="flex flex-col">
-                            <span class="font-display text-xl sm:text-2xl font-black tracking-widest silver-gradient-text">A U R A</span>
-                            <span class="text-[8px] sm:text-[9px] font-black tracking-[0.3em] uppercase text-zinc-400 -mt-1">High Streetwear & Silver .925</span>
-                        </div>
-                    </a>
+                <a href="#" class="flex items-center group">
+                    <img src="assets/aura_logo.jpg" alt="AURA LUXURY" class="h-10 sm:h-12 w-auto object-contain rounded-md border border-zinc-800/80 shadow-md group-hover:scale-105 transition-transform">
+                </a>
 
                 <!-- Navigation Links -->
                 <nav class="hidden md:flex space-x-8 text-xs font-black tracking-[0.2em] uppercase text-zinc-300">
@@ -194,7 +190,7 @@
                             <!-- Gris -->
                             <button onclick="changeHeroColor('gris', this)" title="Gris" class="hero-color-btn opacity-70 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#8A8A8A] border-2 border-zinc-400 transition-all cursor-pointer shadow-md active:scale-95"></button>
                             <!-- Verde -->
-                            <button onclick="changeHeroColor('verde', this)" title=Verde class="hero-color-btn opacity-70 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1B3E32] border-2 border-emerald-600 transition-all cursor-pointer shadow-md active:scale-95"></button>
+                            <button onclick="changeHeroColor('verde', this)" title="Verde" class="hero-color-btn opacity-70 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#1B3E32] border-2 border-emerald-600 transition-all cursor-pointer shadow-md active:scale-95"></button>
                             <!-- Total Black -->
                             <button onclick="changeHeroColor('totalblack', this)" title="Total Black" class="hero-color-btn opacity-70 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#050505] border-2 border-zinc-600 transition-all cursor-pointer shadow-md active:scale-95"></button>
                         </div>
@@ -683,7 +679,7 @@
                     const y = e.clientY - rect.top;
                     const isLight = document.documentElement.classList.contains('light-mode');
                     const glowColor = isLight ? 'rgba(239, 68, 68, 0.08)' : 'rgba(239, 68, 68, 0.16)';
-                    newDropSec.style.backgroundImage = ;
+                    newDropSec.style.backgroundImage = 'radial-gradient(600px circle at ' + x + 'px ' + y + 'px, ' + glowColor + ', transparent 70%)';
                 });
                 newDropSec.addEventListener('mouseleave', () => {
                     newDropSec.style.backgroundImage = '';

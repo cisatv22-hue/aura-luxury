@@ -265,14 +265,26 @@ html.light-mode #new-drop-section .font-display.text-\[12rem\] {
     opacity: 0.04 !important;
 }
 
-/* Hero Color Selector Capsule */
+/* Hero Color Selector Capsule & Active Ring */
+.hero-color-btn {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+.hero-color-btn.active-swatch {
+    opacity: 1 !important;
+    transform: scale(1.15) !important;
+    box-shadow: 0 0 0 2px #0a0a0a, 0 0 0 4px #ffffff, 0 4px 12px rgba(0,0,0,0.4) !important;
+}
+html.light-mode .hero-color-btn.active-swatch {
+    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #0f172a, 0 4px 12px rgba(0,0,0,0.15) !important;
+}
+html.light-mode .bg-zinc-900\/80,
 html.light-mode .bg-zinc-900\/90 {
     background-color: #ffffff !important;
     border-color: #cbd5e1 !important;
-    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
+    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08) !important;
 }
 html.light-mode #hero-color-name {
-    color: #020617 !important;
+    color: #0f172a !important;
 }
 html.light-mode .bg-red-600\/15,
 html.light-mode .bg-red-600\/20,

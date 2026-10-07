@@ -267,12 +267,21 @@ html.light-mode #new-drop-section .font-display.text-\[12rem\] {
 
 /* Hero Color Selector Capsule */
 html.light-mode .bg-zinc-900\/90 {
-    background-color: rgba(248, 250, 252, 0.95) !important;
+    background-color: #ffffff !important;
     border-color: #cbd5e1 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06) !important;
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1) !important;
 }
 html.light-mode #hero-color-name {
     color: #020617 !important;
+}
+html.light-mode .bg-red-600\/15,
+html.light-mode .bg-red-600\/20,
+html.light-mode .bg-red-600\/25 {
+    display: none !important;
+}
+.floating-wa-btn {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
 }
 
 /* Buttons inside Hero & Cards in Light Mode */

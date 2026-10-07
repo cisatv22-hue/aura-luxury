@@ -170,10 +170,10 @@
                 
                 <!-- Column 1: Image & Color Selector -->
                 <div class="relative group flex flex-col items-center justify-center mb-6 lg:mb-0">
-                    <div class="absolute inset-0 bg-red-600/15 rounded-full blur-[100px] group-hover:bg-red-500/25 transition-all duration-700 pointer-events-none"></div>
+                    <div class="absolute inset-0 bg-red-600/15 rounded-full blur-[100px] group-hover:bg-red-500/25 transition-all duration-700 pointer-events-none dark:block hidden"></div>
                     
                     <!-- Image container -->
-                    <div class="relative z-10 w-full max-w-md h-[340px] sm:h-[450px] flex items-center justify-center">
+                    <div class="relative z-10 w-full max-w-sm sm:max-w-md aspect-[4/5] flex items-center justify-center overflow-hidden">
                         <img id="hero-img-blanco" src="hero_essentials.png" alt="Essentials Fear of God Blanco" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-10">
                         <img id="hero-img-negro" src="hero_essentials_black.png" alt="Essentials Fear of God Negro" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
                         <img id="hero-img-beige" src="hero_essentials_beige.png" alt="Essentials Fear of God Beige" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
@@ -616,13 +616,10 @@
         <span id="toast-message">Producto añadido al carrito</span>
     </div>
 
-    <!-- Floating VIP Concierge WhatsApp Button -->
-    <a href="https://wa.me/5215500000000?text=Hola%20AURA%20LUXURY,%20quisiera%20atenci%C3%B3n%20VIP" target="_blank" rel="noopener" class="fixed bottom-6 right-6 z-40 flex items-center gap-3 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full shadow-[0_10px_30px_rgba(16,185,129,0.4)] hover:scale-105 transition-all duration-300 group cursor-pointer" title="Atención Personalizada VIP">
-        <div class="relative flex items-center justify-center">
-            <span class="absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75 animate-ping"></span>
-            <i class="fa-brands fa-whatsapp text-2xl relative"></i>
-        </div>
-        <span class="text-xs font-black uppercase tracking-widest hidden sm:inline group-hover:inline">Atención VIP</span>
+    <!-- Floating WhatsApp Button -->
+    <a href="https://wa.me/525516069816?text=Hola%20AURA%20LUXURY,%20quisiera%20m%C3%A1s%20informaci%C3%B3n" target="_blank" rel="noopener" class="floating-wa-btn fixed bottom-6 right-6 z-50 flex items-center gap-2.5 bg-emerald-600 hover:bg-emerald-500 text-white px-4 py-3 rounded-full shadow-[0_10px_30px_rgba(16,185,129,0.3)] hover:scale-105 transition-all duration-300 group cursor-pointer" title="Contáctanos mediante WhatsApp">
+        <i class="fa-brands fa-whatsapp text-2xl"></i>
+        <span class="text-xs font-black uppercase tracking-wider hidden sm:inline">Contáctanos mediante WhatsApp</span>
     </a>
 
     <script src="js/main.js?v=2"></script>

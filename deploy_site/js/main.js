@@ -701,6 +701,15 @@ function getCleanOriginalPrice(price) {
                                         title="Vista rápida">
                                     <i class="fa-solid fa-eye" aria-hidden="true"></i>
                                 </button>
+                                ${p.custom_action ? `
+                                <button type="button" 
+                                        onclick="filterCategory('essentials_hoodies')" 
+                                        aria-label="Ver 6 colores de ${p.name}"
+                                        class="px-3 py-2 rounded bg-white hover:bg-zinc-200 text-black font-black text-[11px] uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md focus:outline-none">
+                                    <i class="fa-solid fa-palette text-[10px]" aria-hidden="true"></i>
+                                    <span>Ver 6 Colores</span>
+                                </button>
+                                ` : `
                                 <button type="button" 
                                         onclick="quickAddToCart(${p.id})" 
                                         aria-label="Agregar ${p.name} al carrito"
@@ -708,6 +717,7 @@ function getCleanOriginalPrice(price) {
                                     <i class="fa-solid fa-plus text-[10px]" aria-hidden="true"></i>
                                     <span>Agregar</span>
                                 </button>
+                                `}
                             </div>
                         </div>
                     </div>
@@ -732,12 +742,63 @@ function getCleanOriginalPrice(price) {
         // ==========================================
         function filterCategory(cat) {
             activeCategory = cat;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                const isActive = btn.dataset.category === cat;
-                btn.classList.toggle('active', isActive);
-                btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+            const grid = document.getElementById('product-grid');
+            const specialView = document.getElementById('essentials-special-view');
+            const newDropSection = document.getElementById('new-drop-section');
+            const lookbookSection = document.getElementById('lookbook');
+
+            if (cat === 'essentials_hoodies') {
+                if (grid) {
+                    grid.classList.add('hidden');
+                    grid.style.display = 'none';
+                }
+                if (specialView) {
+                    specialView.classList.remove('hidden');
+                    specialView.style.display = 'block';
+                }
+            } else {
+                if (grid) {
+                    grid.classList.remove('hidden');
+                    grid.style.display = 'grid';
+                }
+                if (specialView) {
+                    specialView.classList.add('hidden');
+                    specialView.style.display = 'none';
+                }
+            }
+
+            if (cat === 'all') {
+                if (newDropSection) newDropSection.style.display = 'block';
+                if (lookbookSection) lookbookSection.style.display = 'block';
+            } else {
+                if (newDropSection) newDropSection.style.display = 'none';
+                if (lookbookSection) lookbookSection.style.display = 'none';
+            }
+
+            // Update button styles
+            document.querySelectorAll('.cat-filter-btn, .filter-btn').forEach(btn => {
+                const isMatch = btn.getAttribute('onclick')?.includes(`'${cat}'`) || btn.dataset.category === cat;
+                if (isMatch) {
+                    btn.classList.add('active-cat', 'border-white', 'bg-white', 'text-black');
+                    btn.classList.remove('border-zinc-800', 'text-zinc-400');
+                    btn.setAttribute('aria-pressed', 'true');
+                } else {
+                    btn.classList.remove('active-cat', 'border-white', 'bg-white', 'text-black');
+                    btn.classList.add('border-zinc-800', 'text-zinc-400');
+                    btn.setAttribute('aria-pressed', 'false');
+                }
             });
-            renderProducts();
+
+            if (cat === 'essentials_hoodies') {
+                const countEl = document.getElementById('product-count');
+                if (countEl) countEl.textContent = '6';
+                if (specialView) {
+                    specialView.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            } else {
+                renderProducts();
+            }
         }
 
         function filterByPrice(range) {
@@ -751,7 +812,6 @@ function getCleanOriginalPrice(price) {
         }
 
         function clearAllFilters() {
-            activeCategory = 'all';
             activePriceFilter = 'all';
             searchQuery = '';
             const searchInput = document.getElementById('search-input');
@@ -759,15 +819,11 @@ function getCleanOriginalPrice(price) {
             const clearSearchBtn = document.getElementById('clear-search-btn');
             if (clearSearchBtn) clearSearchBtn.classList.add('hidden');
 
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.category === 'all');
-                btn.setAttribute('aria-pressed', btn.dataset.category === 'all' ? 'true' : 'false');
-            });
             document.querySelectorAll('.price-filter-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.price === 'all');
                 btn.setAttribute('aria-pressed', btn.dataset.price === 'all' ? 'true' : 'false');
             });
-            renderProducts();
+            filterCategory('all');
             showToast("Filtros restablecidos");
         }
 

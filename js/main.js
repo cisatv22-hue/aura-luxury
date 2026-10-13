@@ -380,8 +380,7 @@ function getCleanOriginalPrice(price) {
         let undoTimeoutId = null;
 
         // Current unified Essentials selection
-        let currentUnifiedColor = 'CREMA';
-        let currentUnifiedSize = 'L';
+        // currentUnifiedColor / currentUnifiedSize are declared in index.html (Essentials view); declaring them here too is a SyntaxError that disables that whole script.
 
         const FREE_SHIPPING_THRESHOLD = 1200;
 
@@ -1645,13 +1644,16 @@ function getCleanOriginalPrice(price) {
             });
 
             // Intersection Observer for scroll animations
+            // threshold 0: reveal as soon as the element enters the screen. A percentage threshold never fires for
+            // sections taller than the viewport (the catalog is ~9000px tall on phones), leaving them at opacity 0.
             window.scrollObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('active');
+                        window.scrollObserver.unobserve(entry.target);
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0, rootMargin: '0px 0px -10% 0px' });
 
             document.querySelectorAll('.reveal-up').forEach(el => window.scrollObserver.observe(el));
             setupBackToTop();

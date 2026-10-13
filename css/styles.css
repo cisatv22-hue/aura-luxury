@@ -128,422 +128,239 @@
         ::-webkit-scrollbar-thumb { background: #272730; border-radius: 3px; }
         ::-webkit-scrollbar-thumb:hover { background: #475569; }
 
+        /* Accessible Focus Indicators (WCAG 2.4.7 / 2.4.11) */
+        :focus-visible {
+            outline: 2px solid #ffffff !important;
+            outline-offset: 3px !important;
+        }
 
+        /* Screen Reader Only Utility (WCAG 1.3.1 / 4.1.2) */
+        .sr-only {
+            position: absolute !important;
+            width: 1px !important;
+            height: 1px !important;
+            padding: 0 !important;
+            margin: -1px !important;
+            overflow: hidden !important;
+            clip: rect(0, 0, 0, 0) !important;
+            white-space: nowrap !important;
+            border: 0 !important;
+        }
 
+        .focus\:not-sr-only:focus,
+        .focus\:not-sr-only:focus-visible {
+            position: static !important;
+            width: auto !important;
+            height: auto !important;
+            padding: inherit !important;
+            margin: inherit !important;
+            overflow: visible !important;
+            clip: auto !important;
+            white-space: normal !important;
+        }
 
-/* ==========================================================================
-   COMPREHENSIVE LUXURY LIGHT MODE THEME OVERRIDES
-   ========================================================================== */
+        /* Prefers-Reduced-Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.001ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.001ms !important;
+                scroll-behavior: auto !important;
+            }
+            .reveal-up {
+                opacity: 1 !important;
+                transform: none !important;
+                transition: none !important;
+            }
+            .featured-card:hover,
+            .img-container:hover img,
+            .glow-button:hover,
+            .hero-img-item:hover {
+                transform: none !important;
+            }
+        }
 
-/* Smooth background & text color transitions */
-body, header, section, div, h1, h2, h3, h4, p, span, a, button, input, select {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+        /* Wishlist Heart Animation */
+        .wishlist-heart-btn {
+            transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease;
+        }
+        .wishlist-heart-btn:active {
+            transform: scale(1.3);
+        }
+        .wishlist-heart-btn.is-active {
+            color: #ef4444 !important;
+        }
+
+        /* Free Shipping Bar Animation */
+        .shipping-progress-bar {
+            transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Search Highlight */
+        mark.search-highlight {
+            background-color: rgba(245, 158, 11, 0.35);
+            color: #ffffff;
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        /* Accessible minimum touch target size */
+        .touch-target-min {
+            min-height: 44px;
+            min-width: 44px;
+        }
+
+/* ==========================================
+   AURA LUXURY - UI & UX ENHANCEMENTS
+   ========================================== */
+
+/* Infinite Luxury Marquee */
+.marquee-container {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+    user-select: none;
 }
-
-/* 1. Global Page & Body */
-html.light-mode,
-html.light-mode body {
-    background-color: #f8fafc !important;
-    color: #0f172a !important;
+.marquee-track {
+    display: inline-flex;
+    animation: marqueeScroll 28s linear infinite;
+    will-change: transform;
 }
-
-/* 2. Top Announcement Bar */
-html.light-mode div.bg-gradient-to-r.from-neutral-950 {
-    background: linear-gradient(90deg, #f1f5f9 0%, #e2e8f0 50%, #f1f5f9 100%) !important;
-    border-color: #cbd5e1 !important;
-    color: #1e293b !important;
+.marquee-container:hover .marquee-track {
+    animation-play-state: paused;
 }
-html.light-mode div.bg-gradient-to-r.from-neutral-950 span.text-zinc-300 {
-    color: #1e293b !important;
-}
-
-/* 3. Header & Navigation */
-html.light-mode .glass-header {
-    background: rgba(255, 255, 255, 0.94) !important;
-    border-color: #e2e8f0 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
-}
-
-html.light-mode header nav a,
-html.light-mode header button,
-html.light-mode #mobile-menu-btn {
-    color: #334155 !important;
-}
-
-html.light-mode header nav a:hover,
-html.light-mode header button:hover {
-    color: #000000 !important;
-}
-
-html.light-mode .silver-gradient-text {
-    background: linear-gradient(135deg, #0f172a 0%, #334155 50%, #000000 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
-}
-
-/* 4. Mobile Drawer & Search Modal */
-html.light-mode #mobile-menu,
-html.light-mode #search-modal {
-    background-color: rgba(255, 255, 255, 0.98) !important;
-    border-color: #cbd5e1 !important;
-}
-html.light-mode #search-input {
-    background-color: #f1f5f9 !important;
-    border-color: #cbd5e1 !important;
-    color: #0f172a !important;
-}
-
-/* 5. General Backgrounds & Borders */
-html.light-mode .bg-neutral-950,
-html.light-mode .bg-\[\#08080a\] {
-    background-color: #f1f5f9 !important;
-}
-
-html.light-mode .bg-zinc-900,
-html.light-mode .bg-zinc-900\/60,
-html.light-mode .bg-zinc-900\/40,
-html.light-mode .bg-\[\#0a0a0a\],
-html.light-mode .bg-black {
-    background-color: #ffffff !important;
-}
-
-html.light-mode .border-zinc-800,
-html.light-mode .border-zinc-800\/80,
-html.light-mode .border-zinc-700,
-html.light-mode .border-zinc-900 {
-    border-color: #cbd5e1 !important;
-}
-
-/* 6. Typography Overrides */
-html.light-mode .text-white {
-    color: #020617 !important;
-}
-
-html.light-mode .text-zinc-400,
-html.light-mode .text-zinc-300,
-html.light-mode .text-zinc-500,
-html.light-mode .text-zinc-200,
-html.light-mode .text-slate-200 {
-    color: #334155 !important;
-}
-
-/* Price Tags (High contrast in Light Mode) */
-html.light-mode .text-amber-200 {
-    color: #d97706 !important;
-}
-
-/* 7. Metallic Borders & Cards */
-html.light-mode .metallic-border {
-    border-color: #e2e8f0 !important;
-    background-color: #ffffff !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+@keyframes marqueeScroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
 }
 
-html.light-mode .metallic-border:hover {
-    border-color: #94a3b8 !important;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+/* Back to Top Button */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 84px;
+    right: 20px;
+    z-index: 45;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(12px) scale(0.9);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+@media (min-width: 1024px) {
+    .back-to-top-btn {
+        bottom: 30px;
+        right: 30px;
+    }
+}
+.back-to-top-btn.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0) scale(1);
+}
+.progress-ring-circle {
+    transition: stroke-dashoffset 0.15s ease-out;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
 }
 
-/* 8. Hero / New Drop Section */
-html.light-mode #new-drop-section {
-    background-color: #ffffff !important;
-    border-color: #e2e8f0 !important;
+/* Skeleton Loading Shimmer */
+.skeleton-shimmer {
+    background: linear-gradient(90deg, #16161c 25%, #272730 37%, #16161c 63%);
+    background-size: 400% 100%;
+    animation: skeletonShimmer 1.8s ease-in-out infinite;
+}
+@keyframes skeletonShimmer {
+    0% { background-position: 100% 50%; }
+    100% { background-position: 0 50%; }
 }
 
-html.light-mode #new-drop-section h2 {
-    color: #020617 !important;
+/* Cart Badge Bounce / Pop */
+.cart-badge-bounce {
+    animation: cartBounce 0.45s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+@keyframes cartBounce {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.4); }
+    70% { transform: scale(0.9); }
+    100% { transform: scale(1); }
 }
 
-html.light-mode #new-drop-section h2 span {
-    background: linear-gradient(135deg, #1e293b 0%, #64748b 100%) !important;
-    -webkit-background-clip: text !important;
-    -webkit-text-fill-color: transparent !important;
+/* Card Spotlight Glow */
+.card-spotlight {
+    position: relative;
+    overflow: hidden;
+}
+.card-spotlight::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border-radius: inherit;
+    background: radial-gradient(450px circle at var(--mouse-x, -500px) var(--mouse-y, -500px), rgba(245, 158, 11, 0.08), transparent 40%);
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.card-spotlight:hover::before {
+    opacity: 1;
 }
 
-html.light-mode #new-drop-section .font-display.text-\[12rem\] {
-    color: #0f172a !important;
-    opacity: 0.04 !important;
+/* Item Removing Animation in Cart */
+.item-removing {
+    opacity: 0 !important;
+    transform: translateX(40px) scale(0.95) !important;
+    max-height: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    overflow: hidden !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-/* Hero Color Selector Capsule & Active Ring */
-.hero-color-btn {
-    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+/* Catalog Grid Variations */
+.catalog-grid-2 {
+    grid-template-columns: repeat(1, minmax(0, 1fr)) !important;
 }
-.hero-color-btn.active-swatch {
-    opacity: 1 !important;
-    transform: scale(1.15) !important;
-    box-shadow: 0 0 0 2px #0a0a0a, 0 0 0 4px #ffffff, 0 4px 12px rgba(0,0,0,0.4) !important;
+@media (min-width: 640px) {
+    .catalog-grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
 }
-html.light-mode .hero-color-btn.active-swatch {
-    box-shadow: 0 0 0 2px #ffffff, 0 0 0 4px #0f172a, 0 4px 12px rgba(0,0,0,0.15) !important;
+.catalog-grid-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
 }
-html.light-mode .bg-zinc-900\/80,
-html.light-mode .bg-zinc-900\/90 {
-    background-color: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.08) !important;
+@media (min-width: 768px) {
+    .catalog-grid-4 {
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    }
 }
-html.light-mode #hero-color-name {
-    color: #0f172a !important;
-}
-html.light-mode .bg-red-600\/15,
-html.light-mode .bg-red-600\/20,
-html.light-mode .bg-red-600\/25 {
-    display: none !important;
-}
-.floating-wa-btn {
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
+@media (min-width: 1280px) {
+    .catalog-grid-4 {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    }
 }
 
-/* Buttons inside Hero & Cards in Light Mode */
-html.light-mode button.glow-button.bg-white,
-html.light-mode button.bg-white.text-black {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
+/* Interactive Image Zoom Container */
+.zoom-interactive-container {
+    overflow: hidden;
+    position: relative;
+    cursor: crosshair;
 }
-html.light-mode button.glow-button.bg-white:hover,
-html.light-mode button.bg-white.text-black:hover {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+.zoom-interactive-img {
+    transition: transform 0.2s ease-out;
+    will-change: transform, transform-origin;
 }
 
-/* 9. Product Grid & Cards */
-html.light-mode .group.bg-neutral-950 {
-    background-color: #ffffff !important;
-    border-color: #e2e8f0 !important;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-}
-html.light-mode .group .img-container {
-    background-color: #f1f5f9 !important;
-}
-html.light-mode .group .img-container span.text-white {
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    color: #020617 !important;
-    border-color: #cbd5e1 !important;
+/* Mobile Bottom Navigation padding */
+@media (max-width: 1023px) {
+    body {
+        padding-bottom: 64px;
+    }
 }
 
-html.light-mode .group button.bg-zinc-900 {
-    background-color: #f1f5f9 !important;
-    border-color: #cbd5e1 !important;
-    color: #0f172a !important;
-}
-html.light-mode .group button.bg-zinc-900:hover {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
-    border-color: #0f172a !important;
-}
-
-/* 10. Category Filter Buttons */
-html.light-mode .cat-filter-btn {
-    background-color: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    color: #475569 !important;
-}
-html.light-mode .cat-filter-btn:hover {
-    border-color: #0f172a !important;
-    color: #000000 !important;
-}
-html.light-mode .cat-filter-btn.active-cat {
-    background-color: #0f172a !important;
-    border-color: #0f172a !important;
-    color: #ffffff !important;
-}
-
-/* 11. Sort Select Dropdown */
-html.light-mode #sort-select {
-    background-color: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    color: #0f172a !important;
-}
-
-/* 12. Unified 6-Color Essentials Special View */
-html.light-mode #essentials-special-view {
-    background-color: #ffffff !important;
-    border: 1px solid #cbd5e1 !important;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
-}
-html.light-mode #essentials-special-view .bg-\[\#0a0a0a\] {
-    background-color: #ffffff !important;
-}
-html.light-mode #essentials-special-view .bg-\[\#050505\],
-html.light-mode #essentials-special-view .bg-black {
-    background-color: #f1f5f9 !important;
-}
-html.light-mode .unified-color-btn {
-    border-color: #cbd5e1 !important;
-    color: #475569 !important;
-}
-html.light-mode .unified-color-btn:hover {
-    border-color: #0f172a !important;
-    color: #000000 !important;
-}
-html.light-mode .unified-color-btn.border-white {
-    border-color: #0f172a !important;
-    background-color: #f1f5f9 !important;
-    color: #0f172a !important;
-}
-html.light-mode .unified-size-btn {
-    border-color: #cbd5e1 !important;
-    color: #475569 !important;
-}
-html.light-mode .unified-size-btn:hover {
-    border-color: #0f172a !important;
-    color: #000000 !important;
-}
-html.light-mode .unified-size-btn.border-white {
-    border-color: #0f172a !important;
-    background-color: #0f172a !important;
-    color: #ffffff !important;
-}
-html.light-mode button[onclick="addUnifiedToCart()"] {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
-}
-
-/* 13. Shopping Cart Drawer */
-html.light-mode #cart-drawer > div:last-child {
-    background-color: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    color: #0f172a !important;
-}
-html.light-mode #cart-drawer .bg-neutral-950,
-html.light-mode #cart-drawer .bg-zinc-900 {
-    background-color: #f8fafc !important;
-}
-
-/* 14. Modals */
-html.light-mode #modal-container > div:last-child {
-    background-color: #ffffff !important;
-    color: #020617 !important;
-    border: 1px solid #cbd5e1 !important;
-    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15) !important;
-}
-html.light-mode #modal-backdrop {
-    background-color: rgba(255, 255, 255, 0.8) !important;
-    backdrop-filter: blur(12px) !important;
-}
-html.light-mode #modal-add-btn {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
-}
-
-/* 15. Footer & Newsletter */
-html.light-mode footer {
-    background-color: #f1f5f9 !important;
-    border-color: #e2e8f0 !important;
-    color: #334155 !important;
-}
-html.light-mode footer input[type="email"] {
-    background-color: #ffffff !important;
-    border-color: #cbd5e1 !important;
-    color: #0f172a !important;
-}
-html.light-mode footer button[type="submit"],
-html.light-mode footer button.bg-white {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
-}
-
-/* 16. Scrollbars */
-html.light-mode ::-webkit-scrollbar-track { background: #f1f5f9; }
-html.light-mode ::-webkit-scrollbar-thumb { background: #cbd5e1; }
-
-
-/* ==========================================================================
-   ULTRA LUXURY VISUAL EFFECTS & MICRO-INTERACTIONS
-   ========================================================================== */
-
-.group {
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease !important;
-}
-
-.group:hover {
-    transform: translateY(-6px) !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(255, 255, 255, 0.08) !important;
-}
-
-html.light-mode .group:hover {
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08), 0 0 15px rgba(0, 0, 0, 0.04) !important;
-}
-
-/* Glassmorphism Header Glow */
-.glass-header {
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
-}
-
-/* Smooth active button scale */
-button:active, a:active {
-    transform: scale(0.96) !important;
-}
-
-/* Toast Glassmorphism in Light Mode */
-html.light-mode #toast {
-    background-color: rgba(255, 255, 255, 0.95) !important;
-    color: #020617 !important;
-    border-color: #cbd5e1 !important;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12) !important;
-}
-
-/* Logo Switcher between Dark Mode and Light Mode */
-.dark-logo-img { display: block; }
-.light-logo-img { display: none; }
-
-html.light-mode .dark-logo-img { display: none !important; }
-html.light-mode .light-logo-img { display: block !important; }
-
-/* Top Editorial Hero Section Light Mode Overrides */
-html.light-mode section.relative.h-\[85vh\] {
-    background-color: #f8fafc !important;
-    border-color: #cbd5e1 !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] div.absolute.bg-cover {
-    background-image: url('../assets/aura_logo_light.png') !important;
-    filter: brightness(0.95) contrast(1.05) !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] div.bg-gradient-to-t {
-    background: linear-gradient(to top, rgba(248, 250, 252, 0.98), rgba(248, 250, 252, 0.6), transparent) !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] div.bg-radial-at-c {
-    background: radial-gradient(circle at center, transparent 20%, rgba(255, 255, 255, 0.7) 70%, rgba(248, 250, 252, 0.98) 100%) !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] div.inline-flex {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    border-color: #cbd5e1 !important;
-    color: #0f172a !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06) !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] h1 {
-    color: #020617 !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] p {
-    color: #334155 !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] a[href="#featured"] {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
-}
-html.light-mode section.relative.h-\[85vh\] a[href="#featured"]:hover {
-    background-color: #000000 !important;
-    color: #ffffff !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2) !important;
-}
-
-html.light-mode section.relative.h-\[85vh\] a[href="#catalogo"] {
-    background-color: rgba(255, 255, 255, 0.9) !important;
-    border-color: #cbd5e1 !important;
-    color: #0f172a !important;
-}
-html.light-mode section.relative.h-\[85vh\] a[href="#catalogo"]:hover {
-    background-color: #0f172a !important;
-    color: #ffffff !important;
-    border-color: #0f172a !important;
+/* Size Guide Interactive Meter */
+.size-highlight-box {
+    border-color: #f59e0b !important;
+    background: rgba(245, 158, 11, 0.12) !important;
+    box-shadow: 0 0 15px rgba(245, 158, 11, 0.25) !important;
 }

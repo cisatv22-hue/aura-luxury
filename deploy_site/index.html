@@ -232,17 +232,39 @@
         </div>
         
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <!-- Image Container with floating effect -->
-                <div class="relative group flex justify-center">
-                    <div class="absolute inset-0 bg-red-600/20 rounded-full blur-[100px] group-hover:bg-red-500/30 transition-all duration-700"></div>
-                    <div class="relative z-10 w-full max-w-lg h-[400px] sm:h-[500px] flex items-center justify-center">
-                        <img id="hero-img-blanco" src="hero_essentials.png" alt="Essentials Fear of God Blanco" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-10">
-                        <img id="hero-img-negro" src="hero_essentials_black.png" alt="Essentials Fear of God Negro" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
-                        <img id="hero-img-beige" src="hero_essentials_beige.png" alt="Essentials Fear of God Beige" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
-                        <img id="hero-img-gris" src="hero_essentials_grey.png" alt="Essentials Fear of God Gris" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
-                        <img id="hero-img-verde" src="hero_essentials_green.png" alt="Essentials Fear of God Verde" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
-                        <img id="hero-img-totalblack" src="hero_essentials_totalblack.png" alt="Essentials Fear of God Total Black" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
+                        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                <!-- Image & Color Selector Column -->
+                <div class="flex flex-col items-center justify-center w-full">
+                    <!-- Color Picker (Above Image) -->
+                    <div class="mb-5 sm:mb-6 flex flex-col items-center text-center">
+                        <p class="text-zinc-400 text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-3">Selecciona un color</p>
+                        <div class="flex gap-3 sm:gap-4 justify-center items-center" role="radiogroup" aria-label="Selecciona un color para la sudadera Essentials">
+                            <!-- Blanco -->
+                            <button onclick="changeHeroColor('blanco', this)" aria-label="Color Blanco" aria-pressed="true" class="hero-color-btn w-8 h-8 rounded-full bg-[#E5E5E5] border-2 border-white ring-2 ring-white ring-offset-2 ring-offset-neutral-950 scale-110 hover:scale-110 focus:border-white transition-all shadow-[0_0_12px_rgba(255,255,255,0.3)] focus:outline-none cursor-pointer"></button>
+                            <!-- Negro -->
+                            <button onclick="changeHeroColor('negro', this)" aria-label="Color Negro" aria-pressed="false" class="hero-color-btn w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-zinc-700 hover:scale-110 hover:border-zinc-400 focus:border-zinc-400 transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)] focus:outline-none cursor-pointer"></button>
+                            <!-- Beige -->
+                            <button onclick="changeHeroColor('beige', this)" aria-label="Color Beige" aria-pressed="false" class="hero-color-btn w-8 h-8 rounded-full bg-[#D5CDBE] border-2 border-transparent hover:scale-110 hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(213,205,190,0.2)] focus:outline-none cursor-pointer"></button>
+                            <!-- Gris -->
+                            <button onclick="changeHeroColor('gris', this)" aria-label="Color Gris" aria-pressed="false" class="hero-color-btn w-8 h-8 rounded-full bg-[#8A8A8A] border-2 border-transparent hover:scale-110 hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(138,138,138,0.2)] focus:outline-none cursor-pointer"></button>
+                            <!-- Verde -->
+                            <button onclick="changeHeroColor('verde', this)" aria-label="Color Verde" aria-pressed="false" class="hero-color-btn w-8 h-8 rounded-full bg-[#1B3E32] border-2 border-transparent hover:scale-110 hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(27,62,50,0.3)] focus:outline-none cursor-pointer"></button>
+                            <!-- Total Black -->
+                            <button onclick="changeHeroColor('totalblack', this)" aria-label="Color Total Black" aria-pressed="false" class="hero-color-btn w-8 h-8 rounded-full bg-[#111111] border-2 border-transparent hover:scale-110 hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(17,17,17,0.3)] focus:outline-none cursor-pointer"></button>
+                        </div>
+                    </div>
+
+                    <!-- Image Container with floating effect -->
+                    <div class="relative group flex justify-center w-full">
+                        <div class="absolute inset-0 bg-red-600/20 rounded-full blur-[100px] group-hover:bg-red-500/30 transition-all duration-700"></div>
+                        <div class="relative z-10 w-full max-w-lg h-[400px] sm:h-[500px] flex items-center justify-center">
+                            <img id="hero-img-blanco" src="hero_essentials.png" alt="Essentials Fear of God Blanco" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-10">
+                            <img id="hero-img-negro" src="hero_essentials_black.png" alt="Essentials Fear of God Negro" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
+                            <img id="hero-img-beige" src="hero_essentials_beige.png" alt="Essentials Fear of God Beige" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
+                            <img id="hero-img-gris" src="hero_essentials_grey.png" alt="Essentials Fear of God Gris" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
+                            <img id="hero-img-verde" src="hero_essentials_green.png" alt="Essentials Fear of God Verde" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
+                            <img id="hero-img-totalblack" src="hero_essentials_totalblack.png" alt="Essentials Fear of God Total Black" class="hero-img-item absolute inset-0 w-full h-full object-contain drop-shadow-2xl hover:scale-105 transition-all duration-300 z-0">
+                        </div>
                     </div>
                 </div>
                 
@@ -265,26 +287,6 @@
                     <button onclick="quickAddToCart(2)" class="glow-button w-full sm:w-auto px-10 py-5 bg-white text-black font-black text-xs uppercase tracking-[0.2em] rounded-sm flex items-center justify-center gap-3">
                         <i class="fa-solid fa-bolt text-amber-500"></i> Comprar Ahora
                     </button>
-                    <!-- Color Picker -->
-                    <div class="mt-8">
-                        <p class="text-zinc-500 text-xs font-bold uppercase tracking-widest mb-3">Selecciona un color</p>
-                        <div class="flex gap-4" role="radiogroup" aria-label="Selecciona un color para la sudadera Essentials">
-                            <!-- Blanco -->
-                            <button onclick="changeHeroColor('blanco')" aria-label="Color Blanco" aria-pressed="true" class="w-8 h-8 rounded-full bg-[#E5E5E5] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(255,255,255,0.1)] focus:outline-none"></button>
-                            <!-- Negro -->
-                            <button onclick="changeHeroColor('negro')" aria-label="Color Negro" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#1A1A1A] border-2 border-transparent hover:border-zinc-400 focus:border-zinc-400 transition-all shadow-[0_0_10px_rgba(0,0,0,0.5)] focus:outline-none"></button>
-                            <!-- Beige -->
-                            <button onclick="changeHeroColor('beige')" aria-label="Color Beige" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#D5CDBE] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(213,205,190,0.2)] focus:outline-none"></button>
-                            <!-- Gris -->
-                            <button onclick="changeHeroColor('gris')" aria-label="Color Gris" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#8A8A8A] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(138,138,138,0.2)] focus:outline-none"></button>
-                            <!-- Verde -->
-                            <button onclick="changeHeroColor('verde')" aria-label="Color Verde" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#1B3E32] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(27,62,50,0.3)] focus:outline-none"></button>
-                            <!-- Total Black -->
-                            <button onclick="changeHeroColor('totalblack')" aria-label="Color Total Black" aria-pressed="false" class="w-8 h-8 rounded-full bg-[#111111] border-2 border-transparent hover:border-white focus:border-white transition-all shadow-[0_0_10px_rgba(17,17,17,0.3)] focus:outline-none"></button>
-                        </div>
-                    </div>
-                    
-                </div>
             </div>
         </div>
     </section>
@@ -913,7 +915,7 @@
     <script src="js/main.js?v=2"></script>
 
     <script>
-        function changeHeroColor(color) {
+        function changeHeroColor(color, btn) {
             document.querySelectorAll('.hero-img-item').forEach(img => {
                 img.classList.remove('z-10');
                 img.classList.add('z-0');
@@ -922,6 +924,14 @@
             if (target) {
                 target.classList.remove('z-0');
                 target.classList.add('z-10');
+            }
+            if (btn) {
+                document.querySelectorAll('.hero-color-btn').forEach(b => {
+                    b.classList.remove('border-white', 'ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-neutral-950', 'scale-110');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('border-white', 'ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-neutral-950', 'scale-110');
+                btn.setAttribute('aria-pressed', 'true');
             }
         }
     </script>

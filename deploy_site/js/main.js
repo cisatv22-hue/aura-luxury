@@ -1119,6 +1119,10 @@ function getCleanOriginalPrice(price) {
         // SHOPPING CART SYSTEM
         // ==========================================
         function quickAddToCart(id) {
+            if (id === 1) {
+                addHeroToCart();
+                return;
+            }
             const product = products.find(p => p.id === id);
             if (!product) return;
             addToCart(id, product.options[0]);
@@ -1153,6 +1157,97 @@ function getCleanOriginalPrice(price) {
             quickAddToCart(id1);
             quickAddToCart(id2);
             toggleCartDrawer(true);
+        }
+
+        // ==========================================
+        // HERO ESSENTIALS OG SYSTEM
+        // ==========================================
+        var currentHeroColor = 'Blanco';
+        var currentHeroSize = 'M';
+
+        var heroColorNames = {
+            'blanco': 'Blanco',
+            'negro': 'Negro',
+            'beige': 'Beige',
+            'gris': 'Gris',
+            'verde': 'Verde',
+            'totalblack': 'Total Black'
+        };
+
+        var heroColorImages = {
+            'blanco': 'hero_essentials.png',
+            'negro': 'hero_essentials_black.png',
+            'beige': 'hero_essentials_beige.png',
+            'gris': 'hero_essentials_grey.png',
+            'verde': 'hero_essentials_green.png',
+            'totalblack': 'hero_essentials_totalblack.png'
+        };
+
+        function changeHeroColor(color, btn) {
+            document.querySelectorAll('.hero-img-item').forEach(img => {
+                img.classList.remove('z-10');
+                img.classList.add('z-0');
+            });
+            const target = document.getElementById('hero-img-' + color);
+            if (target) {
+                target.classList.remove('z-0');
+                target.classList.add('z-10');
+            }
+            if (btn) {
+                document.querySelectorAll('.hero-color-btn').forEach(b => {
+                    b.classList.remove('border-white', 'ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-neutral-950', 'scale-110');
+                    b.setAttribute('aria-pressed', 'false');
+                });
+                btn.classList.add('border-white', 'ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-neutral-950', 'scale-110');
+                btn.setAttribute('aria-pressed', 'true');
+            }
+            currentHeroColor = heroColorNames[color] || color;
+            const colorLabel = document.getElementById('hero-color-name');
+            if (colorLabel) colorLabel.textContent = currentHeroColor;
+        }
+
+        function selectHeroSize(size, btn) {
+            currentHeroSize = size;
+            const label = document.getElementById('hero-size-name');
+            if (label) label.textContent = size;
+
+            document.querySelectorAll('.hero-size-btn').forEach(b => {
+                b.classList.remove('border-2', 'border-white', 'text-white', 'bg-white/10', 'ring-1', 'ring-white');
+                b.classList.add('border', 'border-zinc-800', 'text-zinc-400');
+            });
+            if (btn) {
+                btn.classList.remove('border', 'border-zinc-800', 'text-zinc-400');
+                btn.classList.add('border-2', 'border-white', 'text-white', 'bg-white/10', 'ring-1', 'ring-white');
+            }
+        }
+
+        function addHeroToCart() {
+            var rawColorKey = Object.keys(heroColorNames).find(k => heroColorNames[k] === currentHeroColor) || 'blanco';
+            var itemImage = heroColorImages[rawColorKey] || 'hero_essentials.png';
+            var optionLabel = currentHeroColor + ' — Talla ' + currentHeroSize;
+
+            var existingIndex = cart.findIndex(item => item.id === 1 && item.option === optionLabel);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({
+                    id: 1,
+                    name: 'Sudadera Essentials Fear of God OG',
+                    price: 800,
+                    image: itemImage,
+                    option: optionLabel,
+                    qty: 1
+                });
+            }
+
+            saveCart();
+            updateCartUI();
+            toggleCartDrawer(true);
+            showToast('Añadido: Essentials OG (' + optionLabel + ')');
+            if (typeof announceA11y === 'function') {
+                announceA11y('Sudadera Essentials Fear of God OG ' + optionLabel + ' añadida al carrito.');
+            }
         }
 
         // Special Unified Essentials Add To Cart Handler

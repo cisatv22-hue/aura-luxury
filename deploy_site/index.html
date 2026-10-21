@@ -237,7 +237,7 @@
                 <div class="flex flex-col items-center justify-center w-full">
                     <!-- Color Picker (Above Image) -->
                     <div class="mb-5 sm:mb-6 flex flex-col items-center text-center">
-                        <p class="text-zinc-400 text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-3">Selecciona un color</p>
+                        <p class="text-zinc-400 text-[11px] sm:text-xs font-bold uppercase tracking-[0.2em] mb-3">Color — <span id="hero-color-name" class="text-white font-bold">Blanco</span></p>
                         <div class="flex gap-3 sm:gap-4 justify-center items-center" role="radiogroup" aria-label="Selecciona un color para la sudadera Essentials">
                             <!-- Blanco -->
                             <button onclick="changeHeroColor('blanco', this)" aria-label="Color Blanco" aria-pressed="true" class="hero-color-btn w-8 h-8 rounded-full bg-[#E5E5E5] border-2 border-white ring-2 ring-white ring-offset-2 ring-offset-neutral-950 scale-110 hover:scale-110 focus:border-white transition-all shadow-[0_0_12px_rgba(255,255,255,0.3)] focus:outline-none cursor-pointer"></button>
@@ -284,7 +284,26 @@
                         <p class="text-4xl font-black text-amber-200">$800.00 <span class="text-lg text-zinc-500">MXN</span></p>
                         <span class="text-xs font-bold text-zinc-500 uppercase tracking-widest line-through">$1,200.00 MXN</span>
                     </div>
-                    <button onclick="quickAddToCart(2)" class="glow-button w-full sm:w-auto px-10 py-5 bg-white text-black font-black text-xs uppercase tracking-[0.2em] rounded-sm flex items-center justify-center gap-3">
+                    <!-- Size Selector for Essentials OG -->
+                    <div class="mb-6">
+                        <div class="flex items-center justify-between mb-3 max-w-sm">
+                            <p class="text-xs font-bold text-zinc-400 uppercase tracking-widest">
+                                Talla — <span id="hero-size-name" class="text-white font-extrabold">M</span>
+                            </p>
+                            <button type="button" onclick="openSizeGuide()" class="text-[11px] text-amber-400 hover:text-amber-300 font-bold flex items-center gap-1.5 focus:outline-none">
+                                <i class="fa-solid fa-ruler-combined text-[10px]" aria-hidden="true"></i> Guía de Tallas
+                            </button>
+                        </div>
+                        <div class="flex gap-2.5 max-w-sm" role="radiogroup" aria-label="Selecciona una talla para Essentials OG">
+                            <button type="button" onclick="selectHeroSize('XS', this)" class="hero-size-btn flex-1 h-11 rounded border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white font-bold text-xs uppercase transition-all focus:outline-none cursor-pointer">XS</button>
+                            <button type="button" onclick="selectHeroSize('S', this)" class="hero-size-btn flex-1 h-11 rounded border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white font-bold text-xs uppercase transition-all focus:outline-none cursor-pointer">S</button>
+                            <button type="button" onclick="selectHeroSize('M', this)" class="hero-size-btn flex-1 h-11 rounded border-2 border-white text-white bg-white/10 font-bold text-xs uppercase transition-all focus:outline-none ring-1 ring-white cursor-pointer">M</button>
+                            <button type="button" onclick="selectHeroSize('L', this)" class="hero-size-btn flex-1 h-11 rounded border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white font-bold text-xs uppercase transition-all focus:outline-none cursor-pointer">L</button>
+                            <button type="button" onclick="selectHeroSize('XL', this)" class="hero-size-btn flex-1 h-11 rounded border border-zinc-800 text-zinc-400 hover:border-zinc-500 hover:text-white font-bold text-xs uppercase transition-all focus:outline-none cursor-pointer">XL</button>
+                        </div>
+                    </div>
+
+                    <button onclick="addHeroToCart()" class="glow-button w-full sm:w-auto px-10 py-5 bg-white text-black font-black text-xs uppercase tracking-[0.2em] rounded-sm flex items-center justify-center gap-3 hover:bg-zinc-200 transition-all active:scale-95 shadow-xl">
                         <i class="fa-solid fa-bolt text-amber-500"></i> Comprar Ahora
                     </button>
             </div>
@@ -914,7 +933,31 @@
 
     <script src="js/main.js?v=2"></script>
 
-    <script>
+        <script>
+        // ==========================================
+        // HERO ESSENTIALS OG SYSTEM
+        // ==========================================
+        var currentHeroColor = 'Blanco';
+        var currentHeroSize = 'M';
+
+        var heroColorNames = {
+            'blanco': 'Blanco',
+            'negro': 'Negro',
+            'beige': 'Beige',
+            'gris': 'Gris',
+            'verde': 'Verde',
+            'totalblack': 'Total Black'
+        };
+
+        var heroColorImages = {
+            'blanco': 'hero_essentials.png',
+            'negro': 'hero_essentials_black.png',
+            'beige': 'hero_essentials_beige.png',
+            'gris': 'hero_essentials_grey.png',
+            'verde': 'hero_essentials_green.png',
+            'totalblack': 'hero_essentials_totalblack.png'
+        };
+
         function changeHeroColor(color, btn) {
             document.querySelectorAll('.hero-img-item').forEach(img => {
                 img.classList.remove('z-10');
@@ -932,6 +975,53 @@
                 });
                 btn.classList.add('border-white', 'ring-2', 'ring-white', 'ring-offset-2', 'ring-offset-neutral-950', 'scale-110');
                 btn.setAttribute('aria-pressed', 'true');
+            }
+            currentHeroColor = heroColorNames[color] || color;
+            const colorLabel = document.getElementById('hero-color-name');
+            if (colorLabel) colorLabel.textContent = currentHeroColor;
+        }
+
+        function selectHeroSize(size, btn) {
+            currentHeroSize = size;
+            const label = document.getElementById('hero-size-name');
+            if (label) label.textContent = size;
+
+            document.querySelectorAll('.hero-size-btn').forEach(b => {
+                b.classList.remove('border-2', 'border-white', 'text-white', 'bg-white/10', 'ring-1', 'ring-white');
+                b.classList.add('border', 'border-zinc-800', 'text-zinc-400');
+            });
+            if (btn) {
+                btn.classList.remove('border', 'border-zinc-800', 'text-zinc-400');
+                btn.classList.add('border-2', 'border-white', 'text-white', 'bg-white/10', 'ring-1', 'ring-white');
+            }
+        }
+
+        function addHeroToCart() {
+            var rawColorKey = Object.keys(heroColorNames).find(k => heroColorNames[k] === currentHeroColor) || 'blanco';
+            var itemImage = heroColorImages[rawColorKey] || 'hero_essentials.png';
+            var optionLabel = currentHeroColor + ' — Talla ' + currentHeroSize;
+
+            var existingIndex = cart.findIndex(item => item.id === 1 && item.option === optionLabel);
+
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({
+                    id: 1,
+                    name: 'Sudadera Essentials Fear of God OG',
+                    price: 800,
+                    image: itemImage,
+                    option: optionLabel,
+                    qty: 1
+                });
+            }
+
+            saveCart();
+            updateCartUI();
+            toggleCartDrawer(true);
+            showToast('Añadido: Essentials OG (' + optionLabel + ')');
+            if (typeof announceA11y === 'function') {
+                announceA11y('Sudadera Essentials Fear of God OG ' + optionLabel + ' añadida al carrito.');
             }
         }
     </script>

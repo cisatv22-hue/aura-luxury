@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=3">
 </head>
 <body class="antialiased selection:bg-white selection:text-black bg-brand-bg text-slate-100">
     <div class="overflow-x-hidden w-full max-w-[100vw] flex flex-col min-h-screen">
@@ -726,7 +726,10 @@
     <script src="js/main.js?v=8"></script>
     </div>
     <!-- Floating WhatsApp Bubble -->
-    <aside id="whatsapp-bubble" class="whatsapp-float-container group" aria-label="Contacto por WhatsApp">
+    <aside id="whatsapp-bubble"
+           class="whatsapp-float-container fixed bottom-[74px] right-[18px] lg:bottom-[28px] lg:right-[28px] z-50 transition-all duration-300 group"
+           style="position: fixed; z-index: 9999;"
+           aria-label="Contacto por WhatsApp">
         <a href="https://wa.me/525516069816?text=Hola%20AURA%20LUXURY,%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n."
            target="_blank" rel="noopener noreferrer"
            class="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-full"
@@ -741,9 +744,10 @@
             </span>
 
             <!-- WhatsApp Icon Button -->
-            <div class="whatsapp-icon-btn relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 group-hover:scale-105 active:scale-95">
+            <div class="whatsapp-icon-btn relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 group-hover:scale-105 active:scale-95 bg-emerald-500"
+                 style="background: linear-gradient(135deg, #25D366 0%, #128C7E 100%); box-shadow: 0 8px 24px -2px rgba(37, 211, 102, 0.5), 0 4px 10px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.25);">
                 <span class="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping -z-10 group-hover:opacity-0 transition-opacity"></span>
-                <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl" aria-hidden="true"></i>
+                <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl text-white" aria-hidden="true"></i>
             </div>
         </a>
     </aside>

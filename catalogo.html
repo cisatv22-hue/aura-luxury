@@ -72,7 +72,7 @@
             bottom: 70px !important;
             right: 16px !important;
             left: auto !important;
-            z-index: 99999 !important;
+            z-index: 40 !important;
             display: block !important;
         }
         @media (min-width: 1024px) {
@@ -81,6 +81,16 @@
                 left: 28px !important;
                 right: auto !important;
             }
+        }
+        #whatsapp-bubble.hidden,
+        body.cart-open #whatsapp-bubble,
+        body:has(#cart-drawer:not(.hidden)) #whatsapp-bubble,
+        body:has(#modal-container:not(.hidden)) #whatsapp-bubble,
+        body:has(#size-guide-modal:not(.hidden)) #whatsapp-bubble {
+            display: none !important;
+            opacity: 0 !important;
+            pointer-events: none !important;
+            visibility: hidden !important;
         }
     </style>
 </head>
@@ -765,7 +775,7 @@
         <!-- Floating WhatsApp Button -->
     <aside id="whatsapp-bubble"
            class="whatsapp-float-container fixed bottom-[70px] right-4 lg:bottom-7 lg:left-7 lg:right-auto z-50 transition-all duration-300"
-           style="position: fixed; z-index: 99999;"
+           style="position: fixed; z-index: 40;"
            aria-label="Contacto por WhatsApp">
         <a href="https://wa.me/525516069816?text=Hola%20AURA%20LUXURY,%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n."
            target="_blank" rel="noopener noreferrer"

@@ -1589,12 +1589,17 @@ function getCleanOriginalPrice(price) {
             const backdrop = document.getElementById('cart-backdrop');
             const panel = document.getElementById('cart-panel');
             const cartBtn = document.getElementById('cart-btn');
+            const whatsappBubble = document.getElementById('whatsapp-bubble');
 
             if (!drawer || !backdrop || !panel) return;
 
             if (open) {
                 lastFocusedElement = document.activeElement;
                 drawer.classList.remove('hidden');
+                document.body.classList.add('cart-open');
+                if (whatsappBubble) {
+                    whatsappBubble.classList.add('hidden');
+                }
                 if (cartBtn) cartBtn.setAttribute('aria-expanded', 'true');
                 setTimeout(() => {
                     backdrop.classList.remove('opacity-0');
@@ -1606,9 +1611,13 @@ function getCleanOriginalPrice(price) {
             } else {
                 backdrop.classList.add('opacity-0');
                 panel.classList.add('translate-x-full');
+                document.body.classList.remove('cart-open');
                 if (cartBtn) cartBtn.setAttribute('aria-expanded', 'false');
                 setTimeout(() => {
                     drawer.classList.add('hidden');
+                    if (whatsappBubble) {
+                        whatsappBubble.classList.remove('hidden');
+                    }
                 }, 300);
                 if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
                     lastFocusedElement.focus();

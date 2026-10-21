@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="css/styles.css?v=5">
+    <link rel="stylesheet" href="css/styles.css?v=6">
     <link rel="preload" href="model_crema.png" as="image">
     <link rel="preload" href="model_blanco.png" as="image">
     <link rel="preload" href="model_gris.png" as="image">
@@ -54,13 +54,30 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <style>
-        /* Posicionamiento asegurado de botones flotantes */
+        <style>
+        /* Desactivar elementos redundantes en celular para que no se amontone */
+        #sticky-mobile-cart-bar {
+            display: none !important;
+        }
+        #back-to-top {
+            display: none !important;
+        }
+        @media (min-width: 1024px) {
+            #back-to-top {
+                display: flex !important;
+                position: fixed !important;
+                bottom: 28px !important;
+                right: 28px !important;
+                z-index: 9999 !important;
+            }
+        }
+
+        /* Boton WhatsApp limpio y visible */
         #whatsapp-bubble {
             position: fixed !important;
-            bottom: 74px !important;
-            left: 16px !important;
-            right: auto !important;
+            bottom: 70px !important;
+            right: 16px !important;
+            left: auto !important;
             z-index: 99999 !important;
             display: block !important;
         }
@@ -69,20 +86,6 @@
                 bottom: 28px !important;
                 left: 28px !important;
                 right: auto !important;
-            }
-        }
-        #back-to-top {
-            position: fixed !important;
-            bottom: 74px !important;
-            right: 18px !important;
-            left: auto !important;
-            z-index: 9999 !important;
-        }
-        @media (min-width: 1024px) {
-            #back-to-top {
-                bottom: 28px !important;
-                right: 28px !important;
-                left: auto !important;
             }
         }
     </style>
@@ -1112,10 +1115,10 @@
         }
     </script>
     
-    <!-- Floating WhatsApp Button (Bottom Left) -->
+        <!-- Floating WhatsApp Button -->
     <aside id="whatsapp-bubble"
-           class="whatsapp-float-container fixed bottom-[74px] left-4 lg:bottom-7 lg:left-7 z-50 transition-all duration-300"
-           style="position: fixed; z-index: 9999; left: 16px;"
+           class="whatsapp-float-container fixed bottom-[70px] right-4 lg:bottom-7 lg:left-7 lg:right-auto z-50 transition-all duration-300"
+           style="position: fixed; z-index: 99999;"
            aria-label="Contacto por WhatsApp">
         <a href="https://wa.me/525516069816?text=Hola%20AURA%20LUXURY,%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n."
            target="_blank" rel="noopener noreferrer"

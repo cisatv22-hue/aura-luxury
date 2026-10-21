@@ -234,11 +234,11 @@
     100% { transform: translateX(-50%); }
 }
 
-/* Floating WhatsApp Button (Bottom Left) */
+/* Floating WhatsApp Button */
 .whatsapp-float-container {
     position: fixed;
-    bottom: 74px;
-    left: 16px;
+    bottom: 70px;
+    right: 16px;
     z-index: 45;
     transition: bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s ease;
 }
@@ -261,36 +261,27 @@
     box-shadow: 0 10px 28px rgba(37, 211, 102, 0.7), 0 0 20px rgba(37, 211, 102, 0.4);
 }
 
-@media (max-width: 1023px) {
-    .whatsapp-float-container.mobile-lifted {
-        bottom: 124px;
-    }
-    .back-to-top-btn.mobile-lifted {
-        bottom: 124px;
-    }
-}
-
-/* Back to Top Button (Bottom Right) */
+/* Back to Top Button (solo desktop) */
 .back-to-top-btn {
-    position: fixed;
-    bottom: 74px;
-    right: 18px;
-    z-index: 45;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(12px) scale(0.9);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: none;
 }
 @media (min-width: 1024px) {
     .back-to-top-btn {
+        display: flex;
+        position: fixed;
         bottom: 28px;
         right: 28px;
+        z-index: 45;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(12px) scale(0.9);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
-}
-.back-to-top-btn.is-visible {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0) scale(1);
+    .back-to-top-btn.is-visible {
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0) scale(1);
+    }
 }
 .progress-ring-circle {
     transition: stroke-dashoffset 0.15s ease-out;

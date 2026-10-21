@@ -725,6 +725,29 @@
 
     <script src="js/main.js?v=8"></script>
     </div>
+    <!-- Floating WhatsApp Bubble -->
+    <aside id="whatsapp-bubble" class="whatsapp-float-container group" aria-label="Contacto por WhatsApp">
+        <a href="https://wa.me/525516069816?text=Hola%20AURA%20LUXURY,%20me%20gustar%C3%ADa%20recibir%20m%C3%A1s%20informaci%C3%B3n."
+           target="_blank" rel="noopener noreferrer"
+           class="flex items-center gap-2.5 focus:outline-none focus:ring-2 focus:ring-emerald-400 rounded-full"
+           title="Chatea con nosotros por WhatsApp">
+            <!-- Tooltip pill -->
+            <span class="whatsapp-badge hidden sm:flex items-center gap-2 bg-[#0c0c10]/95 border border-zinc-700/80 text-white text-[11px] font-bold tracking-wider uppercase py-2 px-3.5 rounded-full shadow-2xl backdrop-blur-md group-hover:border-emerald-500/80 group-hover:text-emerald-300 transition-all">
+                <span class="relative flex h-2 w-2">
+                    <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                </span>
+                <span>¿Dudas? Chatea con nosotros</span>
+            </span>
+
+            <!-- WhatsApp Icon Button -->
+            <div class="whatsapp-icon-btn relative w-12 h-12 sm:w-14 sm:h-14 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 group-hover:scale-105 active:scale-95">
+                <span class="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping -z-10 group-hover:opacity-0 transition-opacity"></span>
+                <i class="fa-brands fa-whatsapp text-2xl sm:text-3xl" aria-hidden="true"></i>
+            </div>
+        </a>
+    </aside>
+
     <!-- Floating Back to Top Button with SVG Circular Progress -->
     <button id="back-to-top" type="button" aria-label="Volver arriba de la página"
             class="back-to-top-btn w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-zinc-950/90 border border-zinc-700/80 text-white flex items-center justify-center shadow-2xl backdrop-blur-md hover:border-amber-400 hover:text-amber-300 transition-all focus:outline-none">

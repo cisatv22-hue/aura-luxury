@@ -1880,12 +1880,17 @@ function getCleanOriginalPrice(price) {
 
                 // Sticky Mobile Cart Bar in index.html
                 const stickyBar = document.getElementById('sticky-mobile-cart-bar');
+                const waBubble = document.getElementById('whatsapp-bubble');
                 if (stickyBar) {
                     const shouldShow = scrollTop > 460 && scrollTop < (scrollHeight - 400);
                     if (shouldShow) {
                         stickyBar.classList.remove('translate-y-24', 'opacity-0');
+                        if (waBubble) waBubble.classList.add('mobile-lifted');
+                        if (btn) btn.classList.add('mobile-lifted');
                     } else {
                         stickyBar.classList.add('translate-y-24', 'opacity-0');
+                        if (waBubble) waBubble.classList.remove('mobile-lifted');
+                        if (btn) btn.classList.remove('mobile-lifted');
                     }
                 }
             }, { passive: true });

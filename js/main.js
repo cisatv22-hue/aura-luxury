@@ -340,6 +340,37 @@ function getCleanOriginalPrice(price) {
         "options": [
             "Unitalla"
         ]
+    },
+    {
+        "id": 10,
+        "name": "Pulsera de Plata Ley .925",
+        "category": "chains",
+        "categoriaTienda": "Plata .925",
+        "price": 380,
+        "tag": "Plata Ley .925",
+        "tagClass": "badge-cream",
+        "image1": "pulsera_plata.png",
+        "desc": "Pulsera de Plata Ley .925 con diseño torzal fino y elegante. Ideal para uso diario o combinaciones con otros accesorios.",
+        "options": [
+            "Unitalla"
+        ]
+    },
+    {
+        "id": 11,
+        "name": "Kit Essentials & Pulsera de Plata",
+        "category": "combos",
+        "categoriaTienda": "Plata .925",
+        "price": 1100,
+        "tag": "Ahorro $200 MXN",
+        "tagClass": "badge-amber",
+        "image1": "combo_3pieces.png",
+        "desc": "El combo de lujo: Sudadera + Short Essentials de cualquier color + Pulsera de Plata Ley .925. Ahorra $200 MXN al comprar en set.",
+        "options": [
+            "S",
+            "M",
+            "L",
+            "XL"
+        ]
     }
 ];
 
@@ -462,11 +493,7 @@ function getCleanOriginalPrice(price) {
             updateWishlistUI();
         }
 
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', initAuraStore);
-        } else {
-            initAuraStore();
-        }
+
 
         function loadPersistedData() {
             try {
@@ -478,7 +505,12 @@ function getCleanOriginalPrice(price) {
 
             try {
                 const savedWishlist = localStorage.getItem('aura_wishlist');
-                if (savedWishlist) wishlist = JSON.parse(savedWishlist);
+                if (savedWishlist) {
+                    wishlist = JSON.parse(savedWishlist);
+                    // Filter out any IDs that no longer exist in catalog
+                    wishlist = wishlist.filter(id => products.some(p => String(p.id) === String(id)));
+                    saveWishlist();
+                }
             } catch (e) {
                 wishlist = [];
             }
@@ -810,168 +842,38 @@ function getCleanOriginalPrice(price) {
             if (!container) return;
             container.innerHTML = '';
 
-            // En la vista de favoritos (wishlist), mostrar solo los productos a los que se les dio corazón
-            if (activeCategory === 'wishlist') {
-                const countEl = document.getElementById('product-count');
-                const catCountEl = document.getElementById('category-view-count');
-                const catTitleEl = document.getElementById('category-view-title');
-                
-                if (catTitleEl) catTitleEl.textContent = 'MIS FAVORITOS';
+            const isWishlistMode = (activeCategory === 'wishlist');
 
-                let filtered = products.filter(p => wishlist.includes(p.id));
-
-                if (searchQuery && searchQuery.trim()) {
-                    const q = searchQuery.toLowerCase().trim();
-                    filtered = filtered.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
-                }
-
-                if (countEl) countEl.textContent = filtered.length;
-                if (catCountEl) catCountEl.textContent = `${filtered.length} ${filtered.length === 1 ? 'producto' : 'productos'}`;
-
-                announceA11y(`Mostrando ${filtered.length} productos favoritos`);
-
-                if (filtered.length === 0) {
-                    container.innerHTML = `
-                        <div class="col-span-full text-center py-20 text-zinc-500">
-                            <i class="fa-regular fa-heart text-5xl mb-4 text-zinc-700" aria-hidden="true"></i>
-                            <h3 class="text-sm uppercase tracking-widest font-black text-white mb-2">Tu lista de deseos está vacía</h3>
-                            <p class="text-xs text-zinc-400 max-w-sm mx-auto mb-6">Guarda tus prendas y accesorios favoritos pulsando el ícono de corazón ❤️ en cualquier producto.</p>
-                            <button onclick="returnToCatalog()" class="px-6 py-3 bg-white text-black text-xs font-black uppercase tracking-wider rounded hover:bg-zinc-200 transition-all shadow-lg">
-                                Explorar Catálogo
-                            </button>
-                        </div>
-                    `;
-                    return;
-                }
-
-                filtered.forEach(p => {
-                    const isFavorite = true;
-                    const originalPrice = getCleanOriginalPrice(p.price);
-
-                    let highlightedName = p.name;
-                    if (searchQuery.trim()) {
-                        const regex = new RegExp(`(${escapeRegExp(searchQuery.trim())})`, 'gi');
-                        highlightedName = p.name.replace(regex, '<mark class="search-highlight">$1</mark>');
-                    }
-
-                    const card = document.createElement('div');
-                    card.className = "card-spotlight group relative bg-neutral-950 border border-zinc-800 rounded-lg overflow-hidden flex flex-col justify-between hover:border-zinc-500 transition-all duration-300 shadow-lg hover:shadow-2xl focus-within:ring-2 focus-within:ring-white";
-
-                    card.innerHTML = `
-                        <div class="relative w-full aspect-square bg-zinc-900/40 p-4 sm:p-6 flex items-center justify-center overflow-hidden cursor-pointer" onclick="openModal(${p.id})">
-                            <span class="absolute top-3 left-3 text-[9px] font-black uppercase tracking-widest px-2.5 py-1 rounded-sm shadow-md z-10 ${p.tagClass}">
-                                ${p.tag}
-                            </span>
-
-                            <button type="button" 
-                                    onclick="event.stopPropagation(); toggleWishlist(${p.id})" 
-                                    aria-label="Quitar de favoritos ${p.name}" 
-                                    aria-pressed="true"
-                                    class="wishlist-heart-btn absolute top-3 right-3 z-10 w-9 h-9 rounded-full bg-zinc-900/80 backdrop-blur-sm border border-zinc-700/60 flex items-center justify-center text-sm text-red-500 focus:outline-none">
-                                <i class="fa-solid fa-heart" aria-hidden="true"></i>
-                            </button>
-
-                            <img src="${p.image1}" 
-                                 alt="${p.name} - Streetwear premium AURA LUXURY" 
-                                 loading="lazy"
-                                 class="h-full w-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform duration-500 ease-out ${p.sold_out ? 'opacity-40 grayscale-[40%]' : ''}">
-                            ${p.sold_out ? `
-                            <div class="absolute inset-0 bg-black/50 backdrop-blur-[1px] flex items-center justify-center z-20 pointer-events-none">
-                                <div class="px-5 py-2.5 bg-neutral-950/95 border-2 border-red-500 text-red-500 font-black text-sm sm:text-base tracking-[0.3em] uppercase rounded shadow-[0_0_25px_rgba(239,68,68,0.5)] transform -rotate-3 flex items-center gap-2">
-                                    <i class="fa-solid fa-ban text-xs"></i> AGOTADO
-                                </div>
-                            </div>
-                            ` : ''}
-                        </div>
-
-                        <div class="p-4 sm:p-5 flex flex-col flex-grow justify-between border-t border-zinc-800/80 bg-zinc-950">
-                            <div>
-                                <div class="flex items-center justify-between text-[10px] text-zinc-500 font-extrabold uppercase tracking-wider mb-1">
-                                    <span>${categoryNames[p.category] || 'Colección'}</span>
-                                    ${p.options && p.options.length > 1 ? `<span>${p.options.length} Tallas</span>` : ''}
-                                </div>
-                                <h3 class="font-bold text-xs uppercase tracking-wider text-white line-clamp-2 min-h-[32px] group-hover:text-amber-200 transition-colors">
-                                    ${highlightedName}
-                                </h3>
-                                <p class="text-[11px] text-zinc-400 mt-1 line-clamp-2 leading-relaxed">
-                                    ${p.desc}
-                                </p>
-                            </div>
-
-                            <div class="mt-4 pt-3 border-t border-zinc-900 flex items-center justify-between">
-                                <div>
-                                    <span class="sr-only">Precio actual:</span>
-                                    <span class="text-sm sm:text-base font-black text-amber-200">
-                                        $${p.price.toLocaleString('es-MX')}.00 MXN
-                                    </span>
-                                    <span class="sr-only">Precio de lista:</span>
-                                    <span class="block text-[10px] text-zinc-500 line-through font-bold" aria-hidden="true">
-                                        $${originalPrice.toLocaleString('es-MX')}.00 MXN
-                                    </span>
-                                </div>
-
-                                <div class="flex items-center gap-1.5">
-                                    <button type="button" 
-                                            onclick="openModal(${p.id})" 
-                                            aria-label="Ver detalles y tallas de ${p.name}"
-                                            class="p-2.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 text-zinc-300 hover:text-white transition-all text-xs focus:outline-none" 
-                                            title="Vista rápida">
-                                        <i class="fa-solid fa-eye" aria-hidden="true"></i>
-                                    </button>
-                                    ${p.sold_out ? `
-                                    <button type="button" 
-                                            disabled
-                                            aria-label="${p.name} está agotado"
-                                            class="px-3 py-2 rounded bg-zinc-900 border border-zinc-800 text-zinc-500 font-black text-[11px] uppercase tracking-wider cursor-not-allowed opacity-75 flex items-center gap-1.5 shadow-none focus:outline-none">
-                                        <i class="fa-solid fa-ban text-[10px]" aria-hidden="true"></i>
-                                        <span>Agotado</span>
-                                    </button>
-                                    ` : (p.custom_action ? `
-                                    <button type="button" 
-                                            onclick="filterCategory('essentials_hoodies')" 
-                                            aria-label="Ver 6 colores de ${p.name}"
-                                            class="px-3 py-2 rounded bg-white hover:bg-zinc-200 text-black font-black text-[11px] uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md focus:outline-none">
-                                        <i class="fa-solid fa-palette text-[10px]" aria-hidden="true"></i>
-                                        <span>Ver 6 Colores</span>
-                                    </button>
-                                    ` : `
-                                    <button type="button" 
-                                            onclick="quickAddToCart(${p.id})" 
-                                            aria-label="Agregar ${p.name} al carrito"
-                                            class="px-3 py-2 rounded bg-white hover:bg-zinc-200 text-black font-black text-[11px] uppercase tracking-wider transition-all flex items-center gap-1.5 shadow-md focus:outline-none">
-                                        <i class="fa-solid fa-plus text-[10px]" aria-hidden="true"></i>
-                                        <span>Agregar</span>
-                                    </button>
-                                    `)}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                    container.appendChild(card);
-                });
-                return;
-            }
-
-            // En la vista principal de recuadros, el grid NO debe contener productos
-            if (!activeCategoryTienda) {
+            // En la vista principal de recuadros, el grid NO debe contener productos (a menos que sea favoritos)
+            if (!activeCategoryTienda && !isWishlistMode) {
                 const countEl = document.getElementById('product-count');
                 if (countEl) countEl.textContent = '0';
                 return;
             }
 
+            const categoryNames = {
+                'essentials_hoodies': 'Sudaderas Essentials',
+                'hoodies': 'Solo Sudaderas',
+                'chains': 'Solo Plata .925',
+                'caps': 'Solo Gorras',
+                'pants': 'Pants Rompevientos',
+                'pants_youngla': 'Pants Youngla',
+                'jackets_afelpadas': 'Hoodies Afelpadas',
+                'combos': 'Combos',
+                'wishlist': 'Mis Favoritos'
+            };
+
             let filtered = products.filter(p => {
-                // En la vista de categoría, el filtro principal es categoriaTienda
+                if (isWishlistMode) {
+                    return wishlist.some(favId => String(favId) === String(p.id));
+                }
+
                 if (activeCategoryTienda) {
                     if (p.categoriaTienda !== activeCategoryTienda) return false;
                 } else {
                     return false;
                 }
 
-                // Si está activo el filtro de Favoritos
-                if (activeCategory === 'wishlist') {
-                    if (!wishlist.includes(p.id)) return false;
-                }
-                
                 // Price range filter
                 let matchesPrice = true;
                 if (activePriceFilter === 'under-400') matchesPrice = p.price < 400;
@@ -986,42 +888,50 @@ function getCleanOriginalPrice(price) {
             });
 
             const countEl = document.getElementById('product-count');
-            if (countEl) countEl.textContent = filtered.length;
+            const catCountEl = document.getElementById('category-view-count');
+            const catTitleEl = document.getElementById('category-view-title');
 
-            announceA11y(`Mostrando ${filtered.length} productos en el catálogo`);
+            if (isWishlistMode) {
+                if (catTitleEl) catTitleEl.textContent = 'MIS FAVORITOS';
+                if (catCountEl) catCountEl.textContent = `${filtered.length} ${filtered.length === 1 ? 'producto' : 'productos'}`;
+            }
+
+            if (countEl) countEl.textContent = filtered.length;
+            announceA11y(`Mostrando ${filtered.length} productos`);
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full text-center py-20 text-zinc-500">
-                        <i class="fa-solid fa-magnifying-glass text-4xl mb-4 text-zinc-700" aria-hidden="true"></i>
-                        <p class="text-xs uppercase tracking-widest font-bold">No se encontraron productos para esta búsqueda o filtro.</p>
-                        <div class="mt-6 flex flex-wrap justify-center gap-3">
-                            <button onclick="clearAllFilters()" class="px-5 py-2.5 bg-white text-black text-xs font-black uppercase tracking-wider rounded hover:bg-zinc-200 transition-all">
-                                Restablecer Filtros
+                if (isWishlistMode) {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-20 text-zinc-500">
+                            <i class="fa-regular fa-heart text-5xl mb-4 text-zinc-700" aria-hidden="true"></i>
+                            <h3 class="text-sm uppercase tracking-widest font-black text-white mb-2">Tu lista de deseos está vacía</h3>
+                            <p class="text-xs text-zinc-400 max-w-sm mx-auto mb-6">Guarda tus prendas y accesorios favoritos pulsando el ícono de corazón ❤️ en cualquier producto.</p>
+                            <button onclick="returnToCatalog()" class="px-6 py-3 bg-white text-black text-xs font-black uppercase tracking-wider rounded hover:bg-zinc-200 transition-all shadow-lg">
+                                Explorar Catálogo
                             </button>
-                            ${activeCategory === 'wishlist' ? '' : '<button onclick="filterCategory(\'all\')" class="px-5 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-xs font-black uppercase tracking-wider rounded hover:border-white transition-all">Ver Todo el Catálogo</button>'}
                         </div>
-                    </div>
-                `;
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="col-span-full text-center py-20 text-zinc-500">
+                            <i class="fa-solid fa-magnifying-glass text-4xl mb-4 text-zinc-700" aria-hidden="true"></i>
+                            <p class="text-xs uppercase tracking-widest font-bold">No se encontraron productos para esta búsqueda o filtro.</p>
+                            <div class="mt-6 flex flex-wrap justify-center gap-3">
+                                <button onclick="clearAllFilters()" class="px-5 py-2.5 bg-white text-black text-xs font-black uppercase tracking-wider rounded hover:bg-zinc-200 transition-all">
+                                    Restablecer Filtros
+                                </button>
+                                <button onclick="returnToCatalog()" class="px-5 py-2.5 bg-zinc-900 border border-zinc-700 text-white text-xs font-black uppercase tracking-wider rounded hover:border-white transition-all">Ver Categorías</button>
+                            </div>
+                        </div>
+                    `;
+                }
                 return;
             }
 
-            const categoryNames = {
-                'essentials_hoodies': 'Sudaderas Essentials',
-                'hoodies': 'Solo Sudaderas',
-                'chains': 'Solo Plata .925',
-                'caps': 'Solo Gorras',
-                'pants': 'Pants Rompevientos',
-                'pants_youngla': 'Pants Youngla',
-                'wishlist': 'Mis Favoritos'
-            };
-
             filtered.forEach(p => {
-                const isFavorite = wishlist.includes(p.id);
-                const hasDiscount = p.price > 0;
+                const isFavorite = wishlist.some(favId => String(favId) === String(p.id));
                 const originalPrice = getCleanOriginalPrice(p.price);
 
-                // Highlight search matches
                 let highlightedName = p.name;
                 if (searchQuery.trim()) {
                     const regex = new RegExp(`(${escapeRegExp(searchQuery.trim())})`, 'gi');
@@ -1121,108 +1031,8 @@ function getCleanOriginalPrice(price) {
                         </div>
                     </div>
                 `;
-
                 container.appendChild(card);
             });
-        }
-
-        function escapeRegExp(string) {
-            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        }
-
-        function getCleanOriginalPrice(price) {
-            if (price <= 350) return price + 150;
-            if (price <= 650) return price + 250;
-            return price + 350;
-        }
-
-        // ==========================================
-        // FILTER HANDLERS
-        // ==========================================
-        function closeEssentialsSpecialView() {
-            const specialView = document.getElementById('essentials-special-view');
-            if (specialView) {
-                specialView.classList.add('hidden');
-                specialView.style.display = 'none';
-            }
-            const grid = document.getElementById('product-grid');
-            if (grid) {
-                grid.classList.remove('hidden');
-                grid.style.display = 'grid';
-            }
-            if (!activeCategoryTienda) {
-                activeCategoryTienda = 'Sudaderas';
-            }
-            activeCategory = 'all';
-            renderProducts();
-            if (grid && typeof grid.scrollIntoView === 'function') {
-                grid.scrollIntoView({ behavior: 'smooth', block: 'start' });
-            }
-        }
-
-        function filterCategory(cat) {
-            activeCategory = cat;
-
-            const grid = document.getElementById('product-grid');
-            const specialView = document.getElementById('essentials-special-view');
-            const newDropSection = document.getElementById('new-drop-section');
-            const lookbookSection = document.getElementById('lookbook');
-
-            if (cat === 'essentials_hoodies') {
-                // Abrir la vista de Sudaderas si no está abierta
-                if (activeCategoryTienda !== 'Sudaderas') {
-                    selectCategory('Sudaderas');
-                }
-                if (grid) {
-                    grid.classList.add('hidden');
-                    grid.style.display = 'none';
-                }
-                if (specialView) {
-                    specialView.classList.remove('hidden');
-                    specialView.style.display = 'block';
-                    if (typeof specialView.scrollIntoView === 'function') {
-                        specialView.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
-                }
-            } else {
-                if (specialView) {
-                    specialView.classList.add('hidden');
-                    specialView.style.display = 'none';
-                }
-                if (grid) {
-                    grid.classList.remove('hidden');
-                    grid.style.display = 'grid';
-                }
-            }
-
-            if (cat === 'all') {
-                if (newDropSection) newDropSection.style.display = 'block';
-                if (lookbookSection) lookbookSection.style.display = 'block';
-            } else {
-                if (newDropSection) newDropSection.style.display = 'none';
-                if (lookbookSection) lookbookSection.style.display = 'none';
-            }
-
-            // Update button styles
-            document.querySelectorAll('.cat-filter-btn, .filter-btn').forEach(btn => {
-                const isMatch = btn.getAttribute('onclick')?.includes(`'${cat}'`) || btn.dataset.category === cat;
-                if (isMatch) {
-                    btn.classList.add('active-cat', 'border-white', 'bg-white', 'text-black');
-                    btn.classList.remove('border-zinc-800', 'text-zinc-400');
-                    btn.setAttribute('aria-pressed', 'true');
-                } else {
-                    btn.classList.remove('active-cat', 'border-white', 'bg-white', 'text-black');
-                    btn.classList.add('border-zinc-800', 'text-zinc-400');
-                    btn.setAttribute('aria-pressed', 'false');
-                }
-            });
-
-            if (cat === 'essentials_hoodies') {
-                const countEl = document.getElementById('product-count');
-                if (countEl) countEl.textContent = '6';
-            } else {
-                renderProducts();
-            }
         }
 
         function filterByPrice(range) {
@@ -1880,68 +1690,18 @@ function getCleanOriginalPrice(price) {
             // Always update free shipping progress bar with current subtotal
             updateFreeShippingProgressBar(subtotal);
 
-            // Empty cart state with quick-add recommendations
+            // Empty cart state
             if (cart.length === 0) {
                 if (container) {
                     container.innerHTML = `
-                        <div class="text-center py-6 px-2 flex flex-col items-center justify-center">
-                            <div class="w-14 h-14 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-3 shadow-inner">
-                                <i class="fa-solid fa-bag-shopping text-xl" aria-hidden="true"></i>
+                        <div class="text-center py-12 px-4 flex flex-col items-center justify-center">
+                            <div class="w-16 h-16 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-500 mb-4 shadow-inner">
+                                <i class="fa-solid fa-bag-shopping text-2xl" aria-hidden="true"></i>
                             </div>
-                            <h4 class="font-display text-sm font-black uppercase text-white tracking-wider">Tu Carrito está vacío</h4>
-                            <p class="text-[11px] text-zinc-500 max-w-xs mt-1 leading-relaxed mb-4">
-                                Explora piezas exclusivas de moda urbana pesada y joyería fina.
+                            <h4 class="font-display text-base font-black uppercase text-white tracking-wider">Tu Carrito está vacío</h4>
+                            <p class="text-xs text-zinc-400 max-w-xs mt-2 leading-relaxed">
+                                No tienes artículos en tu bolsa de compras.
                             </p>
-
-                            <div class="w-full text-left border-t border-zinc-800/80 pt-4">
-                                <p class="text-[10px] font-black uppercase tracking-wider text-amber-300 mb-3 flex items-center gap-1.5">
-                                    <i class="fa-solid fa-sparkles text-[10px]"></i> Recomendados para comenzar
-                                </p>
-                                <div class="space-y-2.5">
-                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded bg-zinc-950 p-1 border border-zinc-800 flex items-center justify-center shrink-0">
-                                                <i class="fa-solid fa-gem text-amber-300 text-sm"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-[11px] font-bold text-white uppercase tracking-wider">Pulsera Plata Ley .925</p>
-                                                <p class="text-[10px] text-amber-300 font-black">$380 MXN</p>
-                                            </div>
-                                        </div>
-                                        <button type="button" onclick="quickAddToCart(10)" class="px-3 py-1.5 bg-white text-black hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider rounded transition-all active:scale-95 shadow">
-                                            + Añadir
-                                        </button>
-                                    </div>
-                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded bg-zinc-950 p-1 border border-zinc-800 flex items-center justify-center shrink-0">
-                                                <i class="fa-solid fa-shirt text-zinc-300 text-sm"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-[11px] font-bold text-white uppercase tracking-wider">Sudadera Tribal Born Ode</p>
-                                                <p class="text-[10px] text-amber-300 font-black">$480 MXN</p>
-                                            </div>
-                                        </div>
-                                        <button type="button" onclick="quickAddToCart(7)" class="px-3 py-1.5 bg-white text-black hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider rounded transition-all active:scale-95 shadow">
-                                            + Añadir
-                                        </button>
-                                    </div>
-                                    <div class="flex items-center justify-between p-2.5 rounded-lg bg-zinc-900/70 border border-zinc-800 hover:border-zinc-700 transition-all">
-                                        <div class="flex items-center gap-3">
-                                            <div class="w-11 h-11 rounded bg-zinc-950 p-1 border border-zinc-800 flex items-center justify-center shrink-0">
-                                                <i class="fa-solid fa-link text-zinc-300 text-sm"></i>
-                                            </div>
-                                            <div>
-                                                <p class="text-[11px] font-bold text-white uppercase tracking-wider">Cadena de Plata Ley .925</p>
-                                                <p class="text-[10px] text-amber-300 font-black">$750 MXN</p>
-                                            </div>
-                                        </div>
-                                        <button type="button" onclick="quickAddToCart(9)" class="px-3 py-1.5 bg-white text-black hover:bg-zinc-200 text-[10px] font-black uppercase tracking-wider rounded transition-all active:scale-95 shadow">
-                                            + Añadir
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     `;
                 }
@@ -2087,65 +1847,26 @@ function getCleanOriginalPrice(price) {
                     whatsappBubble.classList.add('hidden');
                 }
                 if (cartBtn) cartBtn.setAttribute('aria-expanded', 'true');
-                setTimeout(() => {
-                    backdrop.classList.remove('opacity-0');
-                    panel.classList.remove('translate-x-full');
-                }, 10);
+                backdrop.classList.remove('opacity-0');
+                panel.classList.remove('opacity-0');
+                panel.classList.remove('translate-x-full');
                 trapFocus(drawer);
                 document.getElementById('close-cart')?.focus();
                 announceA11y("Carrito de compras abierto");
             } else {
                 backdrop.classList.add('opacity-0');
+                panel.classList.add('opacity-0');
                 panel.classList.add('translate-x-full');
                 document.body.classList.remove('cart-open');
                 if (cartBtn) cartBtn.setAttribute('aria-expanded', 'false');
-                setTimeout(() => {
-                    drawer.classList.add('hidden');
-                    if (whatsappBubble) {
-                        whatsappBubble.classList.remove('hidden');
-                    }
-                }, 300);
+                drawer.classList.add('hidden');
+                if (whatsappBubble) {
+                    whatsappBubble.classList.remove('hidden');
+                }
                 if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
                     lastFocusedElement.focus();
                 }
             }
-        }
-
-        // ==========================================
-        // CHECKOUT & ORDER SUMMARY BUILDERS
-        // ==========================================
-        function generateOrderNumber() {
-            const rand = Math.floor(1000 + Math.random() * 9000);
-            return `AURA-${rand}`;
-        }
-
-        function buildOrderSummaryText() {
-            const orderId = generateOrderNumber();
-            const subtotal = getCartSubtotal();
-
-            let text = `👑 *ORDEN DE COMPRA AURA LUXURY* [Pedido ${orderId}]\n`;
-            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
-            text += `*PRODUCTOS SELECCIONADOS:*\n`;
-
-            cart.forEach((item, idx) => {
-                text += `${idx + 1}. *${item.name}*\n`;
-                text += `   • Medida / Talla: ${item.option}\n`;
-                text += `   • Cantidad: ${item.qty} | $${(item.price * item.qty).toLocaleString('es-MX')} MXN\n`;
-            });
-
-            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
-            text += `*• SUBTOTAL PRODUCTOS: $${subtotal.toLocaleString('es-MX')}.00 MXN*\n`;
-            if (subtotal >= FREE_SHIPPING_THRESHOLD) {
-                text += `*• ENVÍO: ¡GRATIS! (Supera $${FREE_SHIPPING_THRESHOLD.toLocaleString('es-MX')} MXN)*\n`;
-            } else {
-                window._freeShippingCelebrated = false;
-                const remaining = FREE_SHIPPING_THRESHOLD - subtotal;
-                text += `*• ENVÍO: Por coordinar (Faltan $${remaining.toLocaleString('es-MX')} MXN para Envío Gratis)*\n`;
-            }
-            text += `━━━━━━━━━━━━━━━━━━━━━\n`;
-            text += `Hola, me gustaría coordinar el envío y pago para este pedido. ¿Me podrían dar los datos para concretar la compra? ¡Gracias!`;
-
-            return text;
         }
 
         function checkoutWhatsApp() {
@@ -2559,4 +2280,10 @@ function getCleanOriginalPrice(price) {
                 announceA11y("Suscripción a drops exclusivos exitosa");
                 e.target.reset();
             }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', initAuraStore);
+        } else {
+            initAuraStore();
         }

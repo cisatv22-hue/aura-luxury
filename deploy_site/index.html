@@ -145,10 +145,10 @@
                 <!-- Navigation Links -->
                 <nav class="hidden md:flex space-x-8 text-xs font-black tracking-[0.2em] uppercase text-zinc-300">
                     <a href="#featured" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Colecciones</a>
-                    <a href="#catalogo" onclick="filterCategory('all')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Catálogo</a>
+                    <a href="#catalogo" onclick="returnToCatalog()" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Catálogo</a>
                     <a href="#catalogo" onclick="filterCategory('essentials_hoodies')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Essentials</a>
-                    <a href="#catalogo" onclick="filterCategory('hoodies')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Sudaderas</a>
-                    <a href="#catalogo" onclick="filterCategory('chains')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Plata .925</a>
+                    <a href="#catalogo" onclick="selectCategory(\'Sudaderas\')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Sudaderas</a>
+                    <a href="#catalogo" onclick="selectCategory(\'Plata .925\')" class="hover:text-white transition-colors py-2 border-b-2 border-transparent hover:border-white">Plata .925</a>
                 </nav>
 
                 <!-- Header Action Buttons -->
@@ -177,10 +177,10 @@
         <!-- Mobile Drawer Menu -->
         <div id="mobile-menu" class="hidden md:hidden bg-neutral-950 border-b border-zinc-800 px-6 py-6 space-y-4">
             <a href="#featured" onclick="toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Colecciones Destacadas</a>
-            <a href="#catalogo" onclick="filterCategory('all'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Todo el Catálogo</a>
+            <a href="#catalogo" onclick="returnToCatalog(); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Todo el Catálogo</a>
             <a href="#catalogo" onclick="filterCategory('essentials_hoodies'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Essentials</a>
             <a href="#catalogo" onclick="filterCategory('hoodies'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Sudaderas</a>
-            <a href="#catalogo" onclick="filterCategory('chains'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Joyería Plata .925</a>
+            <a href="#catalogo" onclick="selectCategory(\'Plata .925\'); toggleMobileMenu()" class="block text-xs font-extrabold tracking-widest uppercase text-slate-200">Joyería Plata .925</a>
         </div>
 
         <!-- Search Overlay -->
@@ -202,7 +202,7 @@
         </div>
     </header>
 
-    <section class="relative h-[85vh] min-h-[580px] flex items-center justify-center overflow-hidden border-b border-zinc-800">
+    <section id="main-hero-section" class="relative h-[85vh] min-h-[580px] flex items-center justify-center overflow-hidden border-b border-zinc-800">
         <!-- Editorial Hero Image from Uploads -->
         <div class="absolute inset-0 bg-cover bg-top scale-105 transition-transform duration-1000" 
              style="background-image: url('assets/aura_logo.jpg'); filter: brightness(0.4) contrast(1.15);">
@@ -322,82 +322,44 @@
 
 
     <main id="catalogo" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 flex-grow w-full reveal-up">
-        
-        <!-- Header & Category Filters -->
-        <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-12 pb-6 border-b border-zinc-800 gap-8">
-            <div class="shrink-0 lg:mr-8">
-                <h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none"><span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-2">II. EXCLUSIVO</span>Catálogo<br>Completo</h2>
-                <span class="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-zinc-400 mt-2 block">Colección Disponible</span>
+        <!-- ========================================== -->
+        <!-- 1. VISTA PRINCIPAL: RECUADROS POR CATEGORÍA -->
+        <!-- ========================================== -->
+        <div id="categories-view" class="w-full">
+            <div class="mb-10 pb-6 border-b border-zinc-800">
+                <span class="text-xs font-black uppercase tracking-[0.25em] text-zinc-500">Colección Disponible</span>
+                <h2 class="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight text-white mt-1">Catálogo por Categorías</h2>
+                <p class="text-zinc-400 text-xs sm:text-sm mt-1">Explora nuestras prendas y piezas de joyería de alta gama organizadas por categoría.</p>
             </div>
-
-            <!-- Filter Buttons -->
-            <div class="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide w-full" style="-ms-overflow-style: none; scrollbar-width: none;">
-                <button onclick="filterCategory('all')" class="cat-filter-btn active-cat px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-white bg-white text-black transition-all rounded-full whitespace-nowrap shrink-0">
-                    Todos
-                </button>
-                <button onclick="filterCategory('essentials_hoodies')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Sudaderas Essentials
-                </button>
-                <button onclick="filterCategory('hoodies')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Sudaderas
-                </button>
-                <button onclick="filterCategory('chains')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Cadenas Plata .925
-                </button>
-                <button onclick="filterCategory('caps')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Gorras
-                </button>
-                <button onclick="filterCategory('pants')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Pants Rompevientos
-                </button>
-                <button onclick="filterCategory('pants_youngla')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Pants Youngla
-                </button>
-                <button onclick="filterCategory('jackets_afelpadas')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Hoodies & Jackets Afelpadas
-                </button>
-                <button onclick="filterCategory('combos')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
-                    Combos Especiales
-                </button>
-            
-                <button onclick="filterCategory('wishlist')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-red-400 hover:text-red-300 hover:border-red-500 transition-all rounded-full whitespace-nowrap shrink-0 flex items-center gap-1.5">
-                    <i class="fa-solid fa-heart" aria-hidden="true"></i> Favoritos (<span id="wishlist-filter-count">0</span>)
-                </button>
-            </div>
-            <style>
-            <!-- Secondary Price Range Filters -->
-            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-zinc-900 text-xs w-full">
-                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500 mr-2">Precio:</span>
-                <button onclick="filterPrice('all')" data-price-range="all" aria-pressed="true" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-white bg-white text-black transition-all">Todos</button>
-                <button onclick="filterPrice('under-400')" data-price-range="under-400" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">Hasta $400 MXN</button>
-                <button onclick="filterPrice('400-700')" data-price-range="400-700" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">$400 - $700 MXN</button>
-                <button onclick="filterPrice('over-700')" data-price-range="over-700" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">Más de $700 MXN</button>
-            </div>
-            
-                .scrollbar-hide::-webkit-scrollbar {
-                    display: none;
-                }
-            </style>
-        </div>
-
-        <!-- Sorting and Count Bar -->
-        <div class="flex justify-between items-center mb-8 text-xs text-zinc-400">
-            <div>Mostrando <span id="product-count" class="text-white font-black">0</span> artículos exclusivos</div>
-            <div class="flex items-center gap-2">
-                <label for="sort-select" class="uppercase tracking-wider font-bold text-[11px] text-zinc-500">Ordenar:</label>
-                <select id="sort-select" onchange="sortProducts()" class="bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs rounded px-3 py-1.5 focus:outline-none uppercase font-semibold">
-                    <option value="featured">Destacados</option>
-                    <option value="price-low">Precio: Menor a Mayor</option>
-                    <option value="price-high">Precio: Mayor a Menor</option>
-                    <option value="name-asc">Nombre: A - Z</option>
-                </select>
+            <div id="categories-grid" class="grid grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6 w-full">
+                <!-- Generado dinámicamente desde js/main.js -->
             </div>
         </div>
 
-        
-        <!-- Unified Product View for Essentials Hoodies -->
-        <div id="essentials-special-view" class="hidden mb-16">
+        <!-- ========================================== -->
+        <!-- 2. VISTA DE CATEGORÍA SELECCIONADA          -->
+        <!-- (Oculta por defecto en la vista principal) -->
+        <!-- ========================================== -->
+        <div id="catalog-products-view" style="display: none !important;" class="w-full hidden">
+            <!-- Barra superior: botón Volver, Título, Conteo y Selector rápido -->
+            <div id="category-view-header" class="mb-10 pb-6 border-b border-zinc-800">
+                <div class="flex items-center justify-between mb-4">
+                    <button type="button" onclick="returnToCatalog()" class="inline-flex items-center gap-2 px-4 py-2.5 rounded bg-zinc-900 hover:bg-zinc-800 border border-zinc-700/80 text-zinc-300 hover:text-white hover:border-white transition-all text-xs font-black uppercase tracking-wider shadow-sm focus:outline-none">
+                        <i class="fa-solid fa-arrow-left"></i> Volver al Catálogo
+                    </button>
+                    <span id="category-view-count" class="text-xs sm:text-sm font-black uppercase tracking-wider text-amber-200"></span>
+                </div>
+
+                <h1 id="category-view-title" class="font-display text-3xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none"></h1>
+
+                
+            </div>
+
+            <!-- Unified Product View for Essentials Hoodies (6 Colores) -->
+        <div id="essentials-special-view" style="display: none;" class="hidden mb-16">
             <div class="grid grid-cols-1 lg:grid-cols-2 bg-[#0a0a0a] rounded-xl overflow-hidden shadow-2xl">
+            
+
                 <!-- Left side: Model Image. On mobile it is a swipeable gallery (model + flat photo) with dots. -->
                 <div class="relative bg-black lg:h-full lg:min-h-[500px] zoom-interactive-container">
                     <div id="unified-gallery" class="flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block lg:h-full lg:overflow-hidden">
@@ -492,6 +454,88 @@
             </div>
         </div>
 
+        <!-- Product Cards Container (SOLO se llena cuando se elige una categoría) -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8 w-full">
+                <!-- Rendered via Javascript -->
+            </div>
+
+            <!-- Legacy Filters Container (Oculto para preservar código y referencias intactas) -->
+            <div id="legacy-filters-container" style="display: none !important;" class="hidden">
+                <!-- Header & Category Filters -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between mb-12 pb-6 border-b border-zinc-800 gap-8">
+            <div class="shrink-0 lg:mr-8">
+                <h2 class="font-display text-4xl sm:text-5xl font-black uppercase tracking-tight text-white leading-none"><span class="text-amber-400 font-sans text-xl sm:text-2xl block tracking-[0.3em] mb-2">II. EXCLUSIVO</span>Catálogo<br>Completo</h2>
+                <span class="text-xs sm:text-sm font-semibold uppercase tracking-[0.1em] text-zinc-400 mt-2 block">Colección Disponible</span>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex items-center gap-3 overflow-x-auto pb-4 scrollbar-hide w-full" style="-ms-overflow-style: none; scrollbar-width: none;">
+                <button onclick="filterCategory('all')" class="cat-filter-btn active-cat px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-white bg-white text-black transition-all rounded-full whitespace-nowrap shrink-0">
+                    Todos
+                </button>
+                <button onclick="filterCategory('essentials_hoodies')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Sudaderas Essentials
+                </button>
+                <button onclick="filterCategory('hoodies')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Sudaderas
+                </button>
+                <button onclick="filterCategory('chains')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Cadenas Plata .925
+                </button>
+                <button onclick="filterCategory('caps')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Gorras
+                </button>
+                <button onclick="filterCategory('pants')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Pants Rompevientos
+                </button>
+                <button onclick="filterCategory('pants_youngla')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Pants Youngla
+                </button>
+                <button onclick="filterCategory('jackets_afelpadas')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Hoodies & Jackets Afelpadas
+                </button>
+                <button onclick="filterCategory('combos')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all rounded-full whitespace-nowrap shrink-0">
+                    Combos Especiales
+                </button>
+            
+                <button onclick="filterCategory('wishlist')" class="cat-filter-btn px-6 py-2 text-xs font-extrabold uppercase tracking-wider border border-zinc-800 text-red-400 hover:text-red-300 hover:border-red-500 transition-all rounded-full whitespace-nowrap shrink-0 flex items-center gap-1.5">
+                    <i class="fa-solid fa-heart" aria-hidden="true"></i> Favoritos (<span id="wishlist-filter-count">0</span>)
+                </button>
+            </div>
+            <style>
+            <!-- Secondary Price Range Filters -->
+            <div class="flex flex-wrap items-center gap-2 pt-2 border-t border-zinc-900 text-xs w-full">
+                <span class="text-[10px] font-black uppercase tracking-widest text-zinc-500 mr-2">Precio:</span>
+                <button onclick="filterPrice('all')" data-price-range="all" aria-pressed="true" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-white bg-white text-black transition-all">Todos</button>
+                <button onclick="filterPrice('under-400')" data-price-range="under-400" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">Hasta $400 MXN</button>
+                <button onclick="filterPrice('400-700')" data-price-range="400-700" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">$400 - $700 MXN</button>
+                <button onclick="filterPrice('over-700')" data-price-range="over-700" aria-pressed="false" class="price-filter-btn px-3 py-1 text-[11px] font-bold uppercase rounded border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-600 transition-all">Más de $700 MXN</button>
+            </div>
+            
+                .scrollbar-hide::-webkit-scrollbar {
+                    display: none;
+                }
+            </style>
+        </div>
+
+        <!-- Sorting and Count Bar -->
+        <div class="flex justify-between items-center mb-8 text-xs text-zinc-400">
+            <div>Mostrando <span id="product-count" class="text-white font-black">0</span> artículos exclusivos</div>
+            <div class="flex items-center gap-2">
+                <label for="sort-select" class="uppercase tracking-wider font-bold text-[11px] text-zinc-500">Ordenar:</label>
+                <select id="sort-select" onchange="sortProducts()" class="bg-zinc-900 border border-zinc-800 text-zinc-200 text-xs rounded px-3 py-1.5 focus:outline-none uppercase font-semibold">
+                    <option value="featured">Destacados</option>
+                    <option value="price-low">Precio: Menor a Mayor</option>
+                    <option value="price-high">Precio: Mayor a Menor</option>
+                    <option value="name-asc">Nombre: A - Z</option>
+                </select>
+            </div>
+        </div>
+
+        
+        <!-- Unified Product View for Essentials Hoodies -->
+        
+
                 <div class="mt-8 pt-8 border-t border-zinc-800/50 flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-zinc-400">
                     <div class="flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path></svg>
@@ -503,13 +547,9 @@
                     <p class="text-[10px] font-bold tracking-widest uppercase">Hecho en México</p>
                 </div>
             </div>
+        </div>            </div>
+            </div>
         </div>
-
-        <!-- Product Cards Container -->
-        <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            <!-- Rendered via Javascript -->
-        </div>
-
     </main>
 
     <section id="lookbook" class="bg-neutral-950 border-y border-zinc-800 py-20 relative overflow-hidden reveal-up">

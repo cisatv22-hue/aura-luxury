@@ -2022,7 +2022,7 @@ function getCleanOriginalPrice(price) {
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(text).then(() => {
-                    showToast("¡Pedido copiado! Pégalo en el DM de Instagram (@tropiezo_mx)");
+                    showToast("¡Pedido copiado! Pégalo en el DM de Instagram (@aura_luxury_mx)");
                 }).catch(() => {
                     showToast("Abriendo Instagram...");
                 });
@@ -2030,7 +2030,7 @@ function getCleanOriginalPrice(price) {
                 showToast("Abriendo Instagram...");
             }
             setTimeout(() => {
-                window.open('https://ig.me/m/tropiezo_mx', '_blank');
+                window.open('https://www.instagram.com/aura_luxury_mx/', '_blank');
             }, 600);
         }
 

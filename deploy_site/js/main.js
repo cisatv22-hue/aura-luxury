@@ -746,85 +746,100 @@ function getCleanOriginalPrice(price) {
         function selectCategory(catName) {
             if (!catName) return;
             activeCategoryTienda = catName;
+            activeCategory = 'all';
 
-            // 1. Ocultar vistas de Hero, Lookbook y Vista de Recuadros
+            // 1. Elementos del DOM
             const heroSection = document.getElementById('main-hero-section');
             const newDropSection = document.getElementById('new-drop-section');
             const lookbookSection = document.getElementById('lookbook');
             const categoriesView = document.getElementById('categories-view');
             const productsView = document.getElementById('catalog-products-view');
+            const specialView = document.getElementById('essentials-special-view');
+            const grid = document.getElementById('product-grid');
 
             if (heroSection) heroSection.style.display = 'none';
             if (newDropSection) newDropSection.style.display = 'none';
             if (lookbookSection) lookbookSection.style.display = 'none';
             if (categoriesView) categoriesView.style.display = 'none';
 
+            // Ocultar la vista especial de 6 colores si estaba abierta
+            if (specialView) {
+                specialView.style.setProperty('display', 'none', 'important');
+                specialView.classList.add('hidden');
+            }
+
+            // Mostrar el contenedor de productos y el grid
             if (productsView) {
                 productsView.style.setProperty('display', 'block', 'important');
                 productsView.classList.remove('hidden');
+            }
+            if (grid) {
+                grid.style.setProperty('display', 'grid', 'important');
+                grid.classList.remove('hidden');
             }
 
             // 2. Actualizar título y conteo
             const titleEl = document.getElementById('category-view-title');
             const countEl = document.getElementById('category-view-count');
-            const pillsContainer = document.getElementById('category-pills-container');
 
             const catProducts = products.filter(p => p.categoriaTienda === catName);
 
             if (titleEl) titleEl.textContent = catName;
             if (countEl) countEl.textContent = `${catProducts.length} ${catProducts.length === 1 ? 'producto' : 'productos'}`;
 
-            // 4. Renderizar productos de esta categoría
+            // 3. Renderizar productos de esta categoría
             renderProducts();
 
-            // 5. Preparar URL amigable (?categoria=slug)
+            // 4. Preparar URL amigable (?categoria=slug)
             try {
                 const slug = categorySlugMap[catName] || encodeURIComponent(catName.toLowerCase());
                 history.pushState({ category: catName }, '', `?categoria=${slug}`);
             } catch (e) {}
 
-            // 6. Subir suavemente al inicio de la vista
+            // 5. Subir suavemente al inicio de la vista
             window.scrollTo({ top: 0, behavior: 'instant' });
         }
 
         function returnToCatalog() {
             activeCategoryTienda = null;
+            activeCategory = 'all';
 
-            // 1. Mostrar vistas de Hero, Lookbook y Vista de Recuadros
             const heroSection = document.getElementById('main-hero-section');
             const newDropSection = document.getElementById('new-drop-section');
             const lookbookSection = document.getElementById('lookbook');
             const categoriesView = document.getElementById('categories-view');
             const productsView = document.getElementById('catalog-products-view');
+            const specialView = document.getElementById('essentials-special-view');
+            const grid = document.getElementById('product-grid');
 
             if (heroSection) heroSection.style.display = '';
             if (newDropSection) newDropSection.style.display = '';
             if (lookbookSection) lookbookSection.style.display = '';
             if (categoriesView) categoriesView.style.display = 'block';
-            const specialView = document.getElementById('essentials-special-view');
-            if (specialView) {
-                specialView.classList.add('hidden');
-                specialView.style.display = 'none';
-            }
 
+            if (specialView) {
+                specialView.style.setProperty('display', 'none', 'important');
+                specialView.classList.add('hidden');
+            }
             if (productsView) {
                 productsView.style.setProperty('display', 'none', 'important');
                 productsView.classList.add('hidden');
             }
+            if (grid) {
+                grid.innerHTML = '';
+                grid.style.setProperty('display', 'none', 'important');
+                grid.classList.add('hidden');
+            }
 
-            // 2. Limpiar el contenedor de productos en la vista principal
-            const prodGrid = document.getElementById('product-grid');
-            if (prodGrid) prodGrid.innerHTML = '';
-
-            // 3. Asegurar que los recuadros estén actualizados
+            // Asegurar que los recuadros estén actualizados
             renderCategories();
 
-            // 4. Resetear URL
+            // Resetear URL
             try {
                 history.pushState({}, '', window.location.pathname);
             } catch (e) {}
 
-            // 5. Subir suavemente al catálogo
+            // Subir suavemente al catálogo
             const catalogoEl = document.getElementById('catalogo');
             if (catalogoEl && typeof catalogoEl.scrollIntoView === 'function') {
                 catalogoEl.scrollIntoView({ behavior: 'instant', block: 'start' });

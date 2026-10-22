@@ -399,3 +399,120 @@
         grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
     }
 }
+
+/* ==========================================================================
+   Hero Section: Benefits & Scroll Indicator
+   ========================================================================== */
+.hero-benefits {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: #d4d4d8;
+    font-weight: 600;
+}
+
+.hero-benefit-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 20px;
+    border-right: 0.5px solid rgba(113, 113, 122, 0.45);
+}
+
+.hero-benefit-item:last-child {
+    border-right: none;
+}
+
+.hero-benefit-item i {
+    font-size: 13px;
+    display: inline-block;
+}
+
+@media (max-width: 639px) {
+    .hero-benefits {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+    .hero-benefit-item {
+        padding: 0;
+        border-right: none;
+    }
+}
+
+/* Scroll Indicator */
+.hero-scroll-indicator {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-decoration: none;
+    z-index: 20;
+    cursor: pointer;
+    user-select: none;
+}
+
+@media (min-width: 640px) {
+    .hero-scroll-indicator {
+        bottom: 28px;
+    }
+}
+
+.hero-scroll-text {
+    font-family: 'Plus Jakarta Sans', sans-serif;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #a1a1aa;
+    margin-bottom: 8px;
+    transition: color 0.3s ease;
+}
+
+.hero-scroll-indicator:hover .hero-scroll-text {
+    color: #f4f4f5;
+}
+
+.hero-scroll-line {
+    width: 1px;
+    height: 38px;
+    background-color: rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-scroll-thumb {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 16px;
+    background-color: #e2e8f0;
+    border-radius: 1px;
+    animation: heroScrollTranslate 1.8s ease-in-out infinite;
+}
+
+@keyframes heroScrollTranslate {
+    0% {
+        transform: translateY(-16px);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    80% {
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(38px);
+        opacity: 0;
+    }
+}
+

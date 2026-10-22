@@ -44,7 +44,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="stylesheet" href="css/styles.css?v=6">
+    <link rel="stylesheet" href="css/styles.css?v=7">
     <link rel="preload" href="model_crema.png" as="image">
     <link rel="preload" href="model_blanco.png" as="image">
     <link rel="preload" href="model_gris.png" as="image">
@@ -223,15 +223,33 @@
                 La intersección perfecta entre la alta moda urbana, los cortes oversized de algodón pesado y el brillo eterno de la Plata Ley .925.
             </p>
             
-            <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <a href="#featured" class="w-full sm:w-auto px-8 py-4 bg-white text-black font-black text-xs tracking-[0.2em] uppercase hover:bg-zinc-200 transition-all rounded shadow-2xl">
-                    Ver Colecciones
-                </a>
-                <a href="#catalogo" onclick="filterCategory('chains')" class="w-full sm:w-auto px-8 py-4 bg-zinc-900/80 border border-zinc-600 text-white font-black text-xs tracking-[0.2em] uppercase hover:bg-white hover:text-black transition-all rounded backdrop-blur-md">
-                    Ver Cadenas de Plata
-                </a>
+            <!-- Fila de Beneficios -->
+            <div class="hero-benefits">
+                <div class="hero-benefit-item">
+                    <i class="fa-solid fa-gem silver-gradient-text" aria-hidden="true"></i>
+                    <span>PLATA LEY .925</span>
+                </div>
+                <div class="hero-benefit-item">
+                    <i class="fa-solid fa-truck silver-gradient-text" aria-hidden="true"></i>
+                    <span>ENVÍOS A TODO MÉXICO</span>
+                </div>
+                <div class="hero-benefit-item">
+                    <i class="fa-solid fa-lock silver-gradient-text" aria-hidden="true"></i>
+                    <span>PAGO SEGURO</span>
+                </div>
             </div>
         </div>
+
+        <!-- Indicador de Scroll -->
+        <a href="#new-drop-section" 
+           onclick="event.preventDefault(); document.getElementById('new-drop-section')?.scrollIntoView({ behavior: 'smooth' });"
+           class="hero-scroll-indicator" 
+           aria-label="Descubre más, ir a la siguiente sección">
+            <span class="hero-scroll-text">DESCUBRE</span>
+            <div class="hero-scroll-line" aria-hidden="true">
+                <div class="hero-scroll-thumb"></div>
+            </div>
+        </a>
     </section>
 
     <!-- ===== NEW DROP SECTION ===== -->

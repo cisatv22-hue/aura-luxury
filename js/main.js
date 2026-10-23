@@ -1055,9 +1055,16 @@ function getCleanOriginalPrice(price) {
                 if (specialView) {
                     specialView.classList.remove('hidden');
                     specialView.style.display = 'block';
-                    if (typeof specialView.scrollIntoView === 'function') {
-                        specialView.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }
+                    setTimeout(() => {
+                        const header = document.querySelector('header');
+                        const headerHeight = header ? header.offsetHeight : 80;
+                        const elementTop = specialView.getBoundingClientRect().top + (window.pageYOffset || document.documentElement.scrollTop || 0);
+                        const targetY = elementTop - headerHeight - 16;
+                        window.scrollTo({
+                            top: Math.max(0, targetY),
+                            behavior: 'smooth'
+                        });
+                    }, 50);
                 }
             } else {
                 if (specialView) {

@@ -1,0 +1,31 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        Schema::table('orders', function (Blueprint $table): void {
+            $table->boolean('shipping_free')->default(false)->after('shipping_cents');
+            $table->boolean('shipping_needs_confirmation')->default(true)->after('shipping_free');
+        });
+
+        Schema::table('customers', function (Blueprint $table): void {
+            $table->unique('phone');
+        });
+    }
+
+    public function down(): void
+    {
+        Schema::table('customers', function (Blueprint $table): void {
+            $table->dropUnique(['phone']);
+        });
+
+        Schema::table('orders', function (Blueprint $table): void {
+            $table->dropColumn(['shipping_free', 'shipping_needs_confirmation']);
+        });
+    }
+};

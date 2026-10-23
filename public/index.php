@@ -1,27 +1,20 @@
 <?php
-/* Copyright (C) 2009-2021 Laurent Destailleur  <eldy@users.sourceforge.net>
- *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program. If not, see <https://www.gnu.org/licenses/>.
- */
 
-/**
- *     	\file       htdocs/public/index.php
- *		\ingroup    core
- *		\brief      A redirect page to an error page
- */
+use Illuminate\Foundation\Application;
+use Illuminate\Http\Request;
 
-require '../master.inc.php';
+define('LARAVEL_START', microtime(true));
 
-header("Location: ".DOL_URL_ROOT.'/public/error-404.php');
-exit;
+// Determine if the application is in maintenance mode...
+if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+    require $maintenance;
+}
+
+// Register the Composer autoloader...
+require __DIR__.'/../vendor/autoload.php';
+
+// Bootstrap Laravel and handle the request...
+/** @var Application $app */
+$app = require_once __DIR__.'/../bootstrap/app.php';
+
+$app->handleRequest(Request::capture());

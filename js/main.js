@@ -2327,21 +2327,70 @@ function getCleanOriginalPrice(price) {
 
         function setupSwipeGestures() {
             const gallery = document.getElementById('unified-gallery');
-            if (gallery) {
-                let touchStartX = 0;
-                let touchEndX = 0;
-                gallery.addEventListener('touchstart', (e) => {
-                    touchStartX = e.changedTouches[0].screenX;
-                }, { passive: true });
+            if (!gallery) return;
 
-                gallery.addEventListener('touchend', (e) => {
-                    touchEndX = e.changedTouches[0].screenX;
-                    const diff = touchStartX - touchEndX;
-                    if (Math.abs(diff) > 40) {
-                        gallery.scrollBy({ left: diff > 0 ? 240 : -240, behavior: 'smooth' });
+            gallery.style.scrollSnapType = 'x mandatory';
+            gallery.style.webkitOverflowScrolling = 'touch';
+
+            Array.from(gallery.children).forEach(child => {
+                child.style.scrollSnapAlign = 'start';
+                child.style.scrollSnapStop = 'always';
+            });
+
+            // Sincronizar dots con el scroll
+            gallery.addEventListener('scroll', () => {
+                const width = gallery.clientWidth || 1;
+                const index = Math.round(gallery.scrollLeft / width);
+                document.querySelectorAll('.unified-dot').forEach((dot, i) => {
+                    dot.classList.toggle('w-6', i === index);
+                    dot.classList.toggle('bg-white', i === index);
+                    dot.classList.toggle('w-1.5', i !== index);
+                    dot.classList.toggle('bg-zinc-600', i !== index);
+                });
+            }, { passive: true });
+
+            // Permitir hacer clic en los dots
+            document.querySelectorAll('.unified-dot').forEach((dot, i) => {
+                dot.style.cursor = 'pointer';
+                dot.onclick = () => {
+                    const width = gallery.clientWidth;
+                    gallery.scrollTo({ left: i * width, behavior: 'smooth' });
+                };
+            });
+
+            // Gesto táctil limpio (navega al slide completo, nunca a mitad)
+            let touchStartX = 0;
+            let touchStartY = 0;
+
+            gallery.addEventListener('touchstart', (e) => {
+                touchStartX = e.changedTouches[0].screenX;
+                touchStartY = e.changedTouches[0].screenY;
+            }, { passive: true });
+
+            gallery.addEventListener('touchend', (e) => {
+                const touchEndX = e.changedTouches[0].screenX;
+                const touchEndY = e.changedTouches[0].screenY;
+                const diffX = touchStartX - touchEndX;
+                const diffY = touchStartY - touchEndY;
+
+                // Solo actuar si el deslizamiento fue principalmente horizontal
+                if (Math.abs(diffX) > 40 && Math.abs(diffX) > Math.abs(diffY)) {
+                    const width = gallery.clientWidth || 1;
+                    const currentIndex = Math.round(gallery.scrollLeft / width);
+                    let targetIndex = currentIndex;
+
+                    if (diffX > 40) {
+                        targetIndex = Math.min(gallery.children.length - 1, currentIndex + 1);
+                    } else if (diffX < -40) {
+                        targetIndex = Math.max(0, currentIndex - 1);
                     }
-                }, { passive: true });
-            }
+
+                    gallery.scrollTo({
+                        left: targetIndex * width,
+                        behavior: 'smooth'
+                    });
+                }
+            }, { passive: true });
         }
 
         function subscribeNewsletter(e) {

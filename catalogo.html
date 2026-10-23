@@ -322,8 +322,8 @@
 
                 <!-- Left side: Model Image. On mobile it is a swipeable gallery (model + flat photo) with dots. -->
                 <div class="relative bg-black lg:h-full lg:min-h-[500px] zoom-interactive-container">
-                    <div id="unified-gallery" class="flex overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block lg:h-full lg:overflow-hidden">
-                        <div class="relative w-full shrink-0 snap-center aspect-[4/5] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[500px]">
+                    <div id="unified-gallery" class="flex overflow-x-auto snap-x snap-mandatory scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:block lg:h-full lg:overflow-hidden" style="scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch;">
+                        <div class="relative w-full shrink-0 snap-start aspect-[4/5] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[500px]" style="scroll-snap-align: start; scroll-snap-stop: always;">
                             <img id="unified-model-cream" src="model_crema.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-10">
                             <img id="unified-model-white" src="model_blanco.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
                             <img id="unified-model-grey" src="model_gris.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
@@ -331,7 +331,7 @@
                             <img id="unified-model-green" src="model_verde.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
                             <img id="unified-model-total_black" src="model_total_black.png" class="unified-model-img zoom-interactive-img w-full h-full object-cover object-top absolute inset-0 z-0">
                         </div>
-                        <div class="relative w-full shrink-0 snap-center aspect-[4/5] bg-[#050505] lg:hidden">
+                        <div class="relative w-full shrink-0 snap-start aspect-[4/5] bg-[#050505] lg:hidden" style="scroll-snap-align: start; scroll-snap-stop: always;">
                             <img id="unified-flat-mobile" alt="Sudadera Essentials Fear of God" class="w-full h-full object-contain">
                         </div>
                     </div>
@@ -923,7 +923,7 @@
         Producto añadido al carrito
     </div>
 
-    <script src="js/main.js?v=12"></script>
+    <script src="js/main.js?v=13"></script>
         <!-- Floating WhatsApp Button -->
     <aside id="whatsapp-bubble"
            class="whatsapp-float-container fixed bottom-[70px] right-4 lg:bottom-7 lg:left-7 lg:right-auto z-50 transition-all duration-300"

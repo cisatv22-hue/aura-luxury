@@ -1,0 +1,24 @@
+aurastore.opa.codes, aura.opa.codes {
+    encode zstd gzip
+
+    @static {
+        path /build/* /storage/* *.ico *.png *.jpg *.jpeg *.svg *.woff *.woff2 *.webp
+    }
+    header @static Cache-Control "public, max-age=31536000, immutable"
+
+    header {
+        Strict-Transport-Security "max-age=31536000; includeSubDomains"
+        X-Content-Type-Options "nosniff"
+        X-Frame-Options "DENY"
+        Referrer-Policy "strict-origin-when-cross-origin"
+        Permissions-Policy "camera=(), microphone=(), geolocation=()"
+        -Server
+    }
+
+    reverse_proxy aura-nginx:8080
+
+    log {
+        output stdout
+        format json
+    }
+}

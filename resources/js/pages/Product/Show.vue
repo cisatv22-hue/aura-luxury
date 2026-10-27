@@ -234,11 +234,12 @@ const productStructuredData = computed(() => {
             :content="`${product.name} · AURA`"
             head-key="og:title"
         />
-        <script
+        <component
+            :is="'script'"
             type="application/ld+json"
             head-key="product-jsonld"
             :innerHTML="productStructuredData"
-        ></script>
+        />
         <meta
             property="og:description"
             :content="product.description || 'Descubre esta pieza de AURA.'"

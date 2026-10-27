@@ -1,0 +1,13 @@
+.git
+.env
+.env.*
+!.env.example
+node_modules
+vendor
+database/*.sqlite
+storage/logs/*
+storage/framework/cache/data/*
+tests
+playwright-report
+test-results
+public/hot

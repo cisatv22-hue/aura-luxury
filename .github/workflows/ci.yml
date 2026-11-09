@@ -125,4 +125,5 @@ jobs:
           LIGHTHOUSE_BASE_URL=http://127.0.0.1:8001 pnpm test:lighthouse
 
       - name: Run application checks
+        if: always()
         run: composer ci:check

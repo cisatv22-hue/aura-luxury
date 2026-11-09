@@ -85,6 +85,13 @@ try {
             } else {
                 homeLcpMeasurements.push(lcpMs);
             }
+
+            const observedLcpMs =
+                result?.lhr.audits.metrics?.details?.items?.[0]
+                    ?.observedLargestContentfulPaint;
+            console.log(
+                `  LCP mode: ${result?.lhr.configSettings.throttlingMethod}; observed ${typeof observedLcpMs === 'number' ? `${Math.round(observedLcpMs)} ms` : 'unavailable'}`,
+            );
         }
         for (const metric of [
             'first-contentful-paint',

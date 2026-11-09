@@ -86,7 +86,7 @@ const whatsappUrl = computed(
                     AURA · Nueva temporada
                 </p>
                 <h1
-                    class="max-w-xl font-serif text-5xl leading-[0.98] sm:text-6xl lg:text-7xl"
+                    class="max-w-xl font-serif text-6xl leading-[0.95] sm:text-6xl lg:text-7xl"
                 >
                     {{ activeBanner?.title || 'Viste tu propia esencia.' }}
                 </h1>

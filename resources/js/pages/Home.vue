@@ -24,6 +24,7 @@ const props = defineProps<{
         image_alt: string;
         link_url: string | null;
     }>;
+    heroImage: string;
     looks: Array<{
         id: number;
         title: string;
@@ -69,7 +70,7 @@ const whatsappUrl = computed(
         <link
             rel="preload"
             as="image"
-            :href="activeBanner?.image || '/images/hero_essentials.webp'"
+            :href="heroImage"
             fetchpriority="high"
             head-key="home-hero-image"
         />
@@ -110,7 +111,7 @@ const whatsappUrl = computed(
                     class="absolute inset-0 bg-[radial-gradient(ellipse_at_76%_32%,#77736d_0%,#383633_32%,#242321_75%)] md:bg-[radial-gradient(ellipse_at_70%_40%,#77736d_0%,#383633_34%,#242321_78%)]"
                 />
                 <img
-                    :src="activeBanner?.image || '/images/hero_essentials.webp'"
+                    :src="heroImage"
                     :alt="
                         activeBanner?.image_alt ||
                         'Sudadera Essentials de AURA en tono crema'
@@ -118,7 +119,6 @@ const whatsappUrl = computed(
                     class="absolute inset-0 h-full w-full object-cover object-center opacity-35 mix-blend-luminosity md:opacity-80 md:mix-blend-normal"
                     fetchpriority="high"
                     loading="eager"
-                    decoding="sync"
                     width="1200"
                     height="1400"
                 />

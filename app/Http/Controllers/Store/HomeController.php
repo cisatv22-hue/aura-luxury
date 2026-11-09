@@ -90,6 +90,11 @@ class HomeController extends Controller
                     'image_alt' => $banner->image_alt,
                     'link_url' => $banner->link_url,
                 ])->values()->all();
+            $heroContents = file_get_contents(public_path('images/hero_essentials.webp'));
+            $heroFallback = is_string($heroContents)
+                ? 'data:image/webp;base64,'.base64_encode($heroContents)
+                : '/images/hero_essentials.webp';
+            $heroImage = $banners[0]['image'] ?? $heroFallback;
 
             $looks = Look::query()->with(['items.product'])
                 ->where('is_visible', true)
@@ -150,6 +155,7 @@ class HomeController extends Controller
                 'newArrivals' => $newArrivals->map(fn ($product) => PublicProductData::from($product, $prices))->values()->all(),
                 'sections' => $sections,
                 'banners' => $banners,
+                'heroImage' => $heroImage,
                 'looks' => $looks,
             ];
         }));

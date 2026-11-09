@@ -35,6 +35,7 @@ try {
                     logLevel: 'error',
                     onlyCategories: ['performance'],
                     formFactor: 'mobile',
+                    throttlingMethod: 'devtools',
                     screenEmulation: {
                         mobile: true,
                         width: 390,

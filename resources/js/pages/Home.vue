@@ -115,7 +115,7 @@ const whatsappUrl = computed(
                         activeBanner?.image_alt ||
                         'Sudadera Essentials de AURA en tono crema'
                     "
-                    class="absolute inset-0 h-full w-full object-cover object-center opacity-35 mix-blend-luminosity md:opacity-80 md:mix-blend-normal"
+                    class="absolute inset-0 h-full w-full object-cover object-center opacity-60 md:opacity-80"
                     fetchpriority="high"
                     loading="eager"
                     width="1200"

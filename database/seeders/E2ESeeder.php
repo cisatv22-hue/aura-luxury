@@ -7,8 +7,11 @@ use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductVariant;
 use App\Models\SizeGuide;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use LogicException;
+use Spatie\Permission\Models\Role;
 
 class E2ESeeder extends Seeder
 {
@@ -16,6 +19,18 @@ class E2ESeeder extends Seeder
     {
         if (! in_array(config('app.env'), ['local', 'testing'], true)) {
             throw new LogicException('El catálogo E2E solo puede sembrarse en local o testing.');
+        }
+
+        $adminEmail = config('integrations.e2e_admin.email');
+        $adminPassword = config('integrations.e2e_admin.password');
+        if (is_string($adminEmail) && $adminEmail !== '' && is_string($adminPassword) && $adminPassword !== '') {
+            $admin = User::query()->firstOrNew(['email' => $adminEmail]);
+            $admin->forceFill([
+                'name' => 'AURA Admin E2E',
+                'password' => Hash::make($adminPassword),
+                'email_verified_at' => now(),
+            ])->save();
+            $admin->syncRoles(Role::findByName('admin'));
         }
 
         $sizeGuide = SizeGuide::query()->updateOrCreate(
@@ -54,25 +69,7 @@ class E2ESeeder extends Seeder
             ['hex' => '#111111', 'position' => 0],
         );
 
-        if ($color->getMedia('gallery')->isEmpty()) {
-            $extension = match (true) {
-                function_exists('imagecreatefromwebp') => 'webp',
-                function_exists('imagecreatefromjpeg') => 'jpg',
-                default => 'png',
-            };
-
-            foreach (["model_negro.{$extension}", "hero_essentials_totalblack.{$extension}"] as $index => $filename) {
-                $path = base_path("tests/Fixtures/products/{$filename}");
-                if (! is_file($path)) {
-                    continue;
-                }
-
-                $color->addMedia($path)
-                    ->preservingOriginal()
-                    ->withCustomProperties(['alt' => 'Sudadera AURA negra, vista '.($index + 1)])
-                    ->toMediaCollection('gallery');
-            }
-        }
+        $this->attachFixtureGallery($color);
 
         foreach (['S' => 2, 'M' => 8, 'L' => 8] as $size => $stock) {
             ProductVariant::query()->updateOrCreate(
@@ -105,6 +102,7 @@ class E2ESeeder extends Seeder
                 ['product_id' => $listingProduct->id, 'name' => 'Negro'],
                 ['hex' => '#111111', 'position' => 0],
             );
+            $this->attachFixtureGallery($listingColor);
 
             ProductVariant::query()->updateOrCreate(
                 ['sku' => sprintf('AURA-E2E-P%02d', $index)],
@@ -117,6 +115,31 @@ class E2ESeeder extends Seeder
                     'is_active' => true,
                 ],
             );
+        }
+    }
+
+    private function attachFixtureGallery(ProductColor $color): void
+    {
+        if ($color->getMedia('gallery')->isNotEmpty()) {
+            return;
+        }
+
+        $extension = match (true) {
+            function_exists('imagecreatefromwebp') => 'webp',
+            function_exists('imagecreatefromjpeg') => 'jpg',
+            default => 'png',
+        };
+
+        foreach (["model_negro.{$extension}", "hero_essentials_totalblack.{$extension}"] as $index => $filename) {
+            $path = base_path("tests/Fixtures/products/{$filename}");
+            if (! is_file($path)) {
+                continue;
+            }
+
+            $color->addMedia($path)
+                ->preservingOriginal()
+                ->withCustomProperties(['alt' => 'Sudadera AURA negra, vista '.($index + 1)])
+                ->toMediaCollection('gallery');
         }
     }
 }

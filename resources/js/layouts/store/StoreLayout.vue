@@ -323,10 +323,22 @@ onUnmounted(() => window.removeEventListener('keydown', focusSearchShortcut));
                         Explora
                     </h2>
                     <div class="mt-3 grid gap-2 text-sm">
-                        <Link href="/tienda" class="hover:underline">Ver catálogo</Link>
-                        <Link href="/tienda/hoodies" class="hover:underline">Sudaderas</Link>
-                        <Link href="/tienda/chains" class="hover:underline">Plata .925</Link>
-                        <a :href="whatsappUrl" target="_blank" rel="noreferrer" class="hover:underline">Preguntas por WhatsApp</a>
+                        <Link href="/tienda" class="hover:underline"
+                            >Ver catálogo</Link
+                        >
+                        <Link href="/tienda/hoodies" class="hover:underline"
+                            >Sudaderas</Link
+                        >
+                        <Link href="/tienda/chains" class="hover:underline"
+                            >Plata .925</Link
+                        >
+                        <a
+                            :href="whatsappUrl"
+                            target="_blank"
+                            rel="noreferrer"
+                            class="hover:underline"
+                            >Preguntas por WhatsApp</a
+                        >
                     </div>
                 </div>
             </div>

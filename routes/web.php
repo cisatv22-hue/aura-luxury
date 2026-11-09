@@ -1,5 +1,6 @@
 <?php
 
+use App\Filament\Resources\Products\ProductResource;
 use App\Http\Controllers\Admin\PackingSlipController;
 use App\Http\Controllers\Store\AbandonedCartController;
 use App\Http\Controllers\Store\AccountController;
@@ -16,7 +17,6 @@ use App\Http\Controllers\Store\RestockAlertController;
 use App\Http\Controllers\Store\ReviewController;
 use App\Http\Controllers\Store\ShippingQuoteController;
 use App\Http\Controllers\Store\SitemapController;
-use App\Filament\Resources\Products\ProductResource;
 use App\Http\Middleware\RequireConfirmedTwoFactor;
 use Illuminate\Support\Facades\Route;
 

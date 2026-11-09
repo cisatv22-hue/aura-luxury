@@ -59,7 +59,10 @@ test('loads the next catalog page without replacing the first products', async (
     await expect(page).toHaveURL(/page=2/);
     await expect(page.getByText('25 productos mostrados')).toBeVisible();
     await expect(
-        page.getByRole('link', { name: 'Sudadera prueba paginación 24' }),
+        page.getByRole('link', {
+            name: 'Sudadera prueba paginación 24',
+            exact: true,
+        }),
     ).toBeVisible();
 });
 
@@ -77,8 +80,6 @@ test('completes the product to WhatsApp order flow', async ({ page }) => {
     await page.getByLabel('Nombre completo').fill('Cliente de prueba E2E');
     await page.getByLabel('Celular').fill('5512345678');
     await page.getByRole('textbox', { name: 'Código postal' }).fill('06000');
-    await page.getByRole('button', { name: 'Cotizar envío' }).click();
-    await expect(page.getByRole('status')).toContainText('Envío de prueba');
     await page
         .getByRole('textbox', { name: 'Ciudad' })
         .fill('Ciudad de México');

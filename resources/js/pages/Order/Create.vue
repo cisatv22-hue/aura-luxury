@@ -170,7 +170,8 @@ function submit() {
                             ><span class="block text-sm font-medium"
                                 >Envío a domicilio</span
                             ><span class="mt-1 block text-xs text-aura-muted"
-                                >El equipo confirma cobertura y costo por WhatsApp antes de cobrar.</span
+                                >El equipo confirma cobertura y costo por
+                                WhatsApp antes de cobrar.</span
                             ></span
                         >
                     </label>
@@ -221,7 +222,9 @@ function submit() {
                             >{{ form.errors.delivery_postal_code }}</span
                         >
                         <p class="text-xs leading-5 text-aura-muted">
-                            El código postal ayuda al equipo a confirmar cobertura. El envío todavía no se cotiza desde la tienda.
+                            El código postal ayuda al equipo a confirmar
+                            cobertura. El envío todavía no se cotiza desde la
+                            tienda.
                         </p>
                     </div>
                     <label class="grid gap-1.5 text-xs"
@@ -238,7 +241,8 @@ function submit() {
                 </fieldset>
 
                 <p class="text-xs leading-5 text-aura-muted">
-                    Esta tienda está en modo de prueba. No se cobran pagos en línea; el equipo revisa cada solicitud por WhatsApp.
+                    Esta tienda está en modo de prueba. No se cobran pagos en
+                    línea; el equipo revisa cada solicitud por WhatsApp.
                 </p>
                 <div
                     v-if="turnstileSiteKey"

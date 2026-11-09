@@ -117,7 +117,8 @@ onUnmounted(() => {
                 </header>
                 <div class="my-5 rounded-xl bg-aura-stone px-4 py-3">
                     <p class="text-xs leading-5 text-aura-muted" role="status">
-                        El equipo confirma disponibilidad y costo de envío por WhatsApp antes de cerrar tu pedido.
+                        El equipo confirma disponibilidad y costo de envío por
+                        WhatsApp antes de cerrar tu pedido.
                     </p>
                 </div>
                 <div

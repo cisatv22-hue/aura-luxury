@@ -14,7 +14,7 @@ const paths = [
 ];
 const chromeOptions = {
     chromePath: chromium.executablePath(),
-    chromeFlags: ['--headless', '--no-sandbox', '--disable-gpu'],
+    chromeFlags: ['--headless', '--no-sandbox'],
 };
 let chrome;
 let failedPaths = [];
@@ -35,6 +35,7 @@ try {
                     logLevel: 'error',
                     onlyCategories: ['performance'],
                     formFactor: 'mobile',
+                    throttlingMethod: 'devtools',
                     screenEmulation: {
                         mobile: true,
                         width: 390,
@@ -84,6 +85,43 @@ try {
                 failedPaths.push('home LCP measurement is unavailable');
             } else {
                 homeLcpMeasurements.push(lcpMs);
+            }
+
+            const observedLcpMs =
+                result?.lhr.audits.metrics?.details?.items?.[0]
+                    ?.observedLargestContentfulPaint;
+            console.log(
+                `  LCP mode: ${result?.lhr.configSettings.throttlingMethod}; observed ${typeof observedLcpMs === 'number' ? `${Math.round(observedLcpMs)} ms` : 'unavailable'}`,
+            );
+
+            if (homeLcpMeasurements.length === 1) {
+                const requests = new Map();
+                const responses = new Map();
+                for (const event of result?.artifacts?.DevtoolsLog ?? []) {
+                    if (event.method === 'Network.requestWillBeSent') {
+                        requests.set(event.params.requestId, {
+                            url: event.params.request.url,
+                            start: event.params.timestamp,
+                        });
+                    } else if (event.method === 'Network.responseReceived') {
+                        responses.set(event.params.requestId, {
+                            mimeType: event.params.response.mimeType,
+                            encodedDataLength:
+                                event.params.response.encodedDataLength,
+                        });
+                    } else if (event.method === 'Network.loadingFinished') {
+                        const request = requests.get(event.params.requestId);
+                        const response = responses.get(event.params.requestId);
+                        if (
+                            request &&
+                            response?.mimeType?.startsWith('image/')
+                        ) {
+                            console.log(
+                                `  Image request: ${request.url} (${event.params.encodedDataLength} bytes; ${Math.round((event.params.timestamp - request.start) * 1000)} ms)`,
+                            );
+                        }
+                    }
+                }
             }
         }
         for (const metric of [

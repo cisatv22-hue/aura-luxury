@@ -14,7 +14,7 @@ const paths = [
 ];
 const chromeOptions = {
     chromePath: chromium.executablePath(),
-    chromeFlags: ['--headless', '--no-sandbox', '--disable-gpu'],
+    chromeFlags: ['--headless', '--no-sandbox'],
 };
 let chrome;
 let failedPaths = [];

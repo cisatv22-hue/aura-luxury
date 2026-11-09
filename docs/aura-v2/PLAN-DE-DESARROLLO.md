@@ -51,7 +51,7 @@ La base es el starter kit oficial de Vue de Laravel 13, porque ya trae Inertia, 
 
 | Pieza                  | Elección                                                           | Por qué                                                                                                           |
 | ---------------------- | ------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
-| Framework              | Laravel 13 (Composer requiere PHP 8.3+; CI y README fijan PHP 8.4) | Requisito declarado por Composer; 8.4 es la versión de validación y despliegue prevista                           |
+| Framework              | Laravel 13 (Composer, CI y runtime de producción requieren PHP 8.4+); Vue 3 e Inertia 3; Filament 5 para el panel |
 | Arranque               | `laravel new aura-store` → starter kit de Vue                      | Trae Inertia 3, Vue 3, TypeScript, Tailwind y componentes shadcn-vue ya configurados                              |
 | Tienda                 | Vue 3.5 con Inertia 3                                              | Un solo repositorio, rutas en Laravel, páginas en Vue; Vue 3.6 sigue en versión candidata                         |
 | Estilos                | Tailwind CSS 4 (viene en el kit)                                   | Los tokens del prototipo pasan a `@theme` en `app.css`                                                            |
@@ -236,9 +236,9 @@ Se recomienda un servidor virtual administrado con Laravel Forge (o Ploi), no ho
 | Archivos                 | Disco del servidor en v1; Cloudflare R2 o S3 cuando crezca el catálogo                                                                                                                                                                                    |
 | Colas                    | Driver de base de datos en v1 (sin Redis); Redis si el volumen lo pide                                                                                                                                                                                    |
 | Correo                   | Resend, Postmark o Amazon SES para avisos de pedido, reabastecimiento y lista de correo                                                                                                                                                                   |
-| Código                   | Repositorio privado https://github.com/Emmaqqs/aura-store; main = producción, develop = staging; cambios por pull request.                                                                                                                                |
-| Integración continua     | GitHub Actions valida instalación limpia, auditorías, build, Playwright/axe, Lighthouse y composer ci:check; ejecución completa aprobada en main.                                                                                                         |
-| Despliegue               | El workflow actual valida código pero no despliega. Publicar staging y producción requiere hosting, dominio/DNS y accesos de AURA.                                                                                                                        |
+| Código                   | Repositorio original https://github.com/cisatv22-hue/aura-luxury; AURA está en `develop` tras el PR #12; `main` aún conserva la aplicación anterior. |
+| Integración continua     | GitHub Actions valida instalación limpia, auditorías, build, Playwright/axe, Lighthouse y `composer ci:check`; la última ejecución conocida falla en auditoría de dependencias y está en corrección. |
+| Despliegue               | GitHub Actions no despliega. Hay una VPS y un dominio temporales para pruebas; falta confirmar y documentar la relación entre esa instancia y el branch/release antes de promover AURA a `main`. |
 | Respaldos                | spatie/laravel-backup verifica archivos, guarda base de datos y fotos a diario, monitorea el disco configurado y conserva 30 días; falta configurar almacenamiento externo y hacer la primera restauración en staging antes de fijar el simulacro mensual |
 | Errores y disponibilidad | Sentry o Laravel Nightwatch y un monitor de disponibilidad con alerta                                                                                                                                                                                     |
 
@@ -250,8 +250,8 @@ Se recomienda un servidor virtual administrado con Laravel Forge (o Ploi), no ho
 
 El catálogo actual entra con un comando, `php artisan aura:import-legacy`, y después se revisa a mano en el panel antes de publicar.
 
-1. Leer los registros de producto de `js/main.js` y usar las fotos WebP preparadas en `../aura-v2-assets/products`.
-2. Ejecutar `php artisan aura:import-legacy --source=../js/main.js --assets=../aura-v2-assets/products`; el importador adjunta esos archivos a Media Library y evita duplicar imágenes ya importadas. No decodifica las imágenes base64 incrustadas en el HTML o JavaScript.
+1. Leer los registros de producto de `legacy/js/main.js` y usar las fotos WebP de `legacy/aura-v2-assets/products`.
+2. Desde la raíz del repositorio, ejecutar `php artisan aura:import-legacy --source=legacy/js/main.js --assets=legacy/aura-v2-assets/products`; el importador adjunta los archivos a Media Library y evita duplicar imágenes. No decodifica imágenes base64 incrustadas en HTML o JavaScript.
 3. Agrupar los 24 registros en unos 19 productos con colores: por ejemplo, Short Essentials Gris, Black y Grey pasan a un producto con tres colores.
 4. Crear categorías, la colección Essentials, variantes por talla y el Kit Essentials & Pulsera como kit.
 5. Cargar los precios actuales como precio de lista, sin precio tachado hasta que haya historial o una promoción real.
@@ -266,7 +266,7 @@ El catálogo actual entra con un comando, `php artisan aura:import-legacy`, y de
 - [ ] Fotos finales por producto: ya se asociaron 12 vistas secundarias disponibles (seis colores de Essentials, cinco variantes fotográficas del kit y una vista de la cadena); siguen pendientes las fotos con modelo para los demás productos y la aprobación final de AURA
 - [ ] Textos de envíos, cambios y aviso de privacidad
 
-El sitio actual queda en línea hasta el día del cambio; ese día se apunta el dominio al servidor nuevo y se redirige `catalogo.html` a `/tienda`.
+El dominio temporal ya se usó para pruebas de AURA. Antes de un lanzamiento comercial, acordar un corte explícito, validar el destino DNS y mantener una ruta de reversión.
 
 ## Calidad y pruebas
 
@@ -285,7 +285,7 @@ Cada fase se revisa con una demo y una lista de revisión firmada por AURA. Por 
 
 ## Plan de trabajo
 
-v1 se planeó en 8 semanas y seis fases. AURA confirmó que el proyecto permanecerá en local por ahora, así que las entregas actuales se revisan localmente; la estimación y el calendario de despliegue se retomarán al decidir hosting y dominio.
+v1 se planeó en 8 semanas y seis fases. AURA se desarrolló en el repositorio original; el PR #12 está integrado en `develop`. La VPS/dominio actuales son temporales para pruebas, no una aprobación de lanzamiento comercial. Los datos de catálogo, políticas, pagos reales y envíos siguen en borrador o mock según lo acordado.
 
 ![Plan de v1: 6 fases en 8 semanas](img/plan-v1.png)
 
@@ -331,7 +331,7 @@ El mayor riesgo para la fecha no es técnico: es tener existencias, textos y fot
 
 **Decisiones pendientes:**
 
-- [x] Alcance actual: permanecer en local; no hay hosting ni staging por ahora
+- [x] Alcance de demo: mantener el catálogo comercial en borrador y pagos/envíos en mock; existe una VPS y un dominio temporales usados para pruebas, sin aprobación de lanzamiento comercial.
 - [ ] Hosting: elegir proveedor cuando AURA prepare el lanzamiento (VPS con Forge o Laravel Cloud)
 - [ ] Dominio definitivo y quién lo administra
 - [x] Datos de catálogo pendientes (existencias, GSM, descripciones, cuidados, fotos finales y precio del kit): conservar en borrador hasta que AURA los entregue y apruebe

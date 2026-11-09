@@ -7,7 +7,7 @@ Laravel 13, Vue 3, Inertia and Filament 5 storefront for AURA. PHP 8.4+, MySQL 8
 1. Install PHP and Node dependencies: `composer install`, run `corepack enable`, then `pnpm install` (the project pins pnpm 12.14.0).
 2. Copy `.env.example` to `.env`, set the MySQL connection, and run `php artisan key:generate`.
 3. Run `php artisan migrate --seed`.
-4. From the `aura-store` directory, validate the legacy catalog using the sibling files in the parent directory: `php artisan aura:import-legacy --source="../js/main.js" --assets="../aura-v2-assets/products" --dry-run`, then repeat without `--dry-run`. Imported products stay unpublished with zero stock until reviewed.
+4. From the repository root, validate the preserved legacy catalog inputs with `php artisan aura:import-legacy --source=legacy/js/main.js --assets=legacy/aura-v2-assets/products --dry-run`, then repeat without `--dry-run`. Imported products stay unpublished with zero stock until reviewed.
 5. Create the first admin with `php artisan aura:make-admin admin@example.com`. Set a temporary password when prompted. Log in, configure 2FA in account security, and confirm it before opening `/admin`.
 6. Run `pnpm dev` and `php artisan serve`. Start a queue worker with `php artisan queue:work` for order alerts, newsletter confirmations, and restock notices.
 

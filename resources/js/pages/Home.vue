@@ -118,6 +118,7 @@ const whatsappUrl = computed(
                     class="absolute inset-0 h-full w-full object-cover object-center opacity-35 mix-blend-luminosity md:opacity-80 md:mix-blend-normal"
                     fetchpriority="high"
                     loading="eager"
+                    decoding="sync"
                     width="1200"
                     height="1400"
                 />

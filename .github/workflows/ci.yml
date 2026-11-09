@@ -99,7 +99,7 @@ jobs:
       - name: Start storefront
         run: |
           php artisan inertia:start-ssr > /tmp/aura-ssr.log 2>&1 &
-          PHP_CLI_SERVER_WORKERS=8 php -d zlib.output_compression=On artisan serve --host=127.0.0.1 --port=8000 > /tmp/aura-store.log 2>&1 &
+          php -d zlib.output_compression=On artisan serve --host=127.0.0.1 --port=8000 > /tmp/aura-store.log 2>&1 &
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:13714/health > /dev/null && curl --fail --silent http://127.0.0.1:8000/ > /dev/null; then
               exit 0

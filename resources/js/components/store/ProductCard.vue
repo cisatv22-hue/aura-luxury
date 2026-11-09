@@ -71,7 +71,8 @@ favorites.setServerIds(auth.favoriteProductIds ?? []);
                 />
                 <span
                     class="absolute inset-x-3 bottom-3 translate-y-2 rounded-full bg-white/95 px-4 py-3 text-center text-[10px] font-semibold tracking-[0.14em] text-aura-ink uppercase opacity-0 shadow-sm transition duration-300 group-hover:translate-y-0 group-hover:opacity-100 sm:inset-x-4 sm:bottom-4"
-                >Ver pieza <span aria-hidden="true">↗</span></span>
+                    >Ver pieza <span aria-hidden="true">↗</span></span
+                >
             </Link>
             <span
                 class="absolute top-3 left-3 rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold tracking-[0.14em] uppercase"

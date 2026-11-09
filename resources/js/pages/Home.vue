@@ -44,7 +44,8 @@ const page = usePage<{
     storeSettings: { whatsapp_number: string };
 }>();
 const whatsappUrl = computed(
-    () => `https://wa.me/${page.props.storeSettings.whatsapp_number.replace(/\D/g, '')}`,
+    () =>
+        `https://wa.me/${page.props.storeSettings.whatsapp_number.replace(/\D/g, '')}`,
 );
 </script>
 
@@ -168,14 +169,22 @@ const whatsappUrl = computed(
         >
             <div class="mb-5 flex items-end justify-between gap-4">
                 <div>
-                    <p class="text-[10px] tracking-[0.2em] text-aura-muted uppercase">
+                    <p
+                        class="text-[10px] tracking-[0.2em] text-aura-muted uppercase"
+                    >
                         Encuentra tu estilo
                     </p>
-                    <h2 id="category-highlights-heading" class="mt-2 font-serif text-3xl sm:text-4xl">
+                    <h2
+                        id="category-highlights-heading"
+                        class="mt-2 font-serif text-3xl sm:text-4xl"
+                    >
                         Explora AURA
                     </h2>
                 </div>
-                <Link href="/tienda" class="hidden text-xs underline underline-offset-4 sm:inline">
+                <Link
+                    href="/tienda"
+                    class="hidden text-xs underline underline-offset-4 sm:inline"
+                >
                     Ver todo el catálogo
                 </Link>
             </div>
@@ -194,14 +203,28 @@ const whatsappUrl = computed(
                         width="800"
                         height="1000"
                     />
-                    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
-                    <div class="absolute inset-x-0 bottom-0 p-4 text-white sm:p-6">
-                        <p class="text-[10px] tracking-[0.16em] text-white/75 uppercase">
+                    <div
+                        class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent"
+                    />
+                    <div
+                        class="absolute inset-x-0 bottom-0 p-4 text-white sm:p-6"
+                    >
+                        <p
+                            class="text-[10px] tracking-[0.16em] text-white/75 uppercase"
+                        >
                             {{ category.product_name }}
                         </p>
-                        <div class="mt-2 flex items-center justify-between gap-3">
-                            <h3 class="font-serif text-xl sm:text-2xl">{{ category.name }}</h3>
-                            <span aria-hidden="true" class="grid size-9 shrink-0 place-items-center rounded-full border border-white/65 text-lg transition group-hover:bg-white group-hover:text-aura-ink">↗</span>
+                        <div
+                            class="mt-2 flex items-center justify-between gap-3"
+                        >
+                            <h3 class="font-serif text-xl sm:text-2xl">
+                                {{ category.name }}
+                            </h3>
+                            <span
+                                aria-hidden="true"
+                                class="grid size-9 shrink-0 place-items-center rounded-full border border-white/65 text-lg transition group-hover:bg-white group-hover:text-aura-ink"
+                                >↗</span
+                            >
                         </div>
                     </div>
                 </Link>
@@ -273,9 +296,12 @@ const whatsappUrl = computed(
                 <p class="text-[10px] tracking-[0.2em] text-white/60 uppercase">
                     Atención AURA
                 </p>
-                <h2 class="mt-3 font-serif text-3xl sm:text-4xl">¿Tienes dudas antes de elegir?</h2>
+                <h2 class="mt-3 font-serif text-3xl sm:text-4xl">
+                    ¿Tienes dudas antes de elegir?
+                </h2>
                 <p class="mt-3 max-w-md text-sm leading-6 text-white/70">
-                    Escríbenos para confirmar existencias, detalles de una pieza y el proceso de tu pedido.
+                    Escríbenos para confirmar existencias, detalles de una pieza
+                    y el proceso de tu pedido.
                 </p>
                 <a
                     :href="whatsappUrl"

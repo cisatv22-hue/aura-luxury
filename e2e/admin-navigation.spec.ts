@@ -37,23 +37,30 @@ test('admin account can open the product manager from the account sidebar', asyn
     await page.goto('/admin');
     await expect(page.getByText('¿Qué quieres hacer hoy?')).toBeVisible();
     await expect(page.getByText('Pedidos recientes')).toBeVisible();
-    await expect(page.getByRole('link', { name: 'Agregar producto' })).toBeVisible();
+    await expect(
+        page.getByRole('link', { name: 'Agregar producto' }),
+    ).toBeVisible();
     const workspaceLayout = page
         .getByText('¿Qué quieres hacer hoy?')
         .locator('xpath=../../..');
     await expect
         .poll(() =>
-            workspaceLayout.evaluate((element) =>
-                getComputedStyle(element).display,
+            workspaceLayout.evaluate(
+                (element) => getComputedStyle(element).display,
             ),
         )
         .toBe('grid');
     await page.goto('/admin/products');
     await expect(page).toHaveURL(/\/admin\/products/);
-    await expect(page.getByRole('heading', { name: /productos/i })).toBeVisible();
+    await expect(
+        page.getByRole('heading', { name: /productos/i }),
+    ).toBeVisible();
     await expect(page.getByRole('link', { name: 'Pedidos' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Clientes' })).toBeVisible();
-    await page.getByPlaceholder('Buscar').first().fill('Sudadera de prueba E2E');
+    await page
+        .getByPlaceholder('Buscar')
+        .first()
+        .fill('Sudadera de prueba E2E');
     await expect(
         page.getByRole('link', { name: 'Sudadera de prueba E2E' }).first(),
     ).toBeVisible();

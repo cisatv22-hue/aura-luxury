@@ -82,6 +82,7 @@ jobs:
           php artisan key:generate
           php artisan migrate --force
           php artisan db:seed --class=E2ESeeder --force
+          php artisan storage:link
 
       - name: Audit PHP dependencies
         run: composer audit --locked

@@ -95,16 +95,32 @@ try {
             );
 
             if (attempt === 1) {
-                const imageRequests =
-                    result?.lhr.audits[
-                        'network-requests'
-                    ]?.details?.items?.filter(
-                        (item) => item.resourceType === 'Image',
-                    ) ?? [];
-                for (const imageRequest of imageRequests.slice(0, 8)) {
-                    console.log(
-                        `  Image request: ${imageRequest.url} (${imageRequest.transferSize} bytes; ${imageRequest.networkRequestTime ?? 'n/a'}–${imageRequest.networkEndTime ?? 'n/a'} ms; preload=${imageRequest.isLinkPreload ?? 'no'})`,
-                    );
+                const requests = new Map();
+                const responses = new Map();
+                for (const event of result?.artifacts?.DevtoolsLog ?? []) {
+                    if (event.method === 'Network.requestWillBeSent') {
+                        requests.set(event.params.requestId, {
+                            url: event.params.request.url,
+                            start: event.params.timestamp,
+                        });
+                    } else if (event.method === 'Network.responseReceived') {
+                        responses.set(event.params.requestId, {
+                            mimeType: event.params.response.mimeType,
+                            encodedDataLength:
+                                event.params.response.encodedDataLength,
+                        });
+                    } else if (event.method === 'Network.loadingFinished') {
+                        const request = requests.get(event.params.requestId);
+                        const response = responses.get(event.params.requestId);
+                        if (
+                            request &&
+                            response?.mimeType?.startsWith('image/')
+                        ) {
+                            console.log(
+                                `  Image request: ${request.url} (${event.params.encodedDataLength} bytes; ${Math.round((event.params.timestamp - request.start) * 1000)} ms)`,
+                            );
+                        }
+                    }
                 }
             }
         }

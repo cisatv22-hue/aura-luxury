@@ -93,6 +93,20 @@ try {
             console.log(
                 `  LCP mode: ${result?.lhr.configSettings.throttlingMethod}; observed ${typeof observedLcpMs === 'number' ? `${Math.round(observedLcpMs)} ms` : 'unavailable'}`,
             );
+
+            if (attempt === 1) {
+                const imageRequests =
+                    result?.lhr.audits[
+                        'network-requests'
+                    ]?.details?.items?.filter(
+                        (item) => item.resourceType === 'Image',
+                    ) ?? [];
+                for (const imageRequest of imageRequests.slice(0, 8)) {
+                    console.log(
+                        `  Image request: ${imageRequest.url} (${imageRequest.transferSize} bytes; ${imageRequest.networkRequestTime ?? 'n/a'}–${imageRequest.networkEndTime ?? 'n/a'} ms; preload=${imageRequest.isLinkPreload ?? 'no'})`,
+                    );
+                }
+            }
         }
         for (const metric of [
             'first-contentful-paint',

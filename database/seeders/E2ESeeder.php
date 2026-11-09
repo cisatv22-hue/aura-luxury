@@ -70,25 +70,7 @@ class E2ESeeder extends Seeder
             ['hex' => '#111111', 'position' => 0],
         );
 
-        if ($color->getMedia('gallery')->isEmpty()) {
-            $extension = match (true) {
-                function_exists('imagecreatefromwebp') => 'webp',
-                function_exists('imagecreatefromjpeg') => 'jpg',
-                default => 'png',
-            };
-
-            foreach (["model_negro.{$extension}", "hero_essentials_totalblack.{$extension}"] as $index => $filename) {
-                $path = base_path("tests/Fixtures/products/{$filename}");
-                if (! is_file($path)) {
-                    continue;
-                }
-
-                $color->addMedia($path)
-                    ->preservingOriginal()
-                    ->withCustomProperties(['alt' => 'Sudadera AURA negra, vista '.($index + 1)])
-                    ->toMediaCollection('gallery');
-            }
-        }
+        $this->attachFixtureGallery($color);
 
         foreach (['S' => 2, 'M' => 8, 'L' => 8] as $size => $stock) {
             ProductVariant::query()->updateOrCreate(
@@ -121,6 +103,7 @@ class E2ESeeder extends Seeder
                 ['product_id' => $listingProduct->id, 'name' => 'Negro'],
                 ['hex' => '#111111', 'position' => 0],
             );
+            $this->attachFixtureGallery($listingColor);
 
             ProductVariant::query()->updateOrCreate(
                 ['sku' => sprintf('AURA-E2E-P%02d', $index)],
@@ -133,6 +116,31 @@ class E2ESeeder extends Seeder
                     'is_active' => true,
                 ],
             );
+        }
+    }
+
+    private function attachFixtureGallery(ProductColor $color): void
+    {
+        if ($color->getMedia('gallery')->isNotEmpty()) {
+            return;
+        }
+
+        $extension = match (true) {
+            function_exists('imagecreatefromwebp') => 'webp',
+            function_exists('imagecreatefromjpeg') => 'jpg',
+            default => 'png',
+        };
+
+        foreach (["model_negro.{$extension}", "hero_essentials_totalblack.{$extension}"] as $index => $filename) {
+            $path = base_path("tests/Fixtures/products/{$filename}");
+            if (! is_file($path)) {
+                continue;
+            }
+
+            $color->addMedia($path)
+                ->preservingOriginal()
+                ->withCustomProperties(['alt' => 'Sudadera AURA negra, vista '.($index + 1)])
+                ->toMediaCollection('gallery');
         }
     }
 }

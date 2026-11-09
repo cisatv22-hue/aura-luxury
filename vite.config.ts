@@ -51,6 +51,7 @@ export default defineConfig({
     lint: {
         ignorePatterns: [
             'vendor/**',
+            '**/vendor/**',
             'node_modules/**',
             'public/**',
             'bootstrap/ssr/**',
@@ -74,6 +75,7 @@ export default defineConfig({
         htmlWhitespaceSensitivity: 'css',
         ignorePatterns: [
             '.github/**',
+            '**/vendor/**',
             'docs/aura-v2/prototipo/aura-luxury-v2.html',
             'test-results/**',
             'playwright-report/**',

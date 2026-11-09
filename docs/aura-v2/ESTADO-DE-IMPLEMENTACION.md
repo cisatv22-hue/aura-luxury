@@ -21,7 +21,8 @@ Actualizado el 9 de noviembre de 2026. El plan de referencia está en [PLAN-DE-D
 
 - GitHub Actions, corrida 42595974686 del PR #13: auditorías Composer/npm, build Vite, Playwright (30 casos) y composer ci:check aprobados; 87 pruebas Pest/397 aserciones, Pint, Larastan y tipos limpios. Lighthouse móvil: mediana del inicio 1,749 ms en cinco mediciones, catálogo 1,694 ms y producto 1,710 ms; las tres rutas superan el umbral de rendimiento y el LCP del inicio queda bajo la meta de 2,500 ms. El fallback del hero viaja integrado en el HTML; los banners cargados desde el panel siguen usando sus archivos normales.
 
-- `composer ci:check`: formato, lint, `vue-tsc`, Pint, Larastan y Pest; 87 pruebas y 397 aserciones aprobadas. Incluye la regresión del importador de galerías.
+- 2FA del panel: no es obligatoria en `local`/`testing`; continúa obligatoria por defecto en producción. La cuenta E2E ya no se siembra como si hubiera configurado un autenticador; la prueba del admin valida el acceso de demo sin 2FA.
+- `composer ci:check`: formato, lint, `vue-tsc`, Pint, Larastan y Pest; 87 pruebas y 397 aserciones aprobadas en la última corrida completa. Incluye la regresión del importador de galerías.
 - Recuperación WebP: 87 conversiones verificadas; una segunda corrida en modo `--dry-run` encontró 0 pendientes y 0 fallos. Los trabajos fallidos eran únicamente los 29 trabajos anteriores de conversión y se limpiaron tras verificar los archivos.
 - `pnpm install --frozen-lockfile`: instalación limpia aprobada con pnpm 12.14.0.
 - `pnpm build`: compilación de cliente y servidor SSR aprobada. Vite informa que `fontaine` es opcional para optimizar fallbacks de fuente; la compilación funciona sin ese paquete.

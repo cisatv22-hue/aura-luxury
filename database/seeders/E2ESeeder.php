@@ -29,7 +29,6 @@ class E2ESeeder extends Seeder
                 'name' => 'AURA Admin E2E',
                 'password' => Hash::make($adminPassword),
                 'email_verified_at' => now(),
-                'two_factor_confirmed_at' => now(),
             ])->save();
             $admin->syncRoles(Role::findByName('admin'));
         }

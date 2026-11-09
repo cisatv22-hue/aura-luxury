@@ -375,6 +375,8 @@ it('decrements stock only on confirmation and returns it on cancellation', funct
 });
 
 it('restricts the admin panel to staff roles and requires confirmed two factor authentication', function () {
+    config(['admin.require_two_factor' => true]);
+
     $guestAccount = User::factory()->create();
     $this->actingAs($guestAccount)->get('/admin')->assertForbidden();
 
@@ -391,6 +393,19 @@ it('restricts the admin panel to staff roles and requires confirmed two factor a
     $response = app(RequireConfirmedTwoFactor::class)->handle($request, fn () => response('next'));
     expect($response->getStatusCode())->toBe(302)
         ->and($response->headers->get('Location'))->toBe(route('security.edit'));
+});
+
+it('lets demo staff access the admin panel without two factor setup when it is not required', function () {
+    config(['admin.require_two_factor' => false]);
+
+    $staff = User::factory()->create();
+    $request = Request::create('/admin');
+    $request->setUserResolver(fn () => $staff);
+
+    $response = app(RequireConfirmedTwoFactor::class)->handle($request, fn () => response('next'));
+
+    expect($response->getStatusCode())->toBe(200)
+        ->and($response->getContent())->toBe('next');
 });
 
 it('records and emails a restock alert when inventory returns', function () {

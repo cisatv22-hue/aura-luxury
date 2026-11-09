@@ -53,8 +53,8 @@ test('admin account can open the product manager from the account sidebar', asyn
     await expect(page.getByRole('heading', { name: /productos/i })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Pedidos' })).toBeVisible();
     await expect(page.getByRole('link', { name: 'Clientes' })).toBeVisible();
-    await page.getByPlaceholder('Buscar').first().fill('DEMO · Sudadera Essentials');
+    await page.getByPlaceholder('Buscar').first().fill('Sudadera de prueba E2E');
     await expect(
-        page.getByRole('link', { name: 'DEMO · Sudadera Essentials' }).first(),
+        page.getByRole('link', { name: 'Sudadera de prueba E2E' }).first(),
     ).toBeVisible();
 });

@@ -16,9 +16,9 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Promotion;
 use App\Models\Review;
+use App\Models\SizeGuide;
 use App\Models\StockMovement;
 use App\Models\Subscriber;
-use App\Models\SizeGuide;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use LogicException;
@@ -27,7 +27,7 @@ class DemoOperationsSeeder extends Seeder
 {
     public function run(): void
     {
-        if (app()->environment('production') && ! filter_var(env('AURA_DEMO_SEEDING'), FILTER_VALIDATE_BOOLEAN)) {
+        if (app()->environment('production') && ! filter_var(config('integrations.demo_seeding'), FILTER_VALIDATE_BOOLEAN)) {
             throw new LogicException('En producción, permite esta carga solo con AURA_DEMO_SEEDING=true.');
         }
 

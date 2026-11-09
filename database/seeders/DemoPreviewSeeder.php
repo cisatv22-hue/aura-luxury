@@ -13,7 +13,7 @@ class DemoPreviewSeeder extends Seeder
 {
     public function run(): void
     {
-        if (app()->environment('production') && ! filter_var(env('AURA_DEMO_SEEDING'), FILTER_VALIDATE_BOOLEAN)) {
+        if (app()->environment('production') && ! filter_var(config('integrations.demo_seeding'), FILTER_VALIDATE_BOOLEAN)) {
             throw new LogicException('En producción, permite esta carga solo con AURA_DEMO_SEEDING=true.');
         }
 

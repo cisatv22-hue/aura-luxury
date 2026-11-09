@@ -10,8 +10,8 @@ use App\Models\SizeGuide;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Spatie\Permission\Models\Role;
 use LogicException;
+use Spatie\Permission\Models\Role;
 
 class E2ESeeder extends Seeder
 {
@@ -21,8 +21,8 @@ class E2ESeeder extends Seeder
             throw new LogicException('El catálogo E2E solo puede sembrarse en local o testing.');
         }
 
-        $adminEmail = env('PLAYWRIGHT_ADMIN_EMAIL');
-        $adminPassword = env('PLAYWRIGHT_ADMIN_PASSWORD');
+        $adminEmail = config('integrations.e2e_admin.email');
+        $adminPassword = config('integrations.e2e_admin.password');
         if (is_string($adminEmail) && $adminEmail !== '' && is_string($adminPassword) && $adminPassword !== '') {
             $admin = User::query()->firstOrNew(['email' => $adminEmail]);
             $admin->forceFill([

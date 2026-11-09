@@ -94,7 +94,7 @@ try {
                 `  LCP mode: ${result?.lhr.configSettings.throttlingMethod}; observed ${typeof observedLcpMs === 'number' ? `${Math.round(observedLcpMs)} ms` : 'unavailable'}`,
             );
 
-            if (attempt === 1) {
+            if (homeLcpMeasurements.length === 1) {
                 const requests = new Map();
                 const responses = new Map();
                 for (const event of result?.artifacts?.DevtoolsLog ?? []) {

@@ -78,7 +78,7 @@ const whatsappUrl = computed(
             class="relative mt-5 grid min-h-[470px] overflow-hidden rounded-[1.5rem] bg-[#2a2927] text-white sm:min-h-[550px] md:mt-8 md:grid-cols-[1.05fr_0.95fr]"
         >
             <div
-                class="relative z-10 flex flex-col justify-center px-6 py-12 pr-[34%] sm:px-12 sm:pr-[34%] md:px-16 md:pr-16"
+                class="relative z-10 flex flex-col justify-center px-6 py-12 sm:px-12 md:px-16"
             >
                 <p
                     class="mb-5 text-[10px] tracking-[0.28em] text-white/65 uppercase"
@@ -86,7 +86,7 @@ const whatsappUrl = computed(
                     AURA · Nueva temporada
                 </p>
                 <h1
-                    class="max-w-xl font-serif text-6xl leading-[0.95] sm:text-6xl lg:text-7xl"
+                    class="max-w-xl font-serif text-5xl leading-[0.98] sm:text-6xl lg:text-7xl"
                 >
                     {{ activeBanner?.title || 'Viste tu propia esencia.' }}
                 </h1>
@@ -104,9 +104,7 @@ const whatsappUrl = computed(
                     >Descubrir colección</Link
                 >
             </div>
-            <div
-                class="absolute top-1/2 right-0 h-[260px] w-[34%] -translate-y-1/2 overflow-hidden rounded-l-[1.5rem] md:static md:block md:h-auto md:w-auto md:translate-y-0 md:overflow-visible md:rounded-none"
-            >
+            <div class="absolute inset-0 md:static md:block">
                 <div
                     class="absolute inset-0 bg-[radial-gradient(ellipse_at_76%_32%,#77736d_0%,#383633_32%,#242321_75%)] md:bg-[radial-gradient(ellipse_at_70%_40%,#77736d_0%,#383633_34%,#242321_78%)]"
                 />
@@ -116,14 +114,14 @@ const whatsappUrl = computed(
                         activeBanner?.image_alt ||
                         'Sudadera Essentials de AURA en tono crema'
                     "
-                    class="absolute inset-0 h-full w-full object-cover object-center opacity-80"
+                    class="absolute inset-0 h-full w-full object-cover object-center opacity-35 mix-blend-luminosity md:opacity-80 md:mix-blend-normal"
                     fetchpriority="high"
                     loading="eager"
                     width="1200"
                     height="1400"
                 />
                 <div
-                    class="absolute inset-0 bg-gradient-to-r from-[#2a2927]/65 via-transparent to-transparent md:from-transparent md:via-transparent md:to-transparent"
+                    class="absolute inset-0 bg-gradient-to-r from-[#2a2927] via-[#2a2927]/70 to-transparent md:from-transparent md:via-transparent md:to-transparent"
                 />
             </div>
         </section>

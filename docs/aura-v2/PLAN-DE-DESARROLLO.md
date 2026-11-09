@@ -1,6 +1,6 @@
 # AURA v2 · Plan de desarrollo
 
-2 oct 2026 · Propuesta para migrar la tienda a Laravel 13 + Vue · Seguimiento de implementación al 21 oct 2026
+2 oct 2026 · Propuesta para migrar la tienda a Laravel 13 + Vue · Seguimiento de implementación al 9 nov 2026
 
 > Documento vivo (con comentarios): https://claude.ai/code/artifact/71c50e2b-37e2-4d4e-b52a-976d4764474f
 > Prototipo navegable: [`prototipo/aura-luxury-v2.html`](prototipo/aura-luxury-v2.html) · en línea: https://claude.ai/artifact/ASCTSrmwGY6BPV5BxLe4zU

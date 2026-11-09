@@ -35,6 +35,8 @@ jobs:
       DB_DATABASE: aura_store
       DB_USERNAME: root
       DB_PASSWORD: secret
+      PLAYWRIGHT_ADMIN_EMAIL: admin-e2e@example.test
+      PLAYWRIGHT_ADMIN_PASSWORD: ephemeral-ci-only-password
 
     steps:
       - name: Checkout code
@@ -81,6 +83,7 @@ jobs:
           cp .env.example .env
           php artisan key:generate
           php artisan migrate --force
+          php artisan db:seed --class=DatabaseSeeder --force
           php artisan db:seed --class=E2ESeeder --force
           php artisan storage:link
 

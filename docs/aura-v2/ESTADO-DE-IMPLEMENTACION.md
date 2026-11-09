@@ -19,7 +19,7 @@ Actualizado el 9 de noviembre de 2026. El plan de referencia está en [PLAN-DE-D
 
 ## Validación local
 
-- GitHub Actions: el PR #12 quedó fusionado en develop; la primera ejecución de este PR (42575839879) encontró avisos en Livewire/Symfony y minimatch. Este branch actualiza Livewire a 4.4.8, aplica parches Symfony y sube ue-tsc a 3.3.14 para retirar minimatch 9; las auditorías PHP y JS pasan localmente. CI completo pendiente.
+- GitHub Actions: el PR #12 quedó fusionado en develop; la primera ejecución de este PR (42575839879) encontró avisos en Livewire/Symfony y minimatch. Este branch actualiza Livewire a 4.4.8, aplica parches Symfony y sube vue-tsc a 3.3.14 para retirar minimatch 9; las auditorías PHP y JS pasan localmente. CI completo pendiente.
 
 - `composer ci:check`: formato, lint, `vue-tsc`, Pint, Larastan y Pest; 87 pruebas y 397 aserciones aprobadas. Incluye la regresión del importador de galerías.
 - Recuperación WebP: 87 conversiones verificadas; una segunda corrida en modo `--dry-run` encontró 0 pendientes y 0 fallos. Los trabajos fallidos eran únicamente los 29 trabajos anteriores de conversión y se limpiaron tras verificar los archivos.

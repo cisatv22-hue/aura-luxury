@@ -7,7 +7,10 @@ use App\Models\Product;
 use App\Models\ProductColor;
 use App\Models\ProductVariant;
 use App\Models\SizeGuide;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 use LogicException;
 
 class E2ESeeder extends Seeder
@@ -16,6 +19,19 @@ class E2ESeeder extends Seeder
     {
         if (! in_array(config('app.env'), ['local', 'testing'], true)) {
             throw new LogicException('El catálogo E2E solo puede sembrarse en local o testing.');
+        }
+
+        $adminEmail = env('PLAYWRIGHT_ADMIN_EMAIL');
+        $adminPassword = env('PLAYWRIGHT_ADMIN_PASSWORD');
+        if (is_string($adminEmail) && $adminEmail !== '' && is_string($adminPassword) && $adminPassword !== '') {
+            $admin = User::query()->firstOrNew(['email' => $adminEmail]);
+            $admin->forceFill([
+                'name' => 'AURA Admin E2E',
+                'password' => Hash::make($adminPassword),
+                'email_verified_at' => now(),
+                'two_factor_confirmed_at' => now(),
+            ])->save();
+            $admin->syncRoles(Role::findByName('admin'));
         }
 
         $sizeGuide = SizeGuide::query()->updateOrCreate(

@@ -75,7 +75,7 @@ const whatsappUrl = computed(
     </Head>
     <div class="mx-auto max-w-7xl px-4 sm:px-6">
         <section
-            class="relative mt-5 grid min-h-[390px] overflow-hidden rounded-[1.5rem] bg-[#2a2927] text-white sm:min-h-[550px] md:mt-8 md:grid-cols-[1.05fr_0.95fr]"
+            class="relative mt-5 grid min-h-[470px] overflow-hidden rounded-[1.5rem] bg-[#2a2927] text-white sm:min-h-[550px] md:mt-8 md:grid-cols-[1.05fr_0.95fr]"
         >
             <div
                 class="relative z-10 flex flex-col justify-center px-6 py-12 sm:px-12 md:px-16"
